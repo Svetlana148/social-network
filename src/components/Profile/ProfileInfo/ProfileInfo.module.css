@@ -1,0 +1,16 @@
+.img1 {
+	width: 100%;
+	height: 250px;
+	background-image: url(https://img.freepik.com/free-photo/tropical-beach_74190-188.jpg);
+	background-size: cover;
+	background-position: bottom;
+}
+/* .img1 img{
+	position: absolute;
+	max-width: 1000px;
+	max-height: 300px;
+} */
+
+.discription {
+	padding: 10px;
+}
