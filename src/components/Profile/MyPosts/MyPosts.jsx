@@ -6,8 +6,8 @@ import Post from './Post/Post.jsx';
 
 
 const MyPosts = (props) => {
-	let postsElement = props.postsData.map(p => <Post message={props.message} likesCount={props.likesCount} />);
-
+	let postsElement = props.postsData.map(p => <Post message={p.message} likesCount={p.likesCount} />);
+	debugger
 	return (
 		<div className={s.myPosts}>
 			<h3>My posts:</h3>
@@ -26,7 +26,6 @@ const MyPosts = (props) => {
 			<div className={s.posts}>
 
 				{postsElement}
-				{/* <Post message={postsData[0].message} likesCount={postData[0].likesCount} /> */}
 				
 			</div>
 

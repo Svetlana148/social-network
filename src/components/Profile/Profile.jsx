@@ -5,22 +5,12 @@ import ProfileInfo from './ProfileInfo/ProfileInfo.jsx';
 import Post from './MyPosts/Post/Post.jsx'
 
 
-const Profile = () => {
-
-
-	let postsData = [
-		{ id: 1, message: 'Mope', likesCount: '1' },
-		{ id: 2, message: 'Hjiolpoiu', likesCount: '23' },
-		{ id: 3, message: '12342345', likesCount: '78' },
-	]
-	
-
-
+const Profile = (props) => {
 
 	return (
 		<div>
 			<ProfileInfo />
-			<MyPosts postsData = {postsData} />
+			<MyPosts postsData = {props.postsData} />
 
 		</div>
 	);
