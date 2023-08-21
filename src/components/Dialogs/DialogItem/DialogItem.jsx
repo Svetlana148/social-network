@@ -4,6 +4,9 @@ import { NavLink } from "react-router-dom";
 
 
 
+
+
+
 const DialogItem = (props) => {
 	let path = '/Dialogs/' + props.id;
 	return (
@@ -16,18 +19,6 @@ const DialogItem = (props) => {
 // ---------------------------------------------------------------
 
 
-
-const Dialogs = (props) => {
-
-	let dialogsData = [
-		{ id: 1, name: "Ola" },
-		{ id: 2, name: 'Masha' },
-		{ id: 3, name: 'Katy' }
-	];
-
-
-	let dialogsElements = dialogsData.map(d => <DialogItem name={d.name} id={d.id} />);
-// -----------------------------------
 
 
 export default DialogItem;
