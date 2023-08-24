@@ -1,7 +1,7 @@
-.img1 {
+.img1 img{
 	width: 100%;
 	height: 250px;
-	background-image: url(https://img.freepik.com/free-photo/tropical-beach_74190-188.jpg);
+	/* background-image: url(https://img.freepik.com/free-photo/tropical-beach_74190-188.jpg); */
 	background-size: cover;
 	background-position: bottom;
 }

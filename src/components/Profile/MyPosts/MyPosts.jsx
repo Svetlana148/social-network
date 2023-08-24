@@ -7,7 +7,7 @@ import Post from './Post/Post.jsx';
 
 const MyPosts = (props) => {
 	let postsElement = props.postsData.map(p => <Post message={p.message} likesCount={p.likesCount} />);
-	debugger
+
 	return (
 		<div className={s.myPosts}>
 			<h3>My posts:</h3>
@@ -17,7 +17,7 @@ const MyPosts = (props) => {
 				</div>
 
 				<div>
-					<button>Add post</button>
+					<button onClick={()=>{alert('Hello')}}>Add post</button>
 					<button>Remove</button>
 				</div>
 

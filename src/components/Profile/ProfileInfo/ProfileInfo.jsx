@@ -5,8 +5,8 @@ const ProfileInfo = () => {
 	return (
 		<div>
 			<div className={s.img1}>
+				<img src='https://img.freepik.com/free-photo/tropical-beach_74190-188.jpg' alt='' />
 			</div>			
-				{/* <img src='https://img.freepik.com/free-photo/tropical-beach_74190-188.jpg' alt='' /> */}
 
 
 			<div className={s.discription}> ava  discription</div>
