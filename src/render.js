@@ -4,8 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+
 import { addPost } from './redux/State.js';
 import {updateNewPostText} from './redux/State.js';
+
+import { addMessage } from './redux/State.js';
+import {updateNewMessageText} from './redux/State.js';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -13,7 +17,9 @@ export let rerenderEntireTree = (state) => {
   
   root.render(
     <BrowserRouter>
-      <App appState={state} addPost={addPost} updateNewPostText={updateNewPostText}/>
+      <App appState={state} 
+          addPost={addPost} updateNewPostText={updateNewPostText}
+          addMessage={addMessage} updateNewMessageText={updateNewMessageText}/>
     </BrowserRouter>
   );
   reportWebVitals();

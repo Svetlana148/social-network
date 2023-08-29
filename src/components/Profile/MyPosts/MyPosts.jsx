@@ -6,21 +6,23 @@ import Post from './Post/Post.jsx';
 
 
 const MyPosts = (props) => {
+
 	let postsElement = props.postsData.map(p => 
 							<Post message={p.message} likesCount={p.likesCount} />);
 
+
+	// ref----------------------------------------------				
 	let newPostElement = React.createRef();
 
-	let addPost = ()=>{
-		// let text = newPostElement.current.value;
-		props.addPost();
-	//	newPostElement.current.value = '';  Очищаем
-	}
-
+	// onChange-----------------------------------------
 	let onPostChange = ()=>{
 		let text =  newPostElement.current.value;
 		props.updateNewPostText(text);
 	} 
+// addPost-----------------------------------------
+	let addPost = ()=>{
+		props.addPost();
+	}
 
 	return (
 		<div className={s.myPosts}>

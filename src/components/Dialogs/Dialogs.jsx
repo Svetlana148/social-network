@@ -6,7 +6,29 @@ import Message from "./Message/Message.jsx";
 
 
 const Dialogs = (props) => {
-	
+
+
+
+// ref------------------------------------
+let newMessageElement = React.createRef();
+
+// onChange-------------------------------
+let onMessageChange = ()=>{
+	let text =  newMessageElement.current.value;
+		// BLLstate renew------------------------
+		props.updateNewMessageText(text);
+};
+// value------------------------------------
+// take from state  - props    newMessageText
+
+// addMessage-----------------------------------------
+// take from BLLstate  - props    addMessage
+let addMessage = ()=>{
+	props.addMessage();
+};
+// ----------------------------------------------------------------------------
+
+
 
 
 	let dialogsElements = props.Data.dialogsData.map(d => <DialogItem name={d.name} id={d.id} />);
@@ -22,7 +44,21 @@ const Dialogs = (props) => {
 
 			<div className={s.messages}>
 				{messagesElement}
+{/* --------------------------------------------------------------------------- */}
+				<div>
+				<textarea onChange={onMessageChange} ref={newMessageElement} value={props.Data.newMessageText}/>
+				</div>
+
+				<div>
+					<button onClick={addMessage}>Send</button>
+				</div>
+{/* --------------------------------------------------------------------------- */}
+
+
+
 			</div>
+			
+			
 
 		</div>
 	)
