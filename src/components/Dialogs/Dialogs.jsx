@@ -3,6 +3,7 @@ import s from "./Dialogs.module.css";
 // import { NavLink } from "react-router-dom";
 import DialogItem from "./DialogItem/DialogItem.jsx";
 import Message from "./Message/Message.jsx";
+import {updateNewMessageTextActionCreator, addMessageActionCreator} from './../../redux/State';
 
 
 const Dialogs = (props) => {
@@ -16,7 +17,7 @@ let newMessageElement = React.createRef();
 let onMessageChange = ()=>{
 	let text =  newMessageElement.current.value;
 		// BLLstate renew------------------------
-		props.updateNewMessageText(text);
+		props.dispatch(updateNewMessageTextActionCreator(text));
 };
 // value------------------------------------
 // take from state  - props    newMessageText
@@ -24,7 +25,7 @@ let onMessageChange = ()=>{
 // addMessage-----------------------------------------
 // take from BLLstate  - props    addMessage
 let addMessage = ()=>{
-	props.addMessage();
+	props.dispatch(addMessageActionCreator());
 };
 // ----------------------------------------------------------------------------
 
