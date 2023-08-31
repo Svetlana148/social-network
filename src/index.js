@@ -1,6 +1,3 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom/client';
-// import './index.css';
 import store from './redux/State.js';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -17,9 +14,7 @@ let rerenderEntireTree1 = (state) => {
 
 	root.render(
 		<BrowserRouter>
-			<App appState={state}
-				addPost={store.addPost.bind(store)} updateNewPostText={store.updateNewPostText.bind(store)}
-				addMessage={store.addMessage.bind(store)} updateNewMessageText={store.updateNewMessageText.bind(store)} />
+			<App appState={state} dispatch={store.dispatch.bind(store)} />
 		</BrowserRouter>
 	);
 	reportWebVitals();
