@@ -51,60 +51,69 @@ let store = {
 
 	dispatch(action){
 		// Post -----------------------------------------
-		if (action.type === 'ADD-POST'){
-			let newPost = {
-				id: 4, 
-				message: this._state.profilePage.newPostText, 
-				likesCount: '0'
-			};
+
+		profileReducer = (this._state.profilePage, action),
+		// if (action.type === 'ADD-POST'){
+		// 	let newPost = {
+		// 		id: 4, 
+		// 		message: this._state.profilePage.newPostText, 
+		// 		likesCount: '0'
+		// 	};
 		
-			this._state.profilePage.postsData.push(newPost);
-			this._state.profilePage.newPostText=('');
-			this._callSubscriber(this._state);
-		} else
-		if (action.type === 'UPDATE-NEW-POST'){
-			this._state.profilePage.newPostText = action.newText;
-			this._callSubscriber(this._state);
-		} else
+		// 	this._state.profilePage.postsData.push(newPost);
+		// 	this._state.profilePage.newPostText=('');
+		// 	this._callSubscriber(this._state);
+		// } else
+		// if (action.type === 'UPDATE-NEW-POST'){
+		// 	this._state.profilePage.newPostText = action.newText;
+		// 	this._callSubscriber(this._state);
+		// } else
 
 		// Message -----------------------------------------
-		if (action.type === 'ADD-MESSAGE'){
-			let newMessage = {
-							id: 4, 
-							message: this._state.dialogsPage.newMessageText
-						};
-					
-						this._state.dialogsPage.messagesData.push(newMessage);
-						this._state.dialogsPage.newMessageText=('');
-						this._callSubscriber(this._state);
-		} else
-		if (action.type === 'UPDATE-NEW-MESSAGE'){
-			this._state.dialogsPage.newMessageText = action.newText;
-			this._callSubscriber(this._state);
-		}
-	},
-}
+		dialogsReducer = (this._state.dialogsPage, action),
 
+// 		if (action.type === 'ADD-MESSAGE'){
+// 			let newMessage = {
+// 							id: 4, 
+// 							message: this._state.dialogsPage.newMessageText
+// 						};
+					
+// 						this._state.dialogsPage.messagesData.push(newMessage);
+// 						this._state.dialogsPage.newMessageText=('');
+// 						this._callSubscriber(this._state);
+// 		} else
+// 		if (action.type === 'UPDATE-NEW-MESSAGE'){
+// 			this._state.dialogsPage.newMessageText = action.newText;
+// 			this._callSubscriber(this._state);
+// 		}
+// 	},
+// }
+
+// Sidebar -----------------------------------------
+sidebarReducer = (this._state.settingsPage, action),
+
+
+this._callSubscriber(this._state);
 
 
 // ActionCreator -----------------------------------------
 // Post -----------------------------------------
-export const addPostActionCreator = ()=>{
-	return {type : 'ADD-POST'}
-}
+// export const addPostActionCreator = ()=>{
+// 	return {type : 'ADD-POST'}
+// }
 
-export const updateNewPostTextActionCreator = (text)=>{
-	return {type : 'UPDATE-NEW-POST', newText : text}
-}
+// export const updateNewPostTextActionCreator = (text)=>{
+// 	return {type : 'UPDATE-NEW-POST', newText : text}
+// }
 
 // Message -----------------------------------------
-export const addMessageActionCreator = ()=>{
-	return {type : 'ADD-MESSAGE'}
-}
+// export const addMessageActionCreator = ()=>{
+// 	return {type : 'ADD-MESSAGE'}
+// }
 
-export const updateNewMessageTextActionCreator = (text)=>{
-	return {type : 'UPDATE-NEW-MESSAGE', newText : text}
-}
+// export const updateNewMessageTextActionCreator = (text)=>{
+// 	return {type : 'UPDATE-NEW-MESSAGE', newText : text}
+// }
 
 	
 
