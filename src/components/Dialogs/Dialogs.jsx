@@ -3,37 +3,35 @@ import s from "./Dialogs.module.css";
 // import { NavLink } from "react-router-dom";
 import DialogItem from "./DialogItem/DialogItem.jsx";
 import Message from "./Message/Message.jsx";
-import {updateNewMessageTextActionCreator, addMessageActionCreator} from './../../redux/State';
+// import {updateNewMessageTextActionCreator, addMessageActionCreator} from './../../redux/dialogs-reducer';
 
 
 const Dialogs = (props) => {
 
 
 
-// ref------------------------------------
+
 let newMessageElement = React.createRef();
 
-// onChange-------------------------------
+
 let onMessageChange = ()=>{
 	let text =  newMessageElement.current.value;
 		// BLLstate renew------------------------
-		props.dispatch(updateNewMessageTextActionCreator(text));
+		props.updateNewMessageText(text);
+
 };
 // value------------------------------------
 // take from state  - props    newMessageText
 
 // addMessage-----------------------------------------
-// take from BLLstate  - props    addMessage
 let addMessage = ()=>{
-	props.dispatch(addMessageActionCreator());
+	props.addMessage();
 };
 // ----------------------------------------------------------------------------
 
 
-
-
-	let dialogsElements = props.Data.dialogsData.map(d => <DialogItem name={d.name} id={d.id} />);
-	let messagesElement = props.Data.messagesData.map(m => <Message message = {m.message} />);
+	let dialogsElements = props.dialogsData.map(d => <DialogItem name={d.name} id={d.id} />);
+	let messagesElement = props.messagesData.map(m => <Message message = {m.message} />);
 
 //-----------------------------------
 
@@ -47,11 +45,11 @@ let addMessage = ()=>{
 				{messagesElement}
 {/* --------------------------------------------------------------------------- */}
 				<div>
-				<textarea onChange={onMessageChange} ref={newMessageElement} value={props.Data.newMessageText}/>
+				<textarea onChange={onMessageChange} ref={newMessageElement} value={props.newMessageText}/>
 				</div>
 
 				<div>
-					<button onClick={addMessage}>Send</button>
+					<button onClick={props.addMessage}>Send</button>
 				</div>
 {/* --------------------------------------------------------------------------- */}
 

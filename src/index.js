@@ -1,4 +1,4 @@
-import store from './redux/State.js';
+import store from './redux/redux-store.js';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -10,16 +10,21 @@ import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-let rerenderEntireTree1 = (state) => {
+let rerenderEntireTree1 = (store) => {
 
 	root.render(
 		<BrowserRouter>
-			<App appState={state} dispatch={store.dispatch.bind(store)} />
+			<App store={store} />
 		</BrowserRouter>
 	);
 	reportWebVitals();
 }
 
 
-rerenderEntireTree1(store.getState());
-store.subscribe (rerenderEntireTree1);
+rerenderEntireTree1(store);
+
+
+store.subscribe (() =>{
+
+	rerenderEntireTree1(store);
+});

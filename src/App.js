@@ -3,7 +3,7 @@ import './App.css';
 import Header from './components/Header/Header.jsx';
 import Navbar from './components/Navbar/Navbar.jsx';
 import Profile from './components/Profile/Profile.jsx';
-import Dialogs from './components/Dialogs/Dialogs.jsx';
+import DialogsContainer from './components/Dialogs/DialogsContainer.jsx';
 import News from './components/News/News.jsx';
 import Music from './components/Music/Music.jsx';
 import Settings from './components/Settings/Settings.jsx';
@@ -16,16 +16,16 @@ const App = (props) => {
   return (
       <div className='app-wrapper'>
         <Header />
-        <Navbar frendsData = {props.appState.frendsData}/>
+        <Navbar frendsData = {props.store.getState().sidebar.frendsData}/>
 
         <div className='app-wrapper-content'> 
           <Routes>
             <Route path='/Profile/*' element=
-                                    {<Profile profilePage={props.appState.profilePage}
-                                    dispatch={props.dispatch}/>} />
+                                    {<Profile store={props.store}/>} />
 
-            <Route path='/Dialogs/*' element={<Dialogs Data={props.appState.dialogsPage}
-                                    dispatch={props.dispatch}/>} />
+            <Route path='/Dialogs/*' element={<DialogsContainer store={props.store}/>} />
+            {/* Data={props.appState.dialogsPage}
+                                    dispatch={props.dispatch}/>} /> */}
 
             <Route path='/News/*' element={<News />} />
             <Route path='/Music/*' element={<Music />} />
