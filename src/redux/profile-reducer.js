@@ -26,6 +26,7 @@ const profileReducer = (state = initialState, action)=>{
 			};
 			state.postsData.push(newPost);
 			state.newPostText=('');
+			debugger
 			return(state);
 
 		case UPDATE_NEW_POST:

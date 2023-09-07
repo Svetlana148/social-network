@@ -16,7 +16,7 @@ const App = (props) => {
   return (
       <div className='app-wrapper'>
         <Header />
-        <Navbar frendsData = {props.store.getState().sidebar.frendsData}/>
+        {/* <Navbar frendsData = {props.store.getState().sidebar.frendsData}/> */}
 
         <div className='app-wrapper-content'> 
           <Routes>
@@ -24,8 +24,6 @@ const App = (props) => {
                                     {<Profile store={props.store}/>} />
 
             <Route path='/Dialogs/*' element={<DialogsContainer store={props.store}/>} />
-            {/* Data={props.appState.dialogsPage}
-                                    dispatch={props.dispatch}/>} /> */}
 
             <Route path='/News/*' element={<News />} />
             <Route path='/Music/*' element={<Music />} />

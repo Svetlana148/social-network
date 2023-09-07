@@ -49,7 +49,7 @@ let addMessage = ()=>{
 				</div>
 
 				<div>
-					<button onClick={props.addMessage}>Send</button>
+					<button onClick={addMessage}>Send</button>
 				</div>
 {/* --------------------------------------------------------------------------- */}
 

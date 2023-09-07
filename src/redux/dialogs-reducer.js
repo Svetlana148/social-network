@@ -34,6 +34,7 @@ const dialogsReducer = (state = initialState, action)=>{
 			};
 		
 			state.messagesData.push(newMessage);
+
 			state.newMessageText=('');
 			return state;
 
