@@ -29,9 +29,8 @@ let addMessage = ()=>{
 };
 // ----------------------------------------------------------------------------
 
-
-	let dialogsElements = props.dialogsData.map(d => <DialogItem name={d.name} id={d.id} />);
-	let messagesElement = props.messagesData.map(m => <Message message = {m.message} />);
+	let dialogsElements = props.dialogsPage.dialogsData.map(d => <DialogItem name={d.name} id={d.id} />);
+	let messagesElement = props.dialogsPage.messagesData.map(m => <Message message = {m.message} />);
 
 //-----------------------------------
 

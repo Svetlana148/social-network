@@ -16,7 +16,6 @@ let store = {
 			newPostText: 'Hallo everybody'
 		},
 
-
 		dialogsPage: {
 			dialogsData: [
 				{ id: 1, name: "Ola" },
@@ -34,6 +33,7 @@ let store = {
 			// what is changing
 			newMessageText: `You message`
 		},
+		
 		sidebar: {
 			frendsData: [
 				{ id: 1, name: 'Lula' },

@@ -11,8 +11,6 @@ import {Provider} from 'react-redux';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-let rerenderEntireTree1 = (store) => {
-
 	root.render(
 		<BrowserRouter>
 			<Provider store = {store}>
@@ -20,14 +18,9 @@ let rerenderEntireTree1 = (store) => {
 			</Provider>
 		</BrowserRouter>
 	);
+	
 	reportWebVitals();
-}
 
 
-rerenderEntireTree1(store);
 
 
-store.subscribe (() =>{
-
-	rerenderEntireTree1(store);
-});
