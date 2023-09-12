@@ -33,19 +33,42 @@ const dialogsReducer = (state = initialState, action)=>{
 				message: state.newMessageText
 			};
 		
-			state.messagesData.push(newMessage);
+			//Make a copyState ---------------------------------------------
+			// let stateCopy = {...state};
+			// stateCopy.messagesData = [...state.messagesData];
+			// stateCopy.messagesData.push(newMessage);
+			// stateCopy.newMessageText=('');
 
-			state.newMessageText=('');
-			return state;
+			// let stateCopy = {
+			// 	...state,
+			// 	newMessageText : (''),
+			// 	messagesData : [...state.messagesData,newMessage]
+			// };
+			// return (stateCopy);
 
-		case UPDATE_NEW_MESSAGE:	
-			state.newMessageText = action.newText;
-			return state;
+			return {
+				...state,
+				newMessageText : (''),
+				messagesData : [...state.messagesData,newMessage]
+			};
+
+			
+		case UPDATE_NEW_MESSAGE:
+		// 	let stateCopy = {...state};
+		// 	stateCopy.newMessageText = action.newText;
+		// 	return (stateCopy);
+
+		return {
+				...state,
+				newMessageText : action.newText,
+			};	
+			
 
 		default:
 			return state;
 	}
-}
+};
+
 export default dialogsReducer;
 	
 
