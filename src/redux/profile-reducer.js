@@ -1,5 +1,5 @@
-const ADD_POST = 'ADD-POST'
-const UPDATE_NEW_POST = 'UPDATE-NEW-POST'
+const ADD_POST = 'ADD-POST';
+const UPDATE_NEW_POST = 'UPDATE-NEW-POST';
 
 
 let initialState = {
@@ -29,24 +29,39 @@ const profileReducer = (state = initialState, action)=>{
 
 
 			//Make a copyState ---------------------------------------------
-			let stateCopy = {...state};
-			stateCopy.postsData = [...state.postsData];
-			stateCopy.postsData.push(newPost);
-			//---------------------------------------------
+			// let stateCopy = {...state};
+			// stateCopy.postsData = [...state.postsData];
+			// stateCopy.postsData.push(newPost);
+			// stateCopy.newPostText=('');
+			// return(stateCopy);
 
 
-			stateCopy.newPostText=('');
-			return(stateCopy);
+
+			return {
+				...state,
+				postsData : [...state.postsData,newPost],
+				newPostText : '',
+			};
+
 		}
-
 
 
 
 		case UPDATE_NEW_POST:{
-			let stateCopy = {...state};
-			stateCopy.newPostText = action.newText;
-			return(stateCopy);
+			// let stateCopy = {...state};
+			// stateCopy.newPostText = action.newText;
+			// return(stateCopy);
+
+			return {
+				...state,
+				newPostText : action.newText,
+			};
+
+
 		}
+
+
+
 		default:
 			return(state);
 	}
@@ -58,9 +73,9 @@ export default profileReducer;
 // ActionCreator  Post-----------------------------------------
 
 export const addPostActionCreator = ()=>{
-	return {type : 'ADD-POST'}
-}
+	return {type : ADD_POST}
+};
 
 export const updateNewPostTextActionCreator = (text)=>{
-	return {type : 'UPDATE-NEW-POST', newText : text}
-}
+	return {type : UPDATE_NEW_POST, newText : text}
+};

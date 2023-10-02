@@ -74,9 +74,9 @@ export default dialogsReducer;
 
 // Message -----------------------------------------
 export const addMessageActionCreator = ()=>{
-	return {type : 'ADD-MESSAGE'}
+	return {type : ADD_MESSAGE}
 }
 
 export const updateNewMessageTextActionCreator = (text)=>{
-	return {type : 'UPDATE-NEW-MESSAGE', newText : text}
+	return {type : UPDATE_NEW_MESSAGE, newText : text}
 }
