@@ -10,16 +10,60 @@ class Users extends React.Component {
 	// constructor(props){
 	// 	super(props);
 	// }
-	
-	componentDidMount(){
-		axios.get("https://social-network.samuraijs.com/api/1.0/users").then (responce =>{
+
+	onPageChanged = (numberPage)=>{
+		this.props.setCurrentPage(numberPage);
+
+		axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${numberPage}&count=${this.props.pageSize}`).then (responce =>{
 				this.props.setUsers(responce.data.items);
 			});
 	}
 
+	componentDidMount(){
+		axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).
+			then (responce =>{
+			this.props.setUsers(responce.data.items);
+			debugger
+			this.props.setTotalUsersCount(responce.data.totalCount);
+
+			});
+	}
+
+	
+
+
 	render(){
+		let pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize);
+		let pages = [];
+		for (let i=1; i<= pagesCount; i++) {
+			pages.push(i);
+		};
+
+
+
+
 		return <div>
-		<button onClick={this.getUsers }>Get Users</button>
+			
+
+			<div>
+				{pages.map( p => {
+					return(
+						
+					<span className={this.props.currentPage===p && styles.selectedPage}
+							onClick={(e)=>{this.onPageChanged(p)}}>
+						{p}
+					</span>
+					)
+				})}
+			</div>
+
+
+			
+
+		{/* <button onClick={this.getUsers }>Get Users</button> */}
+
+
+		
 		{ 
 		this.props.users.map(u=><div key={u.id}>
 			<span>

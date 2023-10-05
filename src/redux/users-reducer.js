@@ -1,19 +1,15 @@
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'setUsers';
+const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
+const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 
 
 let initialState = {
-	users: [
-		// { id: 1, photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Grand_Duchess_Olga_Alexandrovna.jpg/330px-Grand_Duchess_Olga_Alexandrovna.jpg', 
-		// 	followed: false, userName: 'Ola', status: 'Chef', location: {country: 'German', sity : 'Munich'} },
-		// { id: 2, photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Olga_of_Greece_VI_restoration.jpg/330px-Olga_of_Greece_VI_restoration.jpg', 
-		// 	followed: true, userName: 'Vala', status: 'Chef', location: {country: 'German', sity : 'Berlin'} },
-		// { id: 3, photoUrl: 'https://images.fineartamerica.com/images-medium-large-5/1-olga-constantinovna-1851-1926-granger.jpg', 
-		// 	followed: false, userName: 'Gala', status: 'Chef', location: {country: 'German', sity : 'Koeln'} },
-	],
-	// what is changing
-	//newusers: { id: 4, followed: false, userName: 'Zara', status: 'Chef', location: {country: 'Fidji', sity : 'Gaja'} },
+	users: [],
+	pageSize : 5,
+	totalUsersCount :0,
+	currentPage : 1,
 };
 
 
@@ -57,8 +53,26 @@ const usersReducer = (state = initialState, action)=>{
 	
 			return {
 				...state,
-				users : [...state.users, ...action.users]
+				// users : [...state.users, ...action.users]
+				users : action.users
 			};
+
+			case SET_CURRENT_PAGE:
+	
+			return {
+				...state,
+				currentPage : action.currentPage
+			};
+
+
+
+
+
+
+			
+			case SET_TOTAL_USERS_COUNT:
+	
+			return {...state,	totalUsersCount : action.totalUsersCount};
 
 		default:
 			return(state);
@@ -76,5 +90,15 @@ export const followAC = (userId)=>({type : FOLLOW, userId});
 export const unfollowAC = (userId)=>{
 	return {type : UNFOLLOW, userId};
 };
+
+export const setCurrentPageAC = (currentPage)=>{
+	return {type : SET_CURRENT_PAGE, currentPage:currentPage};
+};
+
+
+export const setTotalUsersCountAC = (totalUsersCount)=>{
+	return {type : SET_TOTAL_USERS_COUNT, totalUsersCount:totalUsersCount};
+};
+
 
 export const setUsersAC = (users)=>({type : SET_USERS, users});
