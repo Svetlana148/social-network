@@ -25,8 +25,8 @@ const App = (props) => {
         {/* <Navbar frendsData = {props.store.getState().sidebar.frendsData}/> */}
 
         <div className='app-wrapper-content'> 
-          <Routes>
-            <Route path='/Profile/*' element=
+          <Routes>            <Route path='/Profile/:userId?' element=
+
                                     {<ProfileContainer store={props.store}/>} />
 
             <Route path='/Dialogs/*' element={<DialogsContainer store={props.store}/>} />
