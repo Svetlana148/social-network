@@ -22,6 +22,7 @@ class HeaderContainer extends React.Component {
 			if (responce.data.resultCode === 0){
 				let {id, email, login} = responce.data.data;
 				this.props.setAuthUsersData(id, email, login);}
+
 			});
 	}
 
@@ -37,7 +38,8 @@ class HeaderContainer extends React.Component {
 
 let mapStateToProps = (state)=>{
 	return{
-		
+		isAuth : state.auth.isAuth,
+		login : state.auth.login,
 	}
 }
 

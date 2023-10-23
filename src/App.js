@@ -20,7 +20,7 @@ const App = (props) => {
 
   return (
       <div className='app-wrapper'>
-        <HeaderContainer />
+        <HeaderContainer store={props.store}/>
         <Navbar store={props.store}/>
 
         {/* <Navbar frendsData = {props.store.getState().sidebar.frendsData}/> */}
