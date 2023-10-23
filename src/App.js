@@ -12,6 +12,7 @@ import Settings from './components/Settings/Settings.jsx';
 import DialogsContainer from './components/Dialogs/DialogsContainer.jsx';
 import UsersContainer from './components/Users/UsersContainer.jsx';
 import ProfileContainer from './components/Profile/ProfileContainer';
+import HeaderContainer from './components/Header/HeaderContainer';
 
 
 
@@ -19,7 +20,7 @@ const App = (props) => {
 
   return (
       <div className='app-wrapper'>
-        <Header />
+        <HeaderContainer />
         <Navbar store={props.store}/>
 
         {/* <Navbar frendsData = {props.store.getState().sidebar.frendsData}/> */}
