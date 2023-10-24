@@ -5,6 +5,8 @@ import Users from './Users';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import Preloader from '../common/preloader/Preloader.jsx';
+import {usersAPI} from '../api/api.js';
+
 
 
 
@@ -16,20 +18,19 @@ class UsersAPIComponent extends React.Component {
 		this.props.setCurrentPage(numberPage);
 
 		this.props.toggleIsFetching(true);
-		axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${numberPage}&count=${this.props.pageSize}`)
-		.then (responce =>{
+		usersAPI.getUsers(numberPage, this.props.pageSize).then (data =>{
 			this.props.toggleIsFetching(false);
-			this.props.setUsers(responce.data.items);
+			this.props.setUsers(data.items);
 		});
 	}
 
 	componentDidMount(){
 		this.props.toggleIsFetching(true);
-		axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
-		.then (responce =>{
+
+		usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then (data =>{
 			this.props.toggleIsFetching(false);
-			this.props.setUsers(responce.data.items);
-			this.props.setTotalUsersCount(responce.data.totalCount);
+			this.props.setUsers(data.items);
+			this.props.setTotalUsersCount(data.totalCount);
 
 			});
 	}
