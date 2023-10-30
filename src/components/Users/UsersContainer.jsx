@@ -12,6 +12,7 @@ import Preloader from '../common/preloader/Preloader.jsx';
 
 
 
+
 class UsersAPIComponent extends React.Component {
 
 
@@ -61,7 +62,7 @@ class UsersAPIComponent extends React.Component {
 					unfollow = {this.props.unfollow}
 					isFetching= {this.props.isFetching}
 					followingInProgress= {this.props.followingInProgress} 
-					// toggleFollowingProgress= {this.props.toggleFollowingProgress}
+					toggleFollowingProgress= {this.props.toggleFollowingProgress}
 					/>
 		</>
 	}
