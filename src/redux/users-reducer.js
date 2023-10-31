@@ -91,9 +91,9 @@ const usersReducer = (state = initialState, action)=>{
 			return(state);
 	}
 }; 
-
-
 export default usersReducer;
+
+
 
 // ActionCreator  Post-----------------------------------------
 
@@ -120,12 +120,16 @@ export const toggleIsFetching = (isFetching)=>{
 export const toggleFollowingProgress = (isFetching, userId)=>{
 	return {type : TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId};
 };
+//-ActionCreator  SET--------------------------------------------------------------
+
+export const setUsers = (users)=>({type : SET_USERS, users});
 
 
 
 
 
-//ThunkCreators-----------------------------------------------------------------------------
+
+//-----------------ThunkCreators-----------------------------------------------------------------------------
 
 export const getUsers = (currentPage, pageSize)=>{
 	return(
@@ -179,4 +183,3 @@ export const unfollow = (userId)=>{
 	)
 }
 
-export const setUsers = (users)=>({type : SET_USERS, users});
