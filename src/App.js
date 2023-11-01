@@ -13,6 +13,7 @@ import DialogsContainer from './components/Dialogs/DialogsContainer.jsx';
 import UsersContainer from './components/Users/UsersContainer.jsx';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
+import Login from './components/Login/Login.jsx';
 
 
 
@@ -26,9 +27,9 @@ const App = (props) => {
         {/* <Navbar frendsData = {props.store.getState().sidebar.frendsData}/> */}
 
         <div className='app-wrapper-content'> 
-          <Routes>            <Route path='/Profile/:userId?' element=
-
-                                    {<ProfileContainer store={props.store}/>} />
+          <Routes>  
+            <Route path='/Login/*' element={<Login store={props.store}/>} />          
+            <Route path='/Profile/:userId?' element={<ProfileContainer store={props.store}/>} />
 
             <Route path='/Dialogs/*' element={<DialogsContainer store={props.store}/>} />
 

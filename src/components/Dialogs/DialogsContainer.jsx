@@ -7,33 +7,11 @@ import {connect} from 'react-redux';
 
 
 
-// const DialogsContainer = (props) => {
-
-
-// let onMessageChange = (text)=>{
-// 		props.store.dispatch(updateNewMessageTextActionCreator(text));
-		
-// };
-
-// let addMessage = ()=>{
-// 	props.store.dispatch(addMessageActionCreator());
-// };
-// // ----------------------------------------------------------------------------
-
-// let state = props.store.getState();
-
-
-
-// 	return (
-// 		<Dialogs updateNewMessageText = {onMessageChange} addMessage = {addMessage} 
-// 					dialogsData = {state.dialogsPage.dialogsData} messagesData = {state.dialogsPage.messagesData}
-// 					newMessageText = {state.dialogsPage.newMessageText} />
-// 	)
-// }
 // -----------------------------------------------------------------------------------------------------------
 let mapStateToProps = (state)=>{
 	return{
-		dialogsPage : state.dialogsPage
+		dialogsPage : state.dialogsPage,
+		isAuth : state.auth.isAuth
 	}
 }
 let mapDispatchToProps = (dispatch)=>{

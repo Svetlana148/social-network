@@ -1,6 +1,6 @@
 import React from "react";
 import s from "./Dialogs.module.css";
-// import { NavLink } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import DialogItem from "./DialogItem/DialogItem.jsx";
 import Message from "./Message/Message.jsx";
 // import {updateNewMessageTextActionCreator, addMessageActionCreator} from './../../redux/dialogs-reducer';
@@ -32,8 +32,13 @@ let addMessage = ()=>{
 	let dialogsElements = props.dialogsPage.dialogsData.map(d => <DialogItem name={d.name} id={d.id} />);
 	let messagesElement = props.dialogsPage.messagesData.map(m => <Message message = {m.message} />);
 
-//-----------------------------------
+//   Check LOGIN-----------------------------------
 
+
+if (!props.isAuth) return <Navigate to={("/Login")}/>
+
+
+//-----------------------------------
 	return (
 		<div className={s.dialogs}>
 			<div className={s.dialogsItems}>
