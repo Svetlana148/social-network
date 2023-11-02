@@ -5,6 +5,7 @@ import {updateNewMessageTextActionCreator, addMessageActionCreator} from '../../
 import Dialogs from './Dialogs';
 import {connect} from 'react-redux';
 import {withAuthRedirect} from '../hok/withAuthRedirect.js';
+import { compose } from "redux";
 
 
 
@@ -12,7 +13,6 @@ import {withAuthRedirect} from '../hok/withAuthRedirect.js';
 let mapStateToProps = (state)=>{
 	return{
 		dialogsPage : state.dialogsPage,
-		// isAuth : state.auth.isAuth
 	}
 }
 let mapDispatchToProps = (dispatch)=>{
@@ -30,13 +30,16 @@ let mapDispatchToProps = (dispatch)=>{
 
 // HOK---------------------------------------------------
 
-let AuthRedirectComponent = withAuthRedirect(Dialogs);
-// let AuthRedirectComponent = (props) =>{
-// 	if (!this.props.isAuth) return <Navigate to={("/Login")}/>
-// 	return <Dialogs {...props} />
-// }
-
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent);
 
 
-export default DialogsContainer;
+//let AuthRedirectComponent = withAuthRedirect(Dialogs);
+
+
+//const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent);
+
+
+export default compose(
+	connect(mapStateToProps, mapDispatchToProps),
+	withAuthRedirect
+)(Dialogs);
+//DialogsContainer;

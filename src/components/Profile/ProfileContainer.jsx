@@ -8,6 +8,7 @@ import {getUserProfile} from '../../redux/profile-reducer.js';
 import {Navigate} from 'react-router-dom';
 import { useParams } from 'react-router-dom'; 
 import {withAuthRedirect} from '../hok/withAuthRedirect.js';
+import { compose } from 'redux';
 
 
 
@@ -50,23 +51,11 @@ class ProfileContainer extends React.Component{
 }
 
 // HOK---------------------------------------------------
-let AuthRedirectComponent = withAuthRedirect(ProfileContainer);
+//let AuthRedirectComponent = withAuthRedirect(ProfileContainer);
 
-
-
-// let mapStateToPropsForRedirect = (state)=>({
-// 	isAuth : state.auth.isAuth
-// });
-// AuthRedirectComponent = connect(mapStateToPropsForRedirect)(AuthRedirectComponent);
-
-
-// let AuthRedirectComponent = (props) =>{
-// 	if (!this.props.isAuth) return <Navigate to={("/Login")}/>
-// 	return <ProfileContainer {...props} />
-// }
 // ---------------------------------------------------
 
-let WithUrlDataContainerComponent = withRouter(AuthRedirectComponent);
+//let WithUrlDataContainerComponent = withRouter(AuthRedirectComponent);
 
 
 let mapStateToProps = (state)=>({
@@ -74,4 +63,10 @@ let mapStateToProps = (state)=>({
 	
 });
 
-export default connect(mapStateToProps, {getUserProfile})(WithUrlDataContainerComponent);
+//export default connect(mapStateToProps, {getUserProfile})(WithUrlDataContainerComponent);
+
+export default compose(
+	connect(mapStateToProps, {getUserProfile}),
+	withRouter,
+	withAuthRedirect
+)(ProfileContainer);
