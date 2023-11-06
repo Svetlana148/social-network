@@ -3,9 +3,6 @@ import {authAPI} from '../components/api/api';
 const SET_USER_DATA = 'SET_USER_DATA';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
-// const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
-// const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
-
 
 let initialState = {
 	userId: null,
@@ -20,16 +17,13 @@ let initialState = {
 const authReducer = (state = initialState, action)=>{
 	switch(action.type){
 		
-			case SET_USER_DATA:
+		case SET_USER_DATA:
 
 				return {
 					...state,
 					...action.data,
 					isAuth : true,
 				};
-
-			
-
 
 
 		case TOGGLE_IS_FETCHING:

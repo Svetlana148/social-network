@@ -15,17 +15,7 @@ class HeaderContainer extends React.Component {
 
 
 	componentDidMount(){
-
 		this.props.getAuthUserData();
-
-		// this.props.toggleIsFetching(true);
-		// authAPI.me().then (responce =>{
-		// 	// this.props.toggleIsFetching(false)
-		// 		if (responce.data.resultCode === 0){
-		// 			let {id, email, login} = responce.data.data;
-		// 			this.props.setAuthUsersData(id, email, login);
-		// 		}
-		// });
 	}
 
 	
