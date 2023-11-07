@@ -1,13 +1,13 @@
 import React from 'react';
 // import s from './Profile.module.css';
-// import MyPostsContainer from './MyPosts/MyPostsContainer.jsx';
+// import axios from 'axios';
+// import {Navigate} from 'react-router-dom';
+// import {withAuthRedirect} from '../hok/withAuthRedirect.js';
+
 import Profile from './Profile.jsx';
-import axios from 'axios';
 import {connect} from 'react-redux';
-import {getUserProfile} from '../../redux/profile-reducer.js';
-import {Navigate} from 'react-router-dom';
+import {getUserProfile, getStatus, updateStatus} from '../../redux/profile-reducer.js';
 import { useParams } from 'react-router-dom'; 
-import {withAuthRedirect} from '../hok/withAuthRedirect.js';
 import { compose } from 'redux';
 
 
@@ -30,21 +30,20 @@ class ProfileContainer extends React.Component{
 
 	componentDidMount(){
 
-		
 		let userId = this.props.match.params.userId;
 		if (!userId){
-			userId=2;
+			userId=30195;
 		}
 		
 		this.props.getUserProfile(userId);
+		this.props.getStatus(userId);
 	}
 
-	render(){
-		
 
+	render(){
 		return (
 			<div>
-				<Profile {...this.props} profile = {this.props.profile} />
+				<Profile {...this.props} profile = {this.props.profile} status = {this.props.status} updateStatus = {this.props.updateStatus}/>
 			</div>
 		);
 	}
@@ -60,13 +59,14 @@ class ProfileContainer extends React.Component{
 
 let mapStateToProps = (state)=>({
 	profile : state.profilePage.profile,
+	status : state.profilePage.status,
 	
 });
 
 //export default connect(mapStateToProps, {getUserProfile})(WithUrlDataContainerComponent);
 
 export default compose(
-	connect(mapStateToProps, {getUserProfile}),
+	connect(mapStateToProps, {getUserProfile, getStatus, updateStatus}),
 	withRouter,
 	//withAuthRedirect
 )(ProfileContainer);

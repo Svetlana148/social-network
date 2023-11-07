@@ -2,41 +2,56 @@ import React from 'react';
 //import s from './ProfileStatus.module.css';
 
 
+
+
+
 class ProfileStatus extends React.Component {
 	
+
 	state = {
 		editMode : false
 	}
 
+
 	activateEditMode = () =>{
 		this.setState({
-			editMode : true
+			editMode : true,
+			status : this.props.status
 		});
-		//this.state.editMode = true;
 		//this.forceUpdate(); Перерисовать насильно
 	}
 
 
+	onStatusChange = (e) =>{
+		this.setState({
+			status : e.currentTarget.value
+		})
+	}
+
+
+
 	deactivateEditMode = () =>{
 		this.setState({
-			editMode : false
+			editMode : false			
 		});
+		this.props.updateStatus(this.state.status);
 	}
 
 	render(){
-
+	
 		return (
-			<div>
+			<div> 
 				{!this.state.editMode &&
 					<div>
-						<span onDoubleClick={this.activateEditMode}>{this.props.status}</span>
+						
+						<span onDoubleClick={this.activateEditMode}>{this.props.status || "----------"}</span>
 					</div>			
 				}
 
 
 				{this.state.editMode &&
 					<div>
-						<input autoFocus={true} onBlur={this.deactivateEditMode}  value={this.props.status} />
+						<input onChange={this.onStatusChange} autoFocus={true} onBlur={this.deactivateEditMode}  value={this.state.status} />
 					</div>			
 				}
 

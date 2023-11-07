@@ -30,10 +30,29 @@ export const usersAPI = {
 
 	// from profileContainer
 	getProfile (userId) {
+		console.warn("Obsolete method. Now getProfileAPI")
+		return getProfileAPI.getProfile (userId)
+		//instance.get(`profile/`+ userId)
+	},
+}
+
+
+
+export const getProfileAPI = {
+	getProfile (userId) {
 		return instance.get(`profile/`+ userId)
 	},
-
+	getStatus (userId) {
+		return instance.get(`profile/status/`+ userId)
+	},
+	updateStatus (status) {
+		return instance.put(`profile/status`, {status : status})
+	},
 }
+
+
+
+
 
 
 export const authAPI = {
