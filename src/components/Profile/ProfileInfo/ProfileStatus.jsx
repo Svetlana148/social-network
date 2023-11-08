@@ -1,5 +1,7 @@
 import React from 'react';
+
 //import s from './ProfileStatus.module.css';
+
 
 
 
@@ -12,7 +14,6 @@ class ProfileStatus extends React.Component {
 		editMode : false
 	}
 
-
 	activateEditMode = () =>{
 		this.setState({
 			editMode : true,
@@ -21,14 +22,11 @@ class ProfileStatus extends React.Component {
 		//this.forceUpdate(); Перерисовать насильно
 	}
 
-
 	onStatusChange = (e) =>{
 		this.setState({
 			status : e.currentTarget.value
 		})
 	}
-
-
 
 	deactivateEditMode = () =>{
 		this.setState({
@@ -37,8 +35,18 @@ class ProfileStatus extends React.Component {
 		this.props.updateStatus(this.state.status);
 	}
 
-	render(){
+	componentDidUpdate (prevProps, prevState){
+		if (prevProps.status !== this.props.status){
+			this.setState({
+				status : this.props.status
+			})
+		}
+	}
+
+
 	
+	render(){
+		console.log("render")
 		return (
 			<div> 
 				{!this.state.editMode &&

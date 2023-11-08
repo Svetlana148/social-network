@@ -106,9 +106,7 @@ export const getUserProfile = (userId)=>(dispatch)=>{
 }
 
 export const getStatus = (userId)=>(dispatch)=>{
-	debugger
 	getProfileAPI.getStatus(userId).then (responce =>{
-		debugger
 		dispatch(setStatus(responce.data));
 	})
 }
