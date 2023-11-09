@@ -1,7 +1,7 @@
 import {usersAPI, getProfileAPI} from '../components/api/api';
 
 const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST = 'UPDATE-NEW-POST';
+// const UPDATE_NEW_POST = 'UPDATE-NEW-POST';
 const SET_USER_PROFILE = 'SET-USER-PROFILE';
 const SET_STATUS = 'SET-STATUS';
 
@@ -14,7 +14,7 @@ let initialState = {
 		{ id: 3, message: '12342345', likesCount: '78' }
 	],
 
-	newPostText : 'Hallo everybody',
+	// newPostText : 'Hallo everybody',
 	profile : null,
 	status : "",
 };
@@ -29,7 +29,7 @@ const profileReducer = (state = initialState, action)=>{
 
 			let newPost = {
 				id: 4, 
-				message: state.newPostText, 
+				message: action.newPostText, 
 				likesCount: '0'
 			};
 
@@ -37,25 +37,27 @@ const profileReducer = (state = initialState, action)=>{
 			return {
 				...state,
 				postsData : [...state.postsData,newPost],
-				newPostText : '',
+				
+				// postsData : [...state.postsData,newPost],
+				// newPostText : '',
 			};
 
 		}
 
 
 
-		case UPDATE_NEW_POST:{
-			// let stateCopy = {...state};
-			// stateCopy.newPostText = action.newText;
-			// return(stateCopy);
+		// case UPDATE_NEW_POST:{
+		// 	// let stateCopy = {...state};
+		// 	// stateCopy.newPostText = action.newText;
+		// 	// return(stateCopy);
 
-			return {
-				...state,
-				newPostText : action.newText,
-			};
+		// 	return {
+		// 		...state,
+		// 		newPostText : action.newText,
+		// 	};
 
 
-		}
+		// }
 
 
 		case SET_USER_PROFILE:{
@@ -75,16 +77,17 @@ const profileReducer = (state = initialState, action)=>{
 
 export default profileReducer;
 
+
+
 // ActionCreator  Post-----------------------------------------
 
-
-export const addPostActionCreator = ()=>{
-	return {type : ADD_POST}
+export const addPostActionCreator = (newPostText)=>{
+	return {type : ADD_POST, newPostText}
 };
 
-export const updateNewPostTextActionCreator = (text)=>{
-	return {type : UPDATE_NEW_POST, newText : text}
-};
+// export const updateNewPostTextActionCreator = (text)=>{
+// 	return {type : UPDATE_NEW_POST, newText : text}
+// };
 
 export const setUserProfile = (profile)=>{
 	return {type : SET_USER_PROFILE, profile}

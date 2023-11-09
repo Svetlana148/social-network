@@ -23,7 +23,7 @@ const LoginForm = (props) => {
 }
 
 
-//containerComponent send to MainC handleSubmit
+//containerComponent send from Redux-form "handleSubmit" to MainC 
 const LoginReduxForm = reduxForm({
 	// a unique name fo the form
 	form : 'login'

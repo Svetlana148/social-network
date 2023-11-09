@@ -38,13 +38,13 @@ import {connect} from 'react-redux';
 
 	let mapDispatchToProps = (dispatch)=>{
 		return {
-			updateNewPostText : (text)=>{
-				let action = updateNewPostTextActionCreator(text); // делаем action
-				dispatch(action);                     
-			},
+			// updateNewPostText : (text)=>{
+			// 	let action = updateNewPostTextActionCreator(text); // делаем action
+			// 	dispatch(action);                     
+			// },
 
-			addPost : ()=>{
-				dispatch(addPostActionCreator()); 
+			addPost : (newPostText)=>{
+				dispatch(addPostActionCreator(newPostText)); 
 			}
 		}
 	};

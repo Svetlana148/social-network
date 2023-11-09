@@ -1,7 +1,9 @@
 import React from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post.jsx';
-import {updateNewPostText} from './MyPostsContainer';
+import { Field, reduxForm } from 'redux-form';
+//import { Form } from 'react-router-dom';
+// import {updateNewPostText} from './MyPostsContainer';
 
 
 
@@ -20,37 +22,72 @@ const MyPosts = (props) => {
 		let text =  newPostElement.current.value;
 		props.updateNewPostText(text);
 	} 
-// addPost-----------------------------------------
-	let addPost = ()=>{
-		props.addPost();
+// addPost----Redux-Form-------------------------------------
+	let addPost = (values)=>{
+		props.addPost(values.newPostText);
 	}
 // -----------------------------------------
+// Redux-Form---------------------------------------------
+// let addNewPost=(values)=>{
+// 	props.addNewPost(values.addPostText);
+// };
+
+
 
 	return (
 		<div className={s.myPosts}>
 			<h3>My posts:</h3>
-			<div>
+			<AddNewPostForm onSubmit={addPost}/>
+			
+
+			{/* <div>
 				<div>
 					<textarea onChange = {onPostChange} ref={newPostElement} value={props.newPostText}/>
 				</div>
-
 				<div>
 					<button onClick={addPost}>Add post</button>
+					<button>Remove</button>
+				</div>
+			</div> */}
+
+			<div className={s.posts}>
+				{postsElement}
+			</div>
+
+		</div>
+	);
+}
+
+
+
+
+
+// ---Redux-Form-----------------------------------------------------------------------
+
+const AddNewPost = (props)=>{
+	return(
+		<form onSubmit ={props.handleSubmit}>
+				<div>
+					<Field component={"textarea"}
+						name={"newPostText"}
+						placeholder={"Enter your post"}/>
+				</div>
+
+				<div>
+					<button>Add post</button>
 
 
 					<button>Remove</button>
 				</div>
 
-			</div>
-
-			<div className={s.posts}>
-
-				{postsElement}
-				
-			</div>
-
-		</div>
-	);
-
+			</form>
+	)
 }
+
+const AddNewPostForm = reduxForm({
+	form:"newPostText"
+})(AddNewPost)
+
+
+
 export default MyPosts;
