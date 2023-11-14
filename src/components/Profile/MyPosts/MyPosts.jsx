@@ -2,6 +2,8 @@ import React from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post.jsx';
 import { Field, reduxForm } from 'redux-form';
+import { required, maxLengthCreator} from '../../../utils/Validators/validators';
+
 //import { Form } from 'react-router-dom';
 // import {updateNewPostText} from './MyPostsContainer';
 
@@ -63,6 +65,8 @@ const MyPosts = (props) => {
 
 
 // ---Redux-Form-----------------------------------------------------------------------
+const maxLength10 = maxLengthCreator(10);
+
 
 const AddNewPost = (props)=>{
 	return(
@@ -70,7 +74,9 @@ const AddNewPost = (props)=>{
 				<div>
 					<Field component={"textarea"}
 						name={"newPostText"}
-						placeholder={"Enter your post"}/>
+						validate={[ required, maxLength10]}
+						// placeholder={"Enter your post"}
+						/>
 				</div>
 
 				<div>
@@ -85,7 +91,7 @@ const AddNewPost = (props)=>{
 }
 
 const AddNewPostForm = reduxForm({
-	form:"newPostText"
+	form:"ProfileNewPostText"
 })(AddNewPost)
 
 
