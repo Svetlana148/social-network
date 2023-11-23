@@ -2,7 +2,7 @@ import React from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post.jsx';
 import { Field, reduxForm } from 'redux-form';
-import { required} from '../../../utils/Validators/validators';
+import { required, maxLengthCreator} from '../../../utils/Validators/validators';
 import { Textarea} from '../../FormsControls/FormsControls.js';
 
 //import { Form } from 'react-router-dom';
@@ -41,7 +41,7 @@ const MyPosts = (props) => {
 
 
 // ---Redux-Form-----------------------------------------------------------------------
-const maxLength10 =  (10);
+const maxLength10 = maxLengthCreator(10);
 
 
 const AddNewPost = (props)=>{

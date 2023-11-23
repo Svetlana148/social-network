@@ -1,26 +1,33 @@
 import React from 'react';
 import {formReducer} from '../../redux/redux-store';
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm } from 'redux-form';
+import {Element} from '../FormsControls/FormsControls';
+import { required, maxLengthCreator} from '../../utils/Validators/validators';
 
-//Mai nComponent
+
+//MainComponent
 const LoginForm = (props) => {
 	return(
 		<form onSubmit ={props.handleSubmit}>
 			<div>
-				<Field placeholder={"Login"} name={"login"} component={"input"}/>
+				<Field placeholder={"Login"} name={"login"}  validate={required} component={Element} typeElement = "input"/>
 			</div>
+
 			<div>
-				<Field placeholder={"Password"} name={"password"} component={"input"} />
+				<Field placeholder={"Password"} name={"password"}  validate={required} component={Element} typeElement='input' />
 			</div>
+
 			<div>
-				<Field component={"input"} name={"rememberMe"} type={"checkbox"} />
+				<Field name={"rememberMe"}   type={"checkbox"}  component={Element} typeElement = "input"/>remember me
 			</div>
+
 			<div>
 				<button>Login</button>
 			</div>
 		</form>
 	)
 }
+
 
 
 //containerComponent send from Redux-form "handleSubmit" to MainC 

@@ -3,28 +3,15 @@ import s from "./Dialogs.module.css";
 import { Navigate } from "react-router-dom";
 import DialogItem from "./DialogItem/DialogItem.jsx";
 import Message from "./Message/Message.jsx";
-// import {updateNewMessageTextActionCreator, addMessageActionCreator} from './../../redux/dialogs-reducer';
-import { Field, reduxForm } from 'redux-form';
+
+import { Field, reduxForm } from "redux-form";
+import { AddMessageForm } from "./Message/AddMessageForm/AddMessageForm.jsx";
 
 
 
 const Dialogs = (props) => {
 
-let newMessageElement = React.createRef();
-
-// let onMessageChange = ()=>{
-// 	let text =  newMessageElement.current.value;
-// 		// BLLstate renew------------------------
-// 		props.updateNewMessageText(text);
-// };
-
-
-
 // addMessage-----------------------------------------
-// let addMessage = ()=>{
-// 	props.addMessage();
-// };
-
 // Redux-Form---------------------------------------------
 let addNewMessage=(values)=>{
 	props.addMessage(values.newMessageText);
@@ -53,13 +40,6 @@ if (!props.isAuth) return <Navigate to={("/Login")}/>
 
 
 				<div><AddMessageFormRedux onSubmit={addNewMessage}/></div>
-				{/* <div>
-				<textarea onChange={onMessageChange} ref={newMessageElement} value={props.newMessageText}/>
-				</div>
-
-				<div>
-					<button onClick={addMessage}>Send</button>
-				</div> */}
 			</div>
 		</div>
 	)
@@ -67,26 +47,26 @@ if (!props.isAuth) return <Navigate to={("/Login")}/>
 
 // ---Redux-Form-----------------------------------------------------------------------
 
-const AddMessageForm = (props) =>{
-	return(
-		<form onSubmit ={props.handleSubmit}>
-			<div>
-				<Field component={"textarea"} 
-						name={"newMessageText"} 
-						placeholder={"Enter your message"}>
-				</Field>
-				{/* <textarea 
-					onChange={onMessageChange} 
-					value={props.newMessageText} 
-					placeholder={"Enter your message"}/> */}
-			</div>
+// const AddMessageForm = (props) =>{
+// 	return(
+// 		<form onSubmit ={props.handleSubmit}>
+// 			<div>
+// 				<Field component={"textarea"} 
+// 						name={"newMessageText"} 
+// 						placeholder={"Enter your message"}>
+// 				</Field>
+// 				{/* <textarea 
+// 					onChange={onMessageChange} 
+// 					value={props.newMessageText} 
+// 					placeholder={"Enter your message"}/> */}
+// 			</div>
 
-			<div>
-				<button>Send</button>
-			</div>
-		</form>
-	);
-}
+// 			<div>
+// 				<button>Send</button>
+// 			</div>
+// 		</form>
+// 	);
+// }
 
 const AddMessageFormRedux=reduxForm({
 	form : "dialogAddMessageForm"
