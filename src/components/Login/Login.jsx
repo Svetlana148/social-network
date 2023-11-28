@@ -3,6 +3,10 @@ import {formReducer} from '../../redux/redux-store';
 import { Field, reduxForm } from 'redux-form';
 import {Element} from '../FormsControls/FormsControls';
 import { required, maxLengthCreator} from '../../utils/Validators/validators';
+import {connect} from "react-redux";
+import {login} from "../../redux/auth-reducer";
+import { Navigate } from "react-router-dom";
+
 
 
 //MainComponent
@@ -10,11 +14,11 @@ const LoginForm = (props) => {
 	return(
 		<form onSubmit ={props.handleSubmit}>
 			<div>
-				<Field placeholder={"Login"} name={"login"}  validate={required} component={Element} typeElement = "input"/>
+				<Field placeholder={"Email"} name={"email"}  validate={required} component={Element} typeElement = "input"/>
 			</div>
 
 			<div>
-				<Field placeholder={"Password"} name={"password"}  validate={required} component={Element} typeElement='input' />
+				<Field placeholder={"Password"} name={"password"}  validate={required}  type={"password"} component={Element} typeElement='input' />
 			</div>
 
 			<div>
@@ -41,9 +45,14 @@ const LoginReduxForm = reduxForm({
 
 const Login = (props) => {
 	const onSubmit = (formData) => {
-		console.log(formData);
+		//login is here callback from connect(thunkCreater)------------------------------------
+		props.login(formData.email, formData.password, formData.rememberMe);
 	}
 
+	if (props.isAuth){
+		//Navigate вместо Redirect----------------------------------------------------
+		return <Navigate to={("/Profile")}/>
+	}
 
 	return(
 		<div>
@@ -53,4 +62,9 @@ const Login = (props) => {
 	)
 }
 
-export default Login;
+const mapStateToProps = (state) =>({
+	isAuth: state.auth.isAuth
+});
+
+//login is here thunkCreater------------------------------------
+export default connect(mapStateToProps, {login})(Login);
