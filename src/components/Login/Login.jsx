@@ -6,7 +6,7 @@ import { required, maxLengthCreator} from '../../utils/Validators/validators';
 import {connect} from "react-redux";
 import {login} from "../../redux/auth-reducer";
 import { Navigate } from "react-router-dom";
-
+import s from '../FormsControls/FormsControls.module.css';
 
 
 //MainComponent
@@ -25,6 +25,9 @@ const LoginForm = (props) => {
 				<Field name={"rememberMe"}   type={"checkbox"}  component={Element} typeElement = "input"/>remember me
 			</div>
 
+			{props.error && <div className={s.formSummaryError}>
+				{props.error}
+			</div>}
 			<div>
 				<button>Login</button>
 			</div>
@@ -33,13 +36,12 @@ const LoginForm = (props) => {
 }
 
 
+//Оборачиваем эту форму hok-ом from Redux-form---------------------------------
+//containerComponent send from Redux-form "handleSubmit" to MainComponent(LoginForm)
+// a unique name fo the form
 
-//containerComponent send from Redux-form "handleSubmit" to MainC 
-const LoginReduxForm = reduxForm({
-	// a unique name fo the form
-	form : 'login'
-})(LoginForm)
-
+const LoginReduxForm = reduxForm({form : 'login'})(LoginForm)
+//------------------------------------------------------------------------------
 
 
 

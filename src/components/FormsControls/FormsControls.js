@@ -30,7 +30,7 @@ export const Input = ({input, meta, ...props}) =>{
 	)
 }
 
-//Container Universal---------------------------------------------
+//Container Universal  for Input and Textarea---------------------------------------------
 
 export const Element = ({input, meta, ...props}) =>{
 	let haveError = meta.touched && meta.error;
