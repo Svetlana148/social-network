@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './Header';
 
-import {getAuthUserData, logout, toggleIsFetching} from '../../redux/auth-reducer';
+import {logout, toggleIsFetching} from '../../redux/auth-reducer';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import Preloader from '../common/preloader/Preloader.jsx';
@@ -13,10 +13,10 @@ import Preloader from '../common/preloader/Preloader.jsx';
 
 class HeaderContainer extends React.Component {
 
-
-	componentDidMount(){
-		this.props.getAuthUserData();
-	}
+	// Перенесли в APP.js
+	// componentDidMount(){
+	// 	this.props.getAuthUserData();
+	// }
 
 	
 	render(){
@@ -35,4 +35,4 @@ let mapStateToProps = (state)=>{
 	}
 }
 
-export default connect(mapStateToProps, {getAuthUserData, logout})(HeaderContainer);
+export default connect(mapStateToProps, {logout})(HeaderContainer);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
 
 import {Routes, Route} from 'react-router-dom';
@@ -14,35 +14,73 @@ import UsersContainer from './components/Users/UsersContainer.jsx';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login.jsx';
+import {getAuthUserData} from './redux/auth-reducer.js';
+// import {withRouter} from 'react-router-dom'; 
+import {connect} from 'react-redux';
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
+import { compose } from "redux";
+//import { store } from "./redux/redux-store.js";
 
 
+class App extends Component {
 
-const App = (props) => {
+  componentDidMount(){
+    this.props.getAuthUserData();
+    };
 
-  return (
-      <div className='app-wrapper'>
-        <HeaderContainer store={props.store}/>
-        <Navbar store={props.store}/>
+  render(){
 
-        {/* <Navbar frendsData = {props.store.getState().sidebar.frendsData}/> */}
+    return (
+        <div className='app-wrapper'>
+          <HeaderContainer/>
+          <Navbar/>
 
-        <div className='app-wrapper-content'> 
-          <Routes>  
-            <Route path='/Login/*' element={<Login store={props.store}/>} />          
-            <Route path='/Profile/:userId?' element={<ProfileContainer store={props.store}/>} />
 
-            <Route path='/Dialogs/*' element={<DialogsContainer store={props.store}/>} />
+          <div className='app-wrapper-content'> 
+            <Routes>  
+              <Route path='/Login/*' element={<Login />} />          
+              <Route path='/Profile/:userId?' element={<ProfileContainer />} />
 
-            <Route path='/Users/*' element={<UsersContainer store={props.store}/>} />
+              <Route path='/Dialogs/*' element={<DialogsContainer />} />
 
-            <Route path='/News/*' element={<News />} />
-            <Route path='/Music/*' element={<Music />} />
-            <Route path='/Settings/*' element={<Settings />} />
-          </Routes>
+              <Route path='/Users/*' element={<UsersContainer />} />
+
+              <Route path='/News/*' element={<News />} />
+              <Route path='/Music/*' element={<Music />} />
+              <Route path='/Settings/*' element={<Settings />} />
+            </Routes>
+          </div>
         </div>
-      </div>
-  );
+    );
+  }
 }
 
 
-export default App;
+// function withRouter(Component) {
+//   function ComponentWithRouterProp(props) {
+//     let location = useLocation();
+//     let navigate = useNavigate();
+//     let params = useParams();
+
+//     return (
+//       <Component
+//         {...props}
+//         router={{ location, navigate, params }}
+//       />
+//     );
+//   }
+
+//   return ComponentWithRouterProp;
+// }
+
+// let mapStateToProps = (store)=>(
+//   {store:store}
+// );
+
+
+export default connect(null, {getAuthUserData})(App);
+
