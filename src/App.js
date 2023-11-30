@@ -15,24 +15,24 @@ import ProfileContainer from './components/Profile/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login.jsx';
 import {getAuthUserData} from './redux/auth-reducer.js';
-// import {withRouter} from 'react-router-dom'; 
 import {connect} from 'react-redux';
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
-import { compose } from "redux";
-//import { store } from "./redux/redux-store.js";
+import { initializeApp } from "./redux/app-reducer.js";
+import Preloader from './components/common/preloader/Preloader.jsx';
 
 
 class App extends Component {
 
+  //Запрос у сервера начальных данных-----------------------------------------
   componentDidMount(){
-    this.props.getAuthUserData();
+    this.props.initializeApp();
     };
 
   render(){
+    if (!this.props.initialized){
+      return <Preloader />
+    }
+
+
 
     return (
         <div className='app-wrapper'>
@@ -60,27 +60,9 @@ class App extends Component {
 }
 
 
-// function withRouter(Component) {
-//   function ComponentWithRouterProp(props) {
-//     let location = useLocation();
-//     let navigate = useNavigate();
-//     let params = useParams();
+const mapStateToProps = (state) => ({
+  initialized : state.app.initialized
+});
 
-//     return (
-//       <Component
-//         {...props}
-//         router={{ location, navigate, params }}
-//       />
-//     );
-//   }
-
-//   return ComponentWithRouterProp;
-// }
-
-// let mapStateToProps = (store)=>(
-//   {store:store}
-// );
-
-
-export default connect(null, {getAuthUserData})(App);
+export default connect(mapStateToProps, {initializeApp})(App);
 

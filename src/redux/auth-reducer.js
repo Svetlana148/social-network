@@ -59,7 +59,8 @@ export const toggleIsFetching = (isFetching)=>{
 // ------------THUNK Creators-----------------------------------------------------------------
 
 export const getAuthUserData = ()=>(dispatch)=>{
-	authAPI.me()
+	// возвращаем Promis--------------------------------------------------------
+	return authAPI.me()
 		.then (responce =>{
 		// this.props.toggleIsFetching(false)
 			if (responce.data.resultCode === 0){
