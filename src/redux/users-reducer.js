@@ -131,12 +131,13 @@ export const setUsers = (users)=>({type : SET_USERS, users});
 
 //-----------------ThunkCreators-----------------------------------------------------------------------------
 
-export const getUsers = (currentPage, pageSize)=>{
+export const requestUsers = (page, pageSize)=>{
 	return(
 		(dispatch)=>{
 			dispatch(toggleIsFetching(true));
+			dispatch(setCurrentPage(page));
 
-			usersAPI.getUsers(currentPage, pageSize)
+			usersAPI.requestUsers(page, pageSize)
 				.then (data =>{
 				dispatch(toggleIsFetching(false));
 				dispatch(setUsers(data.items));
