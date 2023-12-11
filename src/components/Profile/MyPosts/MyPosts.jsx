@@ -10,7 +10,7 @@ import { Textarea} from '../../FormsControls/FormsControls.js';
 
 
 
-const MyPosts = (props) => {
+const MyPosts = React.memo(props => {
 
 	let postsElement = props.postsData.map(p => 
 							<Post message={p.message} likesCount={p.likesCount} />);
@@ -34,7 +34,7 @@ const MyPosts = (props) => {
 			</div>
 		</div>
 	);
-}
+});
 
 
 
