@@ -1,7 +1,6 @@
 import React from 'react';
-import {formReducer} from '../../redux/redux-store';
 import { Field, reduxForm } from 'redux-form';
-import {Element} from '../FormsControls/FormsControls';
+import {Element, createForm} from '../FormsControls/FormsControls';
 import { required, maxLengthCreator} from '../../utils/Validators/validators';
 import {connect} from "react-redux";
 import {login} from "../../redux/auth-reducer";
@@ -10,23 +9,27 @@ import s from '../FormsControls/FormsControls.module.css';
 
 
 //MainComponent
-const LoginForm = (props) => {
+const LoginForm = ({handleSubmit, error}) => {
 	return(
-		<form onSubmit ={props.handleSubmit}>
-			<div>
-				<Field placeholder={"Email"} name={"email"}  validate={required} component={Element} typeElement = "input"/>
-			</div>
+		<form onSubmit ={handleSubmit}>
 
-			<div>
-				<Field placeholder={"Password"} name={"password"}  validate={required}  type={"password"} component={Element} typeElement='input' />
-			</div>
+			{createForm("Email", "email", [required], Element,"input" )}
+			{/* <div>
+				<Field placeholder={"Email"} name={"email"}  validate={[required]} component={Element} typeElement = {"input"}/>
+			</div> */}
 
-			<div>
+			{createForm("Password", "password", [required], Element,"input", {type:"password"} )}
+			{/* <div>
+				<Field placeholder={"Password"} name={"password"}  validate={required}  type={"password"} component={Element} typeElement="input" />
+			</div> */}
+
+			{createForm(null, "rememberMe", [], Element,"input", {type:"checkbox"}, "remember me" )}
+			{/* <div>
 				<Field name={"rememberMe"}   type={"checkbox"}  component={Element} typeElement = "input"/>remember me
-			</div>
+			</div> */}
 
-			{props.error && <div className={s.formSummaryError}>
-				{props.error}
+			{error && <div className={s.formSummaryError}>
+				{error}
 			</div>}
 			<div>
 				<button>Login</button>

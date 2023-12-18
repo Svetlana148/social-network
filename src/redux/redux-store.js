@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux'; 
+import {applyMiddleware, combineReducers, legacy_createStore as createStore, compose} from 'redux'; 
 import profileReducer from './profile-reducer';
 import dialogsReducer from './dialogs-reducer';
 import sidebarReducer from './sidebar-reducer';
@@ -20,7 +20,17 @@ let reducers = combineReducers({
 	app : appReducer,
 });
 
-let store=createStore(reducers, applyMiddleware(thunkMiddlewarer)); //Промежуточный слой внедряем в store
+
+
+
+// For Redux Dev Tools----------------------------------------------
+//Промежуточный слой внедряем в store   thunkMiddlewarer----------------
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, composeEnhancers(applyMiddleware(thunkMiddlewarer)
+));
+// ----------------------------------------------
+
+// let store=createStore(reducers, applyMiddleware(thunkMiddlewarer)); //Промежуточный слой внедряем в store
 
 
 window.Storage = store;
