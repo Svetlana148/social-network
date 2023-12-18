@@ -58,45 +58,39 @@ export const toggleIsFetching = (isFetching)=>{
 
 // ------------THUNK Creators-----------------------------------------------------------------
 
-export const getAuthUserData = ()=>(dispatch)=>{
-	// возвращаем Promis--------------------------------------------------------
-	return authAPI.me()
-		.then (responce =>{
-		// this.props.toggleIsFetching(false)
-			if (responce.data.resultCode === 0){
-				let {id, email, login} = responce.data.data;
-				dispatch(setAuthUserData(id, email, login, true));
-			}
-	});
+export const getAuthUserData = ()=>	async(dispatch)=>{
+	let response = await authAPI.me();
+	
+	// this.props.toggleIsFetching(false)
+	if (response.data.resultCode === 0){
+		let {id, email, login} = response.data.data;
+		dispatch(setAuthUserData(id, email, login, true));
+	};
 };
 
 
-export const login = (email, password,rememberMe)=>(dispatch)=>{
-
-	authAPI.login(email, password,rememberMe)
-		.then (responce =>{
-		// this.props.toggleIsFetching(false)
-			if (responce.data.resultCode === 0){
+export const login = (email, password,rememberMe)=>async (dispatch)=>{
+	let response = await authAPI.login(email, password,rememberMe);
+	
+	// this.props.toggleIsFetching(false)
+	if (response.data.resultCode === 0){
 				dispatch(getAuthUserData());
-			}
+	}
 
-			//Останавливаем Submit  усли есть ошибка---------------------------------------------
-			else{
-				//messages[0] Возьмем нулевое сообщение---------------------------------------------
-				let message = responce.data.messages.length > 0 ? responce.data.messages[0] : "Some error"
-				dispatch(stopSubmit("login", {_error : message}));
-			}
-	});
+	//Останавливаем Submit  усли есть ошибка---------------------------------------------
+	else{
+		//messages[0] Возьмем нулевое сообщение---------------------------------------------
+		let message = response.data.messages.length > 0 ? response.data.messages[0] : "Some error"
+		dispatch(stopSubmit("login", {_error : message}));
+	}
 };
 
 
-export const logout = ()=>(dispatch)=>{
-	authAPI.logout()
-		.then (responce =>{
-		// this.props.toggleIsFetching(false)
-			if (responce.data.resultCode === 0){
-				dispatch(setAuthUserData(null, null, null, false));
-			}
-	});
+export const logout = ()=>async (dispatch)=>{
+	let response = await authAPI.logout();
+	// this.props.toggleIsFetching(false)
+	if (response.data.resultCode === 0){
+		dispatch(setAuthUserData(null, null, null, false));
+	}
 }
 
