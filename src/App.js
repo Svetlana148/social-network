@@ -3,7 +3,7 @@ import './App.css';
 
 import {Routes, Route} from 'react-router-dom';
 
-import Header from './components/Header/Header.jsx';
+// import Header from './components/Header/Header.jsx';
 import Navbar from './components/Navbar/Navbar.jsx';
 import News from './components/News/News.jsx';
 import Music from './components/Music/Music.jsx';
@@ -14,10 +14,14 @@ import UsersContainer from './components/Users/UsersContainer.jsx';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login.jsx';
-import {getAuthUserData} from './redux/auth-reducer.js';
+// import {getAuthUserData} from './redux/auth-reducer.js';
 import {connect} from 'react-redux';
 import { initializeApp } from "./redux/app-reducer.js";
 import Preloader from './components/common/preloader/Preloader.jsx';
+
+import { BrowserRouter } from 'react-router-dom';
+import {Provider} from 'react-redux';
+import store from './redux/redux-store.js';
 
 
 class App extends Component {
@@ -64,5 +68,18 @@ const mapStateToProps = (state) => ({
   initialized : state.app.initialized
 });
 
-export default connect(mapStateToProps, {initializeApp})(App);
+
+let AppContainer = connect(mapStateToProps, {initializeApp})(App);
+
+const JSApp = (props) => {
+  return(
+    <BrowserRouter>
+        <Provider store = {store}>
+          <AppContainer />
+        </Provider>
+    </BrowserRouter>
+  )
+};
+
+export default JSApp;
 
