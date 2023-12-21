@@ -4,23 +4,15 @@ import userPhoto from '../../img/User.png';
 import {NavLink} from  'react-router-dom';
 import Paginator from '../common/Paginator/Paginator.js';
 import {usersAPI} from '../api/api.js';
-import User from './User.jsx';
 
 
 
 
-
-let Users = (props)=>{
+let User = (props)=>{
 
 return (
 		<div>
-			{/* Вызываем компоненту с постраничным выводом объектов группой	по pageSize штук-------------------------------- */}
-			<Paginator totalItemsCount={props.totalUsersCount} 
-							pageSize={props.pageSize} currentPage={props.currentPage}
-							onPageChanged={props.onPageChanged}/>
-				
-
-			<div>
+			
 			{/*Вызываем компоненту с постраничным выводом объектов группой	по pageSize штук-------------------------------- */}
 
 				{props.users.map(u => <div key={u.id}>
@@ -32,7 +24,7 @@ return (
 							</div>
 							<div>
 
-{/* ----------------------------------------------------------- */}
+								{/* ----------------------------------------------------------- */}
 
 								{u.followed 
 								
@@ -72,11 +64,9 @@ return (
 					</div>
 					)
 				};
-			</div>
-
 		</div>
 	);
 };
 
 
-export default Users;
+export default User;

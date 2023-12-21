@@ -14,7 +14,7 @@ const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS';
 
 let initialState = {
 	users: [],
-	pageSize: 5,
+	pageSize: 10,
 	totalUsersCount: 0,
 	currentPage: 1,
 	isFetching: false,
@@ -156,7 +156,7 @@ export const followUnfollowFlow = async (dispatch, userId, apiMethod, actionCrea
 	debugger
 	dispatch(toggleFollowingProgress(true, userId));
 	let response = await apiMethod(userId);
-	if (response.data.resultCode == 0) {
+	if (response.data.resultCode === 0) {
 		dispatch(actionCreator(userId))
 	};
 	dispatch(toggleFollowingProgress(false, userId));

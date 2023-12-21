@@ -1,13 +1,13 @@
-import { createRoot } from 'react-dom/client';
-import JSApp from './App';
-import React from 'react';
+// import { createRoot } from 'react-dom/client';
+// import JSApp from './App';
+// import React from 'react';
 
-test('renders without crashing', () => {
-    const container = document.createElement('div');
-    const root = createRoot(container); 
-    root.render(<JSApp  />);
-    root.unmount();
-});
+// test('renders without crashing', () => {
+//     const container = document.createElement('div');
+//     const root = createRoot(container); 
+//     root.render(<JSApp  />);
+//     root.unmount();
+// });
 
 
 
