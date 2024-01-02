@@ -1,0 +1,2 @@
+(this.webpackJsonpreact_4_lesson=this.webpackJsonpreact_4_lesson||[]).push([[10],{275:function(e,t,n){},279:function(e,t,n){"use strict";n.r(t);var s=n(0),a=n.n(s);n(275);t.default=e=>a.a.createElement("div",null,"Settings")}}]);
+//# sourceMappingURL=10.f55d42ac.chunk.js.map
