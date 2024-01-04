@@ -56,7 +56,7 @@ class App extends Component {
 
 
           <React.Suspense fallback={<div><Preloader /></div>}>
-						<Routes>
+						<Routes basename = {process.env.PUBLIC_URL}>
 							{/* <Route path="/profile/:userID" element={<ProfileContainer />} /> */}
 							<Route path='/Profile/:userId?' element={<ProfileContainer />} />
 							<Route path='/Dialogs/*' element={<DialogsContainer />} />

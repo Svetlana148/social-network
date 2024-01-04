@@ -2,7 +2,7 @@
   "name": "react_4_lesson",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/Svetlana148/social-network",
+  "homepage": "https://svetlana148.github.io/social-network",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
