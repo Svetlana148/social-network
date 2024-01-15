@@ -1,10 +1,10 @@
 import {usersAPI, getProfileAPI} from '../components/api/api';
 
 const ADD_POST = 'ADD-POST';
-// const UPDATE_NEW_POST = 'UPDATE-NEW-POST';
 const SET_USER_PROFILE = 'SET-USER-PROFILE';
 const SET_STATUS = 'SET-STATUS';
-
+const DELETE_POST = 'DELETE_POST';
+const SAVE_PHOTOS_SUCCESS = 'SAVE_PHOTOS_SUCCESS';
 
 
 let initialState = {
@@ -37,27 +37,9 @@ const profileReducer = (state = initialState, action)=>{
 			return {
 				...state,
 				postsData : [...state.postsData,newPost],
-				
-				// postsData : [...state.postsData,newPost],
-				// newPostText : '',
 			};
 
 		}
-
-
-
-		// case UPDATE_NEW_POST:{
-		// 	// let stateCopy = {...state};
-		// 	// stateCopy.newPostText = action.newText;
-		// 	// return(stateCopy);
-
-		// 	return {
-		// 		...state,
-		// 		newPostText : action.newText,
-		// 	};
-
-
-		// }
 
 
 		case SET_USER_PROFILE:{
@@ -67,6 +49,15 @@ const profileReducer = (state = initialState, action)=>{
 
 		case SET_STATUS:{
 			return {...state, status : action.status};
+		}
+
+		case DELETE_POST:{
+			return {...state, posts : state.posts.filter(p=> p.id != action.postId)};
+		}
+
+		case SAVE_PHOTOS_SUCCESS:{
+			// Делаем коптю profile и photos меняем на те, которые в action 
+			return {...state, profile : {...state.profile, photos : action.photos}};
 		}
 
 		default:
@@ -97,6 +88,14 @@ export const setStatus = (status)=>{
 	return {type : SET_STATUS, status}
 };
 
+export const deletePost = (postId)=>{
+	return {type : DELETE_POST, postId}
+};
+
+export const savePhotoSuccess= (photos)=>{
+	return {type : SAVE_PHOTOS_SUCCESS, photos}
+};
+
 
 
 
@@ -106,6 +105,8 @@ export const getUserProfile = (userId)=>async (dispatch)=>{
 	let response = await usersAPI.getProfile(userId)
 		dispatch(setUserProfile(response.data));
 }
+
+
 
 export const getStatus = (userId)=>async(dispatch)=>{
 	let response = await getProfileAPI.getStatus(userId)
@@ -117,5 +118,12 @@ export const updateStatus = (status)=>async (dispatch)=>{
 	let response = await getProfileAPI.updateStatus(status)
 		if (response.data.resultCode === 0){
 		dispatch(setStatus(status));
+		}
+}
+
+export const savePhoto = (file) => async (dispatch)=>{
+	let response = await getProfileAPI.savePhoto(file)
+		if (response.data.resultCode === 0){
+		dispatch(savePhotoSuccess(response.data.data.photos));
 		}
 }

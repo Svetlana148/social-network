@@ -19,6 +19,7 @@ return (
 						<span>
 							<div>
 								<NavLink to = {'/profile/' +u.id}>
+								{/* userPhoto - заглушка */}
 									<img src={u.photos.small !=null ? u.photos.small : userPhoto} className={styles.usersPhoto} alt="" />
 								</NavLink>
 							</div>

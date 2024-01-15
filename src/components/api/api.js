@@ -1,8 +1,10 @@
+//Здесь все запросы на сервер-----------------------------------
 //current user support--------------------------------------- 
 import axios from 'axios';
 
 
 
+//  Шаблон запроса на сервер (далее везде он используется при др. запросах)--------------------------
 const instance = axios.create({
 	withCredentials: true,
 	header: { "API-KEY": "495ccbaa-f1de-49f2-aee6-bb202e0b4fca" },
@@ -11,7 +13,7 @@ const instance = axios.create({
 
 
 
-
+// Группа запросов на сервер для USER--------------------------
 export const usersAPI = {
 	requestUsers(currentPage = 1, pageSize = 10) {
 		return (
@@ -36,10 +38,13 @@ export const usersAPI = {
 		return getProfileAPI.getProfile(userId)
 		//instance.get(`profile/`+ userId)
 	},
+
+	
 }
 
 
 
+// Группа запросов на сервер для Profile--------------------------
 export const getProfileAPI = {
 	getProfile(userId) {
 		return instance.get(`profile/` + userId)
@@ -50,13 +55,24 @@ export const getProfileAPI = {
 	updateStatus(status) {
 		return instance.put(`profile/status`, { status: status })
 	},
+
+
+	savePhoto(photoFile) {
+		const formData = new FormData();
+		formData.append("image", photoFile)
+		return instance.put(`profile/photo`, 
+									// Вторым параметром меняем тип отсылаемого файла
+									formData,
+									// 3-м настраиваем заголовки этого запроса
+									{headers : {
+										'Content-Type' : 'multipart/form-data'
+									}});
+	},
 }
 
 
 
-
-
-
+// Группа запросов на сервер для login/logout/me-текущий пользователь-------------------------
 export const authAPI = {
 	// from HeaderContainer
 	me() {

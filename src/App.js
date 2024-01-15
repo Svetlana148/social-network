@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Routes, Route, BrowserRouter} from 'react-router-dom';
+import {Routes, Route, HashRouter} from 'react-router-dom';
 import {connect, Provider} from 'react-redux';
 import store from './redux/redux-store.js';
 
@@ -56,7 +56,7 @@ class App extends Component {
 
 
           <React.Suspense fallback={<div><Preloader /></div>}>
-						<Routes basename = {process.env.PUBLIC_URL}>
+						<Routes >
 							{/* <Route path="/profile/:userID" element={<ProfileContainer />} /> */}
 							<Route path='/Profile/:userId?' element={<ProfileContainer />} />
 							<Route path='/Dialogs/*' element={<DialogsContainer />} />
@@ -104,11 +104,11 @@ let AppContainer = connect(mapStateToProps, {initializeApp})(App);
 
 const JSApp = (props) => {
   return(
-    <BrowserRouter>
+    <HashRouter >
         <Provider store = {store}>
           <AppContainer />
         </Provider>
-    </BrowserRouter>
+    </HashRouter>
   )
 };
 

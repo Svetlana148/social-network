@@ -3,12 +3,20 @@ import s from './ProfileInfo.module.css';
 import Preloader from '../../common/preloader/Preloader';
 // import ProfileStatus from './ProfileStatus';
 import ProfileStatusWithHooks from './ProfileStatusWithHooks.jsx';
+import userPhoto from '../../../assets/img/User.png';
 
 
-const ProfileInfo = (props) => {
 
-	if (!props.profile){
+const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto}) => {
+
+	if (!profile){
 		return <Preloader />
+	}
+
+	const onMainPhotoSelected = (e)=>{
+		if (e.target.files.length){
+			savePhoto(e.target.files[0]);
+		}
 	}
 
 	return (
@@ -19,8 +27,13 @@ const ProfileInfo = (props) => {
 
 
 			<div className={s.discription}> 
-				<img src={props.profile.photos.large} alt='' />
-				<ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus }/>
+			{/* avatar eingestellt wird*/}
+				<img src={profile.photos.large || userPhoto} className={s.mainPhoto} alt='' />
+
+				{/* Если ты владелец этого профайла, то показать кнопку для выбора фотки */}
+				{isOwner && <input type={"file"} onChange={onMainPhotoSelected}/>}
+				
+				<ProfileStatusWithHooks status={status} updateStatus={updateStatus }/>
 				
 			</div>
 		</div>

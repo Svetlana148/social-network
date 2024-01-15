@@ -1,7 +1,7 @@
 import React from 'react';
 import Profile from './Profile.jsx';
 import {connect} from 'react-redux';
-import {getUserProfile, getStatus, updateStatus} from '../../redux/profile-reducer.js';
+import {getUserProfile, getStatus, updateStatus, savePhoto} from '../../redux/profile-reducer.js';
 // import { useParams } from 'react-router-dom'; 
 import { compose } from 'redux';
 import {  useLocation, useNavigate, useParams } from "react-router-dom";
@@ -22,26 +22,44 @@ import {  useLocation, useNavigate, useParams } from "react-router-dom";
 
 class ProfileContainer extends React.Component{
 
-	componentDidMount(){
+	refreshProfile(){
 		let userId = this.props.match.params.userId;
+		// Если нету userId
 		if (!userId){
+			// тогда берем userId из автризации
 			userId=this.props.authorizedUserId;
-			// if (!userId){
-
-			// 	const history = useHistory();
-			// 	history.push("/Login")
-			// }
+			// если и в авторизации нету userId тогда логинимся
+			if (!userId){
+				this.props.history.push("/Login")
+			}
 		}
-		
 		this.props.getUserProfile(userId);
 		this.props.getStatus(userId);
+	}
+
+
+	componentDidMount(){
+		this.refreshProfile()
+	}
+
+	componentDidUpdate(prevProps, prevState, snapshot){
+		// если пришли новые params
+		if (this.props.match.params.userId != prevProps.match.params.userId){
+			this.refreshProfile()
+		}
 	}
 
 
 	render(){
 		return (
 			<div>
-				<Profile {...this.props} profile = {this.props.profile} status = {this.props.status} updateStatus = {this.props.updateStatus}/>
+				{/* Если нету userId, то это наш профайл и я владелец */}
+				<Profile {...this.props} 				
+				isOwner = {!this.props.match.params.userId} 
+				profile = {this.props.profile} 
+				status = {this.props.status} 
+				updateStatus = {this.props.updateStatus}
+				savePhoto = {this.props.savePhoto}/>
 			</div>
 		);
 	}
@@ -56,41 +74,38 @@ let mapStateToProps = (state)=>({
 	
 });
 
-//export default connect(mapStateToProps, {getUserProfile})(WithUrlDataContainerComponent);
-
-
 
 
 function withRouter(Component) {
 	function ComponentWithRouterProp(props) {
-	  let location = useLocation();
-	  let navigate = useNavigate();
-	  let params = useParams();
+		let location = useLocation();
+		let navigate = useNavigate();
+		let params = useParams();
 
-	  useEffect(() => {
-      if (!props.isAuth) {
-        navigate("/login");
-      }
-    }, [props.isAuth, navigate]);
+		useEffect(() => {
+		if (!props.isAuth) {
+			navigate("/login");
+		}
+		}, [props.isAuth, navigate]);
 
-	 const match  = {params: useParams()};
+		const match  = {params: useParams()};
 
-	  return (
-		 <Component
+		return (
+			<Component
 			{...props}
 			router={{ location, navigate, params }} 
 			match = {match}
-		 />
-	  );
+			/>
+		);
 	}
- 
+
 	return ComponentWithRouterProp;
- }
+	}
 
 
 
 
 export default compose(
-	connect(mapStateToProps, {getUserProfile, getStatus, updateStatus}),
+	connect(mapStateToProps, {getUserProfile, getStatus, updateStatus, savePhoto}),
 	withRouter,
 )(ProfileContainer);
