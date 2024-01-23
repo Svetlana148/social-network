@@ -8,7 +8,10 @@ import { Navigate } from "react-router-dom";
 import s from '../FormsControls/FormsControls.module.css';
 
 
-//MainComponent
+// Контейнеры : 4 connect(3 Login (2 LoginReduxForm (1 LoginForm)))
+
+
+// 1. Осн. компонента с формой-------------------------------------------------------------------
 const LoginForm = ({ handleSubmit, error }) => {
 	return (
 		<form onSubmit={handleSubmit}>
@@ -39,18 +42,19 @@ const LoginForm = ({ handleSubmit, error }) => {
 }
 
 
-//Оборачиваем эту форму hoc-ом from Redux-form---------------------------------
-//containerComponent send from Redux-form "handleSubmit" to MainComponent(LoginForm)
-// a unique name fo the form
+// 2. Оборачиваем Осн. компоненту hoc-ом из Redux-form
+// hoc снабжает к-ту "handleSubmit"-ом из  Redux-form  и уникальным именем форму---------------------------------
 
 const LoginReduxForm = reduxForm({ form: 'login' })(LoginForm)
 //------------------------------------------------------------------------------
 
 
+// 3. Контейнер Login (LoginReduxForm (LoginForm))
+//  Login снабжает к-ту "onSubmit"-ом из  Redux-form чтобы отправить форму в Store---------------------------------
 
 const Login = (props) => {
 	const onSubmit = (formData) => {
-		//login is here callback from connect(thunkCreater)------------------------------------
+		//"login" is here callback from connect(thunkCreater)------------------------------------
 		props.login(formData.email, formData.password, formData.rememberMe);
 	}
 
@@ -67,9 +71,10 @@ const Login = (props) => {
 	)
 }
 
+//4. Контейнер connect снабжает "login"-ом - это thunkCreater------------------------------------
 const mapStateToProps = (state) => ({
 	isAuth: state.auth.isAuth
 });
 
-//login is here thunkCreater------------------------------------
+
 export default connect(mapStateToProps, { login })(Login);
