@@ -24,9 +24,13 @@ const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto, savePro
 		}
 	}
 
+	// then ф-ция только для того, чтобы выключать EditMode 
+	// только когда все сохранилось на сервер, т.е. не было ошибок
+	// к этому в profile-reducer.js надо дописать Promise.reject (response.data.messages[0]);
 	const onSubmit = (formData)=>{
-		saveProfile(formData);
-		setEditMode(false);
+		saveProfile(formData).then (
+			() => {setEditMode(false);}
+			);
 	}
 
 	return (
@@ -49,7 +53,7 @@ const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto, savePro
 
 				{/* Если Edit Mode, то показать форму для изменения профиля */}
 				{editMode ? 
-								<ProfileDataReduxForm initialValues={profile} profile={profile} onSubmit = {onSubmit}/> :
+								<ProfileDataReduxForm initialValues={profile} profile={profile} onSubmit = {onSubmit} /> :
 								<ProfileData goToEditMode = {()=>{setEditMode(true)}}  profile={profile} isOwner = {isOwner}/>}
 
 
@@ -71,11 +75,15 @@ const ProfileData = ({profile, isOwner, goToEditMode}) =>{
 		<div>
 			<b>Looking for a job</b> : {profile.lookingForAJob ? "yes" : "no"}
 		</div>	
-		{profile.lookingForAJob &&
+		{/* {profile.lookingForAJob &&
 			<div>
 				<b>My professional skills</b> : {profile.lookingForAJobDescription}
 			</div>
-		}
+		} */}
+
+		<div>
+				<b>My professional skills</b> : {profile.lookingForAJobDescription}
+		</div>
 		<div>
 			<b>About me</b> : {profile.aboutMe}
 		</div>

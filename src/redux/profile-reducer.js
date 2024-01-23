@@ -1,4 +1,5 @@
 import {usersAPI, getProfileAPI} from '../components/api/api';
+import { stopSubmit } from 'redux-form';
 
 const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET-USER-PROFILE';
@@ -134,5 +135,17 @@ export const saveProfile = (profile) => async (dispatch, getState)=>{
 	let response = await getProfileAPI.saveProfile(profile)
 		if (response.data.resultCode === 0){
 		dispatch(getUserProfile(userId));
+		}
+		else{
+			//messages[0] Возьмем нулевое сообщение---------------------------------------------
+			//let message = response.data.messages.length > 0 ? response.data.messages[0] : "Some error"
+
+			// Высветится общая ошибка
+			dispatch(stopSubmit("edit-profile", {_error : response.data.messages[0]}));
+
+			// Подсветится конкретное поле с ошибкой
+			// dispatch(stopSubmit("edit-profile", {"contacts" : {"facebook" : response.data.messages[0]}}));
+
+			return Promise.reject (response.data.messages[0]);
 		}
 }
