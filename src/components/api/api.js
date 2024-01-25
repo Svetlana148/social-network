@@ -1,16 +1,18 @@
-//Здесь все запросы на сервер-----------------------------------
+//Это DAl (Data Access Layer) - уровень. 
+//Здесь все запросы на сервер-----------------------------------------
+
+
 //current user support--------------------------------------- 
 import axios from 'axios';
 
 
-
 //  Шаблон запроса на сервер (далее везде он используется при др. запросах)--------------------------
 const instance = axios.create({
+	// чтобы прилипла Coocke
 	withCredentials: true,
 	header: { "API-KEY": "495ccbaa-f1de-49f2-aee6-bb202e0b4fca" },
 	baseURL: `https://social-network.samuraijs.com/api/1.0/`,
 });
-
 
 
 // Группа запросов на сервер для USER--------------------------
@@ -41,7 +43,6 @@ export const usersAPI = {
 
 	
 }
-
 
 
 // Группа запросов на сервер для Profile--------------------------
@@ -85,11 +86,23 @@ export const authAPI = {
 	me() {
 		return instance.get(`auth/me`);
 	},
-	login(email, password, rememberMe = false) {
-		return instance.post(`auth/login`, { email, password, rememberMe });
+	login(email, password, rememberMe = false, captcha=null) {
+		return instance.post(`auth/login`, { email, password, rememberMe, captcha  });
 	},
 	logout(email, password, rememberMe = false) {
 		return instance.delete(`auth/login`, { email, password, rememberMe });
 	}
 
+}
+
+
+
+
+// Группа запросов на сервер для Security(CAPTHA)--------------------------
+
+export const securityAPI = {
+	// Сами придумал название ф-ции и в ней шлем запрос на сервер на Captch-у
+	getCaptchaUrl() {
+		return instance.get(`security/get-captcha-url`);
+	},
 }

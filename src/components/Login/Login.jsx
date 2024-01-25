@@ -12,7 +12,8 @@ import s from '../FormsControls/FormsControls.module.css';
 
 
 // 1. Осн. компонента с формой-------------------------------------------------------------------
-const LoginForm = ({ handleSubmit, error }) => {
+const LoginForm = ({ handleSubmit, error, captchaUrl }) => {
+
 	return (
 		<form onSubmit={handleSubmit}>
 
@@ -30,6 +31,12 @@ const LoginForm = ({ handleSubmit, error }) => {
 			{/* <div>
 				<Field name={"rememberMe"}   type={"checkbox"}  component={Element} typeElement = "input"/>remember me
 			</div> */}
+
+			{/* Раздел для Captch-и--------------------------------------------- */}
+			{captchaUrl && <img src = {captchaUrl} />}
+			{captchaUrl && createForm("Symbol from image", "captcha", [required], Element, "input", {}) }
+			{/* --------------------------------------------- */}
+
 
 			{error && <div className={s.formSummaryError}>
 				{error}
@@ -55,7 +62,8 @@ const LoginReduxForm = reduxForm({ form: 'login' })(LoginForm)
 const Login = (props) => {
 	const onSubmit = (formData) => {
 		//"login" is here callback from connect(thunkCreater)------------------------------------
-		props.login(formData.email, formData.password, formData.rememberMe);
+				//Здесть просто captcha, т.к. это просто поле для ввода captcha-и
+		props.login(formData.email, formData.password, formData.rememberMe, formData.captcha);
 	}
 
 	if (props.isAuth) {
@@ -66,13 +74,14 @@ const Login = (props) => {
 	return (
 		<div>
 			<h1>Login </h1>
-			<LoginReduxForm onSubmit={onSubmit} />
+			<LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl}/>
 		</div>
 	)
 }
 
 //4. Контейнер connect снабжает "login"-ом - это thunkCreater------------------------------------
 const mapStateToProps = (state) => ({
+	captchaUrl: state.auth.captchaUrl,
 	isAuth: state.auth.isAuth
 });
 
