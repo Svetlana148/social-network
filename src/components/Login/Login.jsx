@@ -62,7 +62,8 @@ const LoginReduxForm = reduxForm({ form: 'login' })(LoginForm)
 const Login = (props) => {
 	const onSubmit = (formData) => {
 		//"login" is here callback from connect(thunkCreater)------------------------------------
-				//Здесть просто captcha, т.к. это просто поле для ввода captcha-и
+		// Отправляем эти props-ы в login(здесь login - thunkCreater из auth-reducer-а)
+		//Здесть просто captcha, т.к. это просто поле для ввода captcha-и
 		props.login(formData.email, formData.password, formData.rememberMe, formData.captcha);
 	}
 

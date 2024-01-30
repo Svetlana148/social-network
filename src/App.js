@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Routes, Route, HashRouter} from 'react-router-dom';
+import {Routes, Route, BrowserRouter} from 'react-router-dom';
 import {connect, Provider} from 'react-redux';
 import store from './redux/redux-store.js';
 
@@ -12,14 +12,8 @@ import Preloader from './components/common/preloader/Preloader.jsx';
 
 
 
-// import News from './components/News/News.jsx';
-// import Music from './components/Music/Music.jsx';
-// import Settings from './components/Settings/Settings.jsx';
-// import DialogsContainer from './components/Dialogs/DialogsContainer.jsx';
-// import UsersContainer from './components/Users/UsersContainer.jsx';
-// import ProfileContainer from './components/Profile/ProfileContainer';
-// import Login from './components/Login/Login.jsx';
-
+// lazy - Сборщик НЕ собирает эту компоненту СРАЗУ в общий bandl, а только когда эту к-ту надо будет отрисовывать
+// ее запросят снова с сервера. Т.о. загрузочный файл меньше и при лож-е загруж-ся быстрее
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer.jsx'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
 const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer.jsx'));
@@ -33,9 +27,25 @@ const Settings = React.lazy(() => import('./components/Settings/Settings.jsx'));
 
 class App extends Component {
 
+  // для отлова ошибки, см. ниже
+  // reasen-причина ошибки, promise- какой из них не выполнился
+  catchAllUnhandledErrors =(reasen, promise) =>{
+
+  }
+
   //Запрос у сервера начальных данных-----------------------------------------
+
+  // componentDidMount срабатывает только 1 раз, когда к-та вмонтируется
   componentDidMount(){
     this.props.initializeApp();
+
+    // Перехватываем все непрехваченные ранее promis-ы
+    window.addEventListener("unhandledrwjection", this.catchAllUnhandledErrors);
+    };
+
+    //Если есто addEventListener, то где-то надо делать removeEventListener для него
+    componentDWillUnmount(){
+      window.removeEventListener("unhandledrwjection", this.catchAllUnhandledErrors);
     };
 
   render(){
@@ -57,7 +67,7 @@ class App extends Component {
 
           <React.Suspense fallback={<div><Preloader /></div>}>
 						<Routes >
-							{/* <Route path="/profile/:userID" element={<ProfileContainer />} /> */}
+              {/* Есть Route exact тут ищется точное совпадение и дальше не идем */}
 							<Route path='/Profile/:userId?' element={<ProfileContainer />} />
 							<Route path='/Dialogs/*' element={<DialogsContainer />} />
               <Route path="/users" element={<UsersContainer />} />
@@ -66,28 +76,8 @@ class App extends Component {
               <Route path="/news" element={<News />} />
               <Route path="/settings" element={<Settings />} />
 
-							{/* <Route path="/news" element={<News />} />
-							<Route path="/music" element={<Music />} />
-							<Route path="/users" element={<UsersContainer />} />
-							<Route path="/settings" element={<Settings />} />
-							<Route path="/login" element={<Login />} /> */}
 						</Routes>
 					</React.Suspense>
-
-
-
-            {/* <Routes>  
-              <Route path='/Login/*' element={<Login />} />          
-              <Route path='/Profile/:userId?' element={<ProfileContainer />} />
-
-              <Route path='/Dialogs/*' element={<DialogsContainer />} />
-
-              <Route path='/Users/*' element={<UsersContainer />} />
-
-              <Route path='/News/*' element={<News />} />
-              <Route path='/Music/*' element={<Music />} />
-              <Route path='/Settings/*' element={<Settings />} />
-            </Routes> */}
           </div>
         </div>
     );
@@ -104,11 +94,14 @@ let AppContainer = connect(mapStateToProps, {initializeApp})(App);
 
 const JSApp = (props) => {
   return(
-    <HashRouter >
+    // BrowserRouter обеспечивает Маршрутизацию. когда в проекте обрабатываются на сервере динамические запросы
+    // HashRouter используйте когда у вас статический веб сайт
+    <BrowserRouter >
+        {/* Provider кладет store в глобальный CONTEXT, чтобы все  */}
         <Provider store = {store}>
           <AppContainer />
         </Provider>
-    </HashRouter>
+    </BrowserRouter>
   )
 };
 

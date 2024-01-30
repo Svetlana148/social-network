@@ -23,6 +23,7 @@ import {  useLocation, useNavigate, useParams } from "react-router-dom";
 class ProfileContainer extends React.Component{
 
 	refreshProfile(){
+		// match мы получаем из withRouter
 		let userId = this.props.match.params.userId;
 		// Если нету userId
 		if (!userId){
@@ -106,7 +107,8 @@ function withRouter(Component) {
 
 
 
-
+// compose применяет к к-те последовательно разные HOC (High_Order_Component)// HOC - ф-ция, кот. принимает 1 к-ту, а возвращает контейнерную к-ту над входящей, стобы дать первой к-те какие-то данные
+// HOC - ф-ция, кот. принимает 1 к-ту, а возвращает контейнерную к-ту над входящей, стобы дать первой к-те какие-то данные
 export default compose(
 	connect(mapStateToProps, {getUserProfile, getStatus, updateStatus, savePhoto, saveProfile}),
 	withRouter,

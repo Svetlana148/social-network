@@ -58,7 +58,7 @@ export default authReducer;
 
 
 
-// ActionCreator  Post-----------------------------------------
+// ActionCreator-ы  -----------------------------------------
 // Устанавливаем данные User-а при заполнении  Login-формы
 
 export const setAuthUserData = (userId, email, login, isAuth)=>
@@ -75,6 +75,7 @@ export const toggleIsFetching = (isFetching)=>{
 export const getCaptchaUrlSuccess = (captchaUrl)=>{
 	return {type : GET_CAPTCHA_URL_SUCCESS, payload : {captchaUrl}};
 };
+//-------------------------------------------------------------------------------------
 
 
 
@@ -125,6 +126,7 @@ export const logout = ()=>async (dispatch)=>{
 
 // Запрос на Captcha-у у сервера и далее 
 // засылаем ответ сервера в state (dispatch-им Action Creator с полученным ответом)-------------------------------------------
+
 // это ThunkCreator export const getCaptchaUrl = ()=>
 export const getCaptchaUrl = ()=> 
 
