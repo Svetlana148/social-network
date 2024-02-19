@@ -4,7 +4,7 @@ import {connect, Provider} from 'react-redux';
 import store from './redux/redux-store.js';
 
 
-import { initializeApp } from "./redux/app-reducer.js";
+import { initializeApp } from "./redux/app-reducer.tsx";
 import './App.css';
 import Navbar from './components/Navbar/Navbar.jsx';
 import HeaderContainer from './components/Header/HeaderContainer';
