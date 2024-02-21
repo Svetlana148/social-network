@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Users.module.css';
 import userPhoto from '../../img/User.png';
 import {NavLink} from  'react-router-dom';
-import Paginator from '../common/Paginator/Paginator.js';
+import Paginator from '../common/Paginator/Paginator';
 import {usersAPI} from '../api/api.js';
 
 

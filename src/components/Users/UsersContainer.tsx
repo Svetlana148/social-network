@@ -7,11 +7,25 @@ import Preloader from '../common/preloader/Preloader.jsx';
 import { withAuthRedirect } from '../hoc/withAuthRedirect.js';
 import { compose } from 'redux';
 import { getUsers, getPageSize, getTotalUsersCount, getCurrentPage, getIsFetching, getFollowingInProgress } from '../../redux/users-selectors.js';
+import { UserType } from '../../types/types';
+import { AppStateType } from '../../redux/redux-store';
 
 
+//Типизируем Props-сы к-ты UsersAPIComponent
+type PropsType ={
+	pageSize : number
+	currentPage : number
+	isFetching : boolean
+	totalUsersCount : number
+	users : Array<UserType> 
+	followingInProgress : Array<number>
 
-class UsersAPIComponent extends React.Component {
+	follow : ()=>void 
+	unfollow : ()=>void 
+	requestUsers : (currentPage : number, pageSize : number)=>void // Ф-ция принимает параметры и ничего не возвращает
+}
 
+class UsersAPIComponent extends React.Component<PropsType> {
 
 	componentDidMount() {
 
@@ -20,7 +34,7 @@ class UsersAPIComponent extends React.Component {
 	}
 
 
-	onPageChanged = (numberPage) => {
+	onPageChanged = (numberPage : number) => {
 
 		this.props.requestUsers(numberPage, this.props.pageSize);
 
@@ -47,27 +61,18 @@ class UsersAPIComponent extends React.Component {
 				users={this.props.users}
 				follow={this.props.follow}
 				unfollow={this.props.unfollow}
-				isFetching={this.props.isFetching}
+				// isFetching={this.props.isFetching}
 				followingInProgress={this.props.followingInProgress}
-				toggleFollowingProgress={this.props.toggleFollowingProgress}
+				// toggleFollowingProgress={this.props.toggleFollowingProgress}
 			/>
 		</>
 	}
 }
 
-// let mapStateToProps = (state)=>{
-// 	return{
-// 		users : state.usersPage.users,
-// 		pageSize : state.usersPage.pageSize,
-// 		totalUsersCount : state.usersPage.totalUsersCount,
-// 		currentPage : state.usersPage.currentPage,
-// 		isFetching : state.usersPage.isFetching,
-// 		followingInProgress : state.usersPage.followingInProgress,
-// 	}
-// }
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateType) => {
 	return {
+		//Здесь используются селекторы
 		users: getUsers(state),
 		pageSize: getPageSize(state),
 		totalUsersCount: getTotalUsersCount(state),

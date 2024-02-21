@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Routes, Route, BrowserRouter} from 'react-router-dom';
 import {connect, Provider} from 'react-redux';
-import store from './redux/redux-store.js';
+import store from './redux/redux-store';
 
 
 import { initializeApp } from "./redux/app-reducer.tsx";

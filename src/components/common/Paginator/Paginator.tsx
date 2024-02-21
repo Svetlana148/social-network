@@ -3,11 +3,24 @@ import s from './Paginator.module.css';
 import cn from "classnames";
 
 
-//Отрисовывает страничку с User-ами------------------------------------------
+//Типизируем Props-сы к-ты Paginator
+type PropsType ={
+	totalItemsCount : number
+	pageSize : number
+	currentPage : number
+	onPageChanged : (pageNumber : number)=>void //Ф-ция, кот. не принимает ничего и ничего не возвращает. Это callback
+	portionSize? : number                       //"? " - Не обязательный параметр, т.е либо number; либо undefaind и присвоится 10
+}
 
-let Paginator = ({totalItemsCount, pageSize, currentPage, onPageChanged, portionSize = 10}) => {
+//Отрисовывает страничку с User-ами------------------------------------------
+//Типизируем к-ту Paginator
+let Paginator : React.FC<PropsType>= ({totalItemsCount,  //React.FC<PropsType> или    FC<PropsType> и import {FC} from 'react';
+												pageSize, 
+												currentPage, 
+												onPageChanged, 
+												portionSize = 10 }) => {
 	let pagesCount = Math.ceil(totalItemsCount / pageSize);
-	let pages = [];
+	let pages : Array<number> = [];
 	for (let i=1; i<= pagesCount; i++) {
 		pages.push(i);
 	};
@@ -36,8 +49,8 @@ let Paginator = ({totalItemsCount, pageSize, currentPage, onPageChanged, portion
 				return <span className={cn ({[s.selectedPage] : currentPage === p},
 													s.pageNumber)} 
 													key = {p}
-													onClick = {(e) => {onPageChanged(p)
-													}}>{p}
+													onClick = {(e) => {onPageChanged(p)}
+													}>{p}
 						</span>
 		})}
 		

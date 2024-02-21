@@ -10,7 +10,7 @@ import { reducer as formReducer } from 'redux-form';
 
 
 
-let reducers = combineReducers({
+let rootReducer = combineReducers({
 	profilePage : profileReducer,
 	dialogsPage : dialogsReducer,
 	sidebar : sidebarReducer,
@@ -20,18 +20,24 @@ let reducers = combineReducers({
 	app : appReducer,
 });
 
-
+type RootReducerType = typeof rootReducer; 
+// typeof положит В RootReducerType типизированный подпункты(profilePage, ...) глобальногоState-а(AppState)
+export type AppStateType = ReturnType<RootReducerType> //ReturnType Определит что лежит в <RootReducerType> и вернет его в AppStateType
+let state : AppStateType; // В "state:" теперь лежит полностью типизированный state
 
 
 // For Redux Dev Tools----------------------------------------------
-//Промежуточный слой внедряем в store   thunkMiddleware----------------
+//внедряем в store Промежуточный слой    thunkMiddleware----------------
+//строка, после этого знака будет игнорироваться ts-компилятором
+//@ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)
 ));
 // ----------------------------------------------
 
 // let store=createStore(reducers, applyMiddleware(thunk)); //Промежуточный слой внедряем в store
 
-
+//строка, после этого знака будет игнорироваться ts-компилятором
+//@ts-ignore
 window.Storage = store;
 export default store;
