@@ -98,6 +98,9 @@ export default usersReducer;
 //-ActionCreator  SET--------------------------------------------------------------
 // ActionCreator  Post-----------------------------------------
 
+//Общий тип из всех Action-ов
+
+
 type FollowSuccessType ={ //Типизимруем followSuccess
 	type : typeof FOLLOW
 	userId : number
@@ -106,7 +109,7 @@ export const followSuccess = (userId : number) : FollowSuccessType => ({ type: F
 
 
 
-type UnFollowSuccessType ={ //Типизимруем funfollowSuccess
+type UnFollowSuccessType ={ //Типизимруем UnFollowSuccessType
 	type : typeof UNFOLLOW
 	userId : number
 }

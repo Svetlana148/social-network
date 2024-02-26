@@ -16,7 +16,7 @@ import Preloader from './components/common/preloader/Preloader.jsx';
 // ее запросят снова с сервера. Т.о. загрузочный файл меньше и при лож-е загруж-ся быстрее
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer.jsx'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
-const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer.jsx'));
+const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
 const Login  = React.lazy(() => import('./components/Login/Login.jsx'));
 const Music = React.lazy(() => import('./components/Music/Music.jsx'));
 const News = React.lazy(() => import('./components/News/News.jsx'));
@@ -70,7 +70,7 @@ class App extends Component {
               {/* Есть Route exact тут ищется точное совпадение и дальше не идем */}
 							<Route path='/Profile/:userId?' element={<ProfileContainer />} />
 							<Route path='/Dialogs/*' element={<DialogsContainer />} />
-              <Route path="/users" element={<UsersContainer />} />
+              <Route path="/users" element={<UsersContainer pageTitle ={"Social network"}/>} />
               <Route path="/login" element={<Login />} />
               <Route path="/music" element={<Music />} />
               <Route path="/news" element={<News />} />

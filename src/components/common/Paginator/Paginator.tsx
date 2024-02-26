@@ -28,7 +28,7 @@ let Paginator : React.FC<PropsType>= ({totalItemsCount,  //React.FC<PropsType> �
 	let portionCount = Math.ceil(pagesCount / portionSize);
 
 	//local state для portionNumber------------------------------------------
-	let [portionNumber, setPortionNumber] = useState(1);
+	let [portionNumber, setPortionNumber] = useState(1);  // useState(1) - hok, обеспечивающий локальный State
 
 	let leftPortionPageNumber = (portionNumber -1)* portionSize + 1;
 	let rightPortionPageNumber = portionNumber * portionSize;

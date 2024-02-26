@@ -1,14 +1,24 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 //import s from './ProfileStatus.module.css';
 
 
+
+//Типизируем к-ту ProfileStatus----------------------
+type PropsType = { // какие Props-ы к-та принимает
+	status : string
+	updateStatus : (newStatus : string) => void
+}
+type StateType = { // какой локальный State к-та использует 
+	editMode : boolean
+	status : string
+}
+
 // status из пропсов должен перейти в local state
-
-class ProfileStatus extends React.Component {
+class ProfileStatus extends React.Component<PropsType, StateType> {
 	
-
 	state = {
-		editMode : false
+		editMode : false,
+		status : this.props.status
 	}
 
 	activateEditMode = () =>{
@@ -19,7 +29,9 @@ class ProfileStatus extends React.Component {
 		//this.forceUpdate(); Перерисовать насильно
 	}
 
-	onStatusChange = (e) =>{
+	//для типизации "e" сначала пишем e : number, а потом из сообщения об ошибке 
+	//копируем, что должно быть и import-ируем ChangeEvent
+	onStatusChange = (e : ChangeEvent<HTMLInputElement>) =>{
 		this.setState({
 			status : e.currentTarget.value
 		})
@@ -32,7 +44,7 @@ class ProfileStatus extends React.Component {
 		this.props.updateStatus(this.state.status);
 	}
 
-	componentDidUpdate (prevProps, prevState){
+	componentDidUpdate (prevProps : PropsType, prevState : StateType){
 		if (prevProps.status !== this.props.status){
 			this.setState({
 				status : this.props.status
