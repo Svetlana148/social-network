@@ -29,7 +29,7 @@ type MapStatePropsType = {
 type MapDispatchPropsType = {
 	follow: (userId : number) => void
 	unfollow: (userId : number) => void
-	requestUsers: (page : number, pageSize : number) => void // Ф-ция принимает параметры и ничего не возвращает
+	requestUsers: (currentPage: number, pageSize: number) => void // Ф-ция принимает параметры и ничего не возвращает
 }
 // Общий тип для для к-ты UsersAPIComponent, состоит из всех 3 видов Props-сов
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
@@ -100,15 +100,14 @@ let mapStateToProps = (state: AppStateType) : MapStatePropsType => {
 // compose применяет к к-те последовательно разные HOC (High_Order_Component)
 // HOC - ф-ция, кот. принимает 1 к-ту, а возвращает контейнерную к-ту над входящей, стобы дать первой к-те какие-то данные
 //MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, PropsType
-
-export default compose(
+export default compose<PropsType>(
 
 	withAuthRedirect,
 	// типы для connect-а    TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultState-основной глоб.State 
 	connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>
 
-	(mapStateToProps, { follow, unfollow,  requestUsers }))
-//toggleFollowingProgress,
+	(mapStateToProps, { follow, unfollow, toggleFollowingProgress, requestUsers }))
+
 	(UsersAPIComponent);
 
 

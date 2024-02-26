@@ -1,6 +1,11 @@
 import { usersAPI } from '../components/api/api';
 import { UserType } from '../types/types';
 import { updateObjectInArray } from '../utils/object-helpers';
+import { AppStateType } from './redux-store';
+import { ThunkAction } from 'redux-thunk'
+import { Dispatch } from 'redux'
+
+
 
 
 
@@ -31,12 +36,12 @@ type InitialStateType = typeof initialState;
 
 
 
-const usersReducer = (state = initialState, action : any) : InitialStateType => {
+const usersReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
 	switch (action.type) {
 
 		case FOLLOW:
 
-			return  {
+			return {
 				...state,
 				users: updateObjectInArray(state.users, action.userId, "id", { followed: true }),
 			}
@@ -98,70 +103,72 @@ export default usersReducer;
 //-ActionCreator  SET--------------------------------------------------------------
 // ActionCreator  Post-----------------------------------------
 
-//Общий тип из всех Action-ов
+//Общий тип из всех Action-ов, чтобы исп-ть его в осн.const usersReducer, где есть case-ы  в соот в-и с разными action-нами
+type ActionsTypes = FollowSuccessType | UnFollowSuccessType | SetCurrentPageType | SetTotalUsersCountType | ToggleIsFetchingType
+	| ToggleFollowingProgressType | SetUsersType
 
 
-type FollowSuccessType ={ //Типизимруем followSuccess
-	type : typeof FOLLOW
-	userId : number
+type FollowSuccessType = { //Типизимруем followSuccess
+	type: typeof FOLLOW
+	userId: number
 }
-export const followSuccess = (userId : number) : FollowSuccessType => ({ type: FOLLOW, userId });
+export const followSuccess = (userId: number): FollowSuccessType => ({ type: FOLLOW, userId });
 
 
 
-type UnFollowSuccessType ={ //Типизимруем UnFollowSuccessType
-	type : typeof UNFOLLOW
-	userId : number
+type UnFollowSuccessType = { //Типизимруем UnFollowSuccess
+	type: typeof UNFOLLOW
+	userId: number
 }
-export const unfollowSuccess = (userId : number) : UnFollowSuccessType => {
+export const unfollowSuccess = (userId: number): UnFollowSuccessType => {
 	return { type: UNFOLLOW, userId };
 };
 
 
-type SetCurrentPageType ={ //Типизимруем setCurrentPage
-	type : typeof SET_CURRENT_PAGE
-	currentPage : number
+type SetCurrentPageType = { //Типизимруем setCurrentPage
+	type: typeof SET_CURRENT_PAGE
+	currentPage: number
 }
-export const setCurrentPage = (currentPage : number) : SetCurrentPageType => {
+export const setCurrentPage = (currentPage: number): SetCurrentPageType => {
 	return { type: SET_CURRENT_PAGE, currentPage: currentPage };
 };
 
 
 
-type SetTotalUsersCountType ={ //Типизимруем setTotalUsersCount
-	type : typeof SET_TOTAL_USERS_COUNT
-	totalUsersCount : number
+type SetTotalUsersCountType = { //Типизимруем setTotalUsersCount
+	type: typeof SET_TOTAL_USERS_COUNT
+	totalUsersCount: number
 }
-export const setTotalUsersCount = (totalUsersCount : number) : SetTotalUsersCountType => {
+export const setTotalUsersCount = (totalUsersCount: number): SetTotalUsersCountType => {
 	return { type: SET_TOTAL_USERS_COUNT, totalUsersCount: totalUsersCount };
 };
 
 
-type ToggleIsFetchingType ={ //Типизимруем toggleIsFetching
-	type : typeof TOGGLE_IS_FETCHING
-	isFetching : boolean
+type ToggleIsFetchingType = { //Типизимруем toggleIsFetching
+	type: typeof TOGGLE_IS_FETCHING
+	isFetching: boolean
 }
-export const toggleIsFetching = (isFetching : boolean) : ToggleIsFetchingType => {
+export const toggleIsFetching = (isFetching: boolean): ToggleIsFetchingType => {
 	return { type: TOGGLE_IS_FETCHING, isFetching: isFetching };
 };
 
 
-type ToggleFollowingProgressType ={ //Типизимруем toggleFollowingProgress
-	type : typeof TOGGLE_IS_FOLLOWING_PROGRESS
-	isFetching : boolean
-	userId : number
+type ToggleFollowingProgressType = { //Типизимруем toggleFollowingProgress
+	type: typeof TOGGLE_IS_FOLLOWING_PROGRESS
+	isFetching: boolean
+	userId: number
 }
-export const toggleFollowingProgress = (isFetching : boolean, userId : number) : ToggleFollowingProgressType => {
+export const toggleFollowingProgress = (isFetching: boolean, userId: number): ToggleFollowingProgressType => {
 	return { type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId };
 };
 
 
-type SetUsersType ={ //Типизимруем setUsers
-	type : typeof SET_USERS
-	users : Array<UserType>
+type SetUsersType = { //Типизимруем setUsers
+	type: typeof SET_USERS
+	users: Array<UserType>
 }
-export const setUsers = (users : Array<UserType>) : SetUsersType => 
-({ type: SET_USERS, users });
+export const setUsers = (users: Array<UserType>): SetUsersType =>
+	({ type: SET_USERS, users });
 
 
 
@@ -170,9 +177,25 @@ export const setUsers = (users : Array<UserType>) : SetUsersType =>
 
 //-----------------ThunkCreators-----------------------------------------------------------------------------
 
-export const requestUsers = (page : number, pageSize : number) => {
+//Типизируем ThunkCreator requestUsers------------------
+
+// Подготавливаем типизацию для 		
+//"async (dispatch : DispatchType, getState : AppStateType ) => {"
+//внутри requestUsers
+type GetStateType = () => AppStateType
+//{ Dispatch } from 'redux'
+type DispatchType = Dispatch<ActionsTypes>  //для const "_followUnfollowFlow"
+//Promise<void> - что ф-ция возвращает
+//AppStateType - весь State
+//unknown - extra параметры
+//ActionsTypes - Action-ы, которые можно  dispatch-ить из thunk-и
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+
+
+export const requestUsers = (page: number, pageSize: number): ThunkType => {
+
 	return (
-		async (dispatch : any) => {
+		async (dispatch: DispatchType, getState: GetStateType) => {
 			dispatch(toggleIsFetching(true));
 			dispatch(setCurrentPage(page));
 
@@ -184,9 +207,10 @@ export const requestUsers = (page : number, pageSize : number) => {
 	);
 }
 
-
-
-export const followUnfollowFlow = async (dispatch : any, userId : number, apiMethod : any, actionCreator : any) => {
+//------------------------------------
+//Это (_followUnfollowFlow) общая чать для const-ант follow и unfollow
+//"=> FollowSuccessType | UnFollowSuccessType" - что по итогу получим, когда на вход дадим followSuccess/unfollowSuccess, см далее в "const follow" и "const unfollow"
+export const _followUnfollowFlow = async (dispatch: DispatchType, userId: number, apiMethod: any, actionCreator: (userId: number) => FollowSuccessType | UnFollowSuccessType) => {
 	dispatch(toggleFollowingProgress(true, userId));
 	let response = await apiMethod(userId);
 	if (response.data.resultCode === 0) {
@@ -196,23 +220,24 @@ export const followUnfollowFlow = async (dispatch : any, userId : number, apiMet
 }
 
 
-export const follow = (userId : number) => {
+// Типизируем ": ThunkType"-этим  follow 
+export const follow = (userId: number): ThunkType => {
 	return (
-		async (dispatch : any) => {
+		async (dispatch) => {
 			// let apiMethod = usersAPI.follow.bind(usersAPI);
 			// let actionCreator = followSuccess;
 
-			followUnfollowFlow(dispatch, userId, usersAPI.follow.bind(usersAPI), followSuccess);
+			_followUnfollowFlow(dispatch, userId, usersAPI.follow.bind(usersAPI), followSuccess);
 		}
 	)
 }
 
-
-export const unfollow = (userId : number) => {
+export const unfollow = (userId: number): ThunkType => {
 	return (
-		async (dispatch : any) => {
-			followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), unfollowSuccess);
+		async (dispatch) => {
+			_followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), unfollowSuccess);
 		}
 	)
 }
+//------------------------------------
 
