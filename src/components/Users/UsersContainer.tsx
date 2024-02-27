@@ -23,19 +23,19 @@ type MapStatePropsType = {
 	isFetching: boolean
 	totalUsersCount: number
 	users: Array<UserType>
-	followingInProgress : Array<number>
+	followingInProgress: Array<number>
 }
 
 type MapDispatchPropsType = {
-	follow: (userId : number) => void
-	unfollow: (userId : number) => void
+	follow: (userId: number) => void
+	unfollow: (userId: number) => void
 	requestUsers: (currentPage: number, pageSize: number) => void // Ф-ция принимает параметры и ничего не возвращает
 }
 // Общий тип для для к-ты UsersAPIComponent, состоит из всех 3 видов Props-сов
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 //------------------------------------------------------------------------------------
 
-class UsersAPIComponent extends React.Component < PropsType > {
+class UsersAPIComponent extends React.Component<PropsType> {
 
 	componentDidMount() {
 
@@ -81,7 +81,7 @@ class UsersAPIComponent extends React.Component < PropsType > {
 }
 
 // Типизируем mapStateToProps через state: AppStateType
-let mapStateToProps = (state: AppStateType) : MapStatePropsType => {
+let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 	return {
 		//Здесь используются селекторы (getUsers(state))
 		users: getUsers(state),
@@ -93,21 +93,18 @@ let mapStateToProps = (state: AppStateType) : MapStatePropsType => {
 	}
 }
 
-
-
-
-
 // compose применяет к к-те последовательно разные HOC (High_Order_Component)
 // HOC - ф-ция, кот. принимает 1 к-ту, а возвращает контейнерную к-ту над входящей, стобы дать первой к-те какие-то данные
 //MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, PropsType
-export default compose<PropsType>(
+export default compose(
 
-	withAuthRedirect,
+withAuthRedirect,
 	// типы для connect-а    TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultState-основной глоб.State 
 	connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>
 
-	(mapStateToProps, { follow, unfollow, toggleFollowingProgress, requestUsers }))
+		(mapStateToProps, { follow, unfollow, requestUsers }))
+//
 
-	(UsersAPIComponent);
+(UsersAPIComponent);
 
 
