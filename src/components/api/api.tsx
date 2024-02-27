@@ -1,16 +1,16 @@
 //Это DAl (Data Access Layer) - уровень. 
-//Здесь все запросы на сервер-----------------------------------------
-
-
+//Здесь все ЗАПРОСЫ НА СЕРВЕР-----------------------------------------
 //current user support--------------------------------------- 
 import axios from 'axios';
+import {ProfileType} from '../../types/types';
+
 
 
 //  Шаблон запроса на сервер (далее везде он используется при др. запросах)--------------------------
 const instance = axios.create({
 	// чтобы прилипла Coocke
 	withCredentials: true,
-	header: { "API-KEY": "495ccbaa-f1de-49f2-aee6-bb202e0b4fca" },
+	headers: { "API-KEY": "495ccbaa-f1de-49f2-aee6-bb202e0b4fca" },
 	baseURL: `https://social-network.samuraijs.com/api/1.0/`,
 });
 
@@ -26,16 +26,16 @@ export const usersAPI = {
 		)
 	},
 
-	follow(userId) {
+	follow(userId : number) {
 		return instance.post(`follow/${userId}`)
 	},
 
-	unfollow(userId) {
+	unfollow(userId : number) {
 		return instance.delete(`follow/${userId}`)
 	},
 
 	// from profileContainer
-	getProfile(userId) {
+	getProfile(userId : number) {
 		console.warn("Obsolete method. Now getProfileAPI")
 		return getProfileAPI.getProfile(userId)
 		//instance.get(`profile/`+ userId)
@@ -47,18 +47,18 @@ export const usersAPI = {
 
 // Группа запросов на сервер для Profile--------------------------
 export const getProfileAPI = {
-	getProfile(userId) {
+	getProfile(userId : number) {
 		return instance.get(`profile/` + userId)
 	},
-	getStatus(userId) {
+	getStatus(userId : number) {
 		return instance.get(`profile/status/` + userId)
 	},
-	updateStatus(status) {
+	updateStatus(status : string) {
 		return instance.put(`profile/status`, { status: status })
 	},
 
 
-	savePhoto(photoFile) {
+	savePhoto(photoFile : any) {
 		const formData = new FormData();
 		formData.append("image", photoFile)
 		return instance.put(`profile/photo`, 
@@ -70,7 +70,7 @@ export const getProfileAPI = {
 									}});
 	},
 
-	saveProfile(profile) {
+	saveProfile(profile : ProfileType) {
 		return instance.put(`profile`, profile);
 	},
 }
@@ -81,16 +81,45 @@ export const getProfileAPI = {
 
 
 // Группа запросов на сервер для login/logout/me-текущий пользователь-------------------------
+
+
+// Типы для "authAPI"...................
+export enum ResultCodesEnum {  //Тип "enum" для перечисления серверных кодов 
+	Success=0,
+	Error = 1,
+}
+export enum ResultCodesCaptchaEnum { 
+	CaptchaIsRequired = 10
+}
+
+
+type MeResponceType ={  // Тип для "me()" в "authAPI"
+	data : {id : number   // Тип для объекта data: {id : number, email: string, login : string}
+			email: string
+			login : string} 
+	resultCode: ResultCodesEnum//Тип "enum" для перечисления серверных кодов(здесь применяем)
+	messages: Array<string>
+}
+type LoginResponceType ={   // Тип для "login()" в "authAPI"
+	data : {userId : number   // Тип для объекта data: {id : number, email: string, login : string}
+	} 
+	resultCode: ResultCodesEnum  | ResultCodesCaptchaEnum 
+	messages: Array<string> 
+}
+// ................................
 export const authAPI = {
-	// from HeaderContainer
+	// from HeaderContainer------
+	 //Типизируем Promis "me"
+	
 	me() {
-		return instance.get(`auth/me`);
+		return instance.get<MeResponceType>(`auth/me`).then (res => res.data); //c then-ом твозврашаем конкретные нужные данные,безthen-все и технич-е тоже
 	},
-	login(email, password, rememberMe = false, captcha=null) {
-		return instance.post(`auth/login`, { email, password, rememberMe, captcha  });
+	login(email : string, password: string, rememberMe : boolean = false, captcha : null | string =null) {
+		return instance.post<LoginResponceType>(`auth/login`, { email, password, rememberMe, captcha  })
+		.then (res => res.data);
 	},
-	logout(email, password, rememberMe = false) {
-		return instance.delete(`auth/login`, { email, password, rememberMe });
+	logout(email : string, password : string, rememberMe : boolean = false) {
+		return instance.delete(`auth/login`);
 	}
 
 }

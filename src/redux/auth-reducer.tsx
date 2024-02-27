@@ -6,7 +6,7 @@
 
 
 import { stopSubmit } from 'redux-form';
-import { authAPI, securityAPI } from '../components/api/api';
+import { ResultCodesEnum, ResultCodesCaptchaEnum, authAPI, securityAPI } from '../components/api/api';
 
 // const-ты надо называть так: 
 // имя проекта/ имя reducer-а/ имя const-ты  
@@ -76,22 +76,22 @@ export default authReducer;
 
 
 
-	// Типизируем AC - setAuthUserData------------------------------------------------------------
-		// Типизируем Объект payload
-	type	 setAuthUserDataActionPayloadType = {
-		userId : number | null 
-		email : string | null 
-		login : string | null 
-		isAuth : boolean 
-	} ;
+// Типизируем AC - setAuthUserData------------------------------------------------------------
+// Типизируем Объект payload
+type setAuthUserDataActionPayloadType = {
+	userId: number | null
+	email: string | null
+	login: string | null
+	isAuth: boolean
+};
 
-type	 setAuthUserDataActionType = {
+type setAuthUserDataActionType = {
 	type: typeof SET_USER_DATA
 	payload: setAuthUserDataActionPayloadType
 
-} ;
+};
 
-export const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) : setAuthUserDataActionType  =>
+export const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean): setAuthUserDataActionType =>
 	({ type: SET_USER_DATA, payload: { userId, email, login, isAuth } });
 //------------------------------------------------------------
 
@@ -105,10 +105,10 @@ export const setAuthUserData = (userId: number | null, email: string | null, log
 // Типизируем captchaAC 
 type getCaptchaUrlSuccessActionType = {
 	type: typeof GET_CAPTCHA_URL_SUCCESS
-	payload: { captchaUrl : string}
+	payload: { captchaUrl: string }
 };
 //captcha
-export const getCaptchaUrlSuccess = (captchaUrl: string) : getCaptchaUrlSuccessActionType => {
+export const getCaptchaUrlSuccess = (captchaUrl: string): getCaptchaUrlSuccessActionType => {
 	return { type: GET_CAPTCHA_URL_SUCCESS, payload: { captchaUrl } };
 };
 //-------------------------------------------------------------------------------------
@@ -117,44 +117,44 @@ export const getCaptchaUrlSuccess = (captchaUrl: string) : getCaptchaUrlSuccessA
 
 
 // ------------THUNK Creators-----------------------------------------------------------------
-// Запрос на мой профайл 
-export const getAuthUserData = () => async (dispatch : any) => {
-	let response = await authAPI.me();
+// Запрос на мой профайл "me"
+export const getAuthUserData = () => async (dispatch: any) => {
+	let meDataResponce = await authAPI.me();
 
 	// this.props.toggleIsFetching(false)
-	if (response.data.resultCode === 0) {
-		let { id, email, login } = response.data.data;
+	if (meDataResponce.resultCode === ResultCodesEnum.Success) {
+		let { id, email, login } = meDataResponce.data;
 		dispatch(setAuthUserData(id, email, login, true));
 	};
 };
 
 // Запрос на заЛогиниться
-export const login = (email : string, password : string, rememberMe : boolean, captcha : any ) => async (dispatch : any) => {
-	let response = await authAPI.login(email, password, rememberMe, captcha);
+export const login = (email: string, password: string, rememberMe: boolean, captcha: any) => async (dispatch: any) => {
+	let loginData = await authAPI.login(email, password, rememberMe, captcha);
 
 	// this.props.toggleIsFetching(false)
-	if (response.data.resultCode === 0) {
+	if (loginData.resultCode === ResultCodesEnum.Success) {
 		// Если мы авторизовались успешно, то получаем доп. данные
 		dispatch(getAuthUserData());
 	}
 
 	//Останавливаем Submit  усли есть ошибка---------------------------------------------
 	else {
-		if (response.data.resultCode === 10) {
+		if (loginData.resultCode === ResultCodesCaptchaEnum.CaptchaIsRequired) {
 			dispatch(getCaptchaUrl());
 		}
 		//messages[0] Возьмем нулевое сообщение---------------------------------------------
-		let message = response.data.messages.length > 0 ? response.data.messages[0] : "Some error"
+		let message = loginData.messages.length > 0 ? loginData.messages[0] : "Some error"
 		dispatch(stopSubmit("login", { _error: message }));
 	}
 };
 
 
 // Запрос на разЛогиниться
-export const logout = () => async (dispatch : any) => {
+export const logout = () => async (dispatch: any) => {
 	let response = await authAPI.logout();
 	// this.props.toggleIsFetching(false)
-	if (response.data.resultCode === 0) {
+	if (response.data.resultCode === ResultCodesEnum.Success) {
 		dispatch(setAuthUserData(null, null, null, false));
 	}
 }
@@ -167,7 +167,7 @@ export const logout = () => async (dispatch : any) => {
 export const getCaptchaUrl = () =>
 
 	// ниже идет сама Thunk-а
-	async (dispatch : any) => {
+	async (dispatch: any) => {
 		const response = await securityAPI.getCaptchaUrl();
 		const captchaUrl = response.data.url;
 
