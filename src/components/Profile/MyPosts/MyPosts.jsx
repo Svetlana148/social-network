@@ -3,7 +3,7 @@ import s from './MyPosts.module.css';
 import Post from './Post/Post.jsx';
 import { Field, reduxForm } from 'redux-form';
 import { required, maxLengthCreator} from '../../../utils/Validators/validators';
-import { Textarea} from '../../FormsControls/FormsControls.js';
+import { Textarea} from '../../FormsControls/FormsControls';
 
 //import { Form } from 'react-router-dom';
 // import {updateNewPostText} from './MyPostsContainer';

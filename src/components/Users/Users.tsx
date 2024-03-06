@@ -1,11 +1,11 @@
 import React, {FC} from 'react';
 import Paginator from '../common/Paginator/Paginator';
-import User from './User.jsx';
+import User from './User';
 import { UserType } from '../../types/types';
 // import styles from './Users.module.css';
 // import userPhoto from '../../img/User.png';
 // import {NavLink} from  'react-router-dom';
-// import {usersAPI} from '../api/api.js';
+// import {usersAPI} from '../api/api';
 
 
 

@@ -4,23 +4,23 @@ import {connect, Provider} from 'react-redux';
 import store from './redux/redux-store';
 
 
-import { initializeApp } from "./redux/app-reducer.tsx";
+import { initializeApp } from "./redux/app-reducer";
 import './App.css';
-import Navbar from './components/Navbar/Navbar.jsx';
+import Navbar from './components/Navbar/Navbar';
 import HeaderContainer from './components/Header/HeaderContainer';
-import Preloader from './components/common/preloader/Preloader.jsx';
+import Preloader from './components/common/preloader/Preloader';
 
 
 
 // lazy - Сборщик НЕ собирает эту компоненту СРАЗУ в общий bandl, а только когда эту к-ту надо будет отрисовывать
 // ее запросят снова с сервера. Т.о. загрузочный файл меньше и при лож-е загруж-ся быстрее
-const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer.jsx'));
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
 const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
-const Login  = React.lazy(() => import('./components/Login/Login.jsx'));
-const Music = React.lazy(() => import('./components/Music/Music.jsx'));
-const News = React.lazy(() => import('./components/News/News.jsx'));
-const Settings = React.lazy(() => import('./components/Settings/Settings.jsx'));
+const Login  = React.lazy(() => import('./components/Login/Login'));
+const Music = React.lazy(() => import('./components/Music/Music'));
+const News = React.lazy(() => import('./components/News/News'));
+const Settings = React.lazy(() => import('./components/Settings/Settings'));
 
 
 

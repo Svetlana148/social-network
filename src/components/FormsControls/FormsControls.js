@@ -49,8 +49,11 @@ export const Element = ({input, meta, ...props}) =>{
 
 export const createForm = (placeholder, name, validate, component, typeElement, props={}, text="") =>(
 	<div>
-	<Field placeholder={placeholder} name={name}  validate={validate} 
-	component={component} typeElement = {typeElement} {...props}/>{text}
+	<Field placeholder={placeholder} 
+			name={name}  
+			validate={validate} 
+			component={component} 
+			typeElement = {typeElement} {...props}/>{text}
 	</div> 
 )
 

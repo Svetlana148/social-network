@@ -1,18 +1,26 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, InjectedFormProps, reduxForm } from 'redux-form';
 import { Element, createForm } from '../FormsControls/FormsControls';
 import { required, maxLengthCreator } from '../../utils/Validators/validators';
 import { connect } from "react-redux";
 import { login } from "../../redux/auth-reducer";
 import { Navigate } from "react-router-dom";
 import s from '../FormsControls/FormsControls.module.css';
+import { AppStateType } from '../../redux/redux-store';
 
 
 // Контейнеры : 4 connect(3 Login (2 LoginReduxForm (1 LoginForm)))
 
 
 // 1. Осн. компонента с формой-------------------------------------------------------------------
-const LoginForm = ({ handleSubmit, error, captchaUrl }) => {
+
+
+	//Типизируем "const LoginForm ", где <InjectedFormProps<>> -стандартн.ф-я из 'redux-form'; <> то, что будет  Submit-ся в итоге
+	//
+
+const LoginForm : React.FC<InjectedFormProps<LoginFormValueType, LoginFormOwnPropsType> 		//2 парвметра Для Redux-овой InjectedFormProps
+															& LoginFormOwnPropsType>								//1 парвметр Для нашей ф-ции
+															= ({ handleSubmit, error, captchaUrl }) => {
 
 	return (
 		<form onSubmit={handleSubmit}>
@@ -28,9 +36,7 @@ const LoginForm = ({ handleSubmit, error, captchaUrl }) => {
 			</div> */}
 
 			{createForm(null, "rememberMe", [], Element, "input", { type: "checkbox" }, "remember me")}
-			{/* <div>
-				<Field name={"rememberMe"}   type={"checkbox"}  component={Element} typeElement = "input"/>remember me
-			</div> */}
+			
 
 			{/* Раздел для Captch-и--------------------------------------------- */}
 			{captchaUrl && <img src = {captchaUrl} />}
@@ -52,15 +58,37 @@ const LoginForm = ({ handleSubmit, error, captchaUrl }) => {
 // 2. Оборачиваем Осн. компоненту hoc-ом из Redux-form
 // hoc снабжает к-ту "handleSubmit"-ом из  Redux-form  и уникальным именем форму---------------------------------
 
-const LoginReduxForm = reduxForm({ form: 'login' })(LoginForm)
+const LoginReduxForm = reduxForm<LoginFormValueType, LoginFormOwnPropsType>({ form: 'login' })(LoginForm) // reduxForm -HOC для (LoginForm)
+		//reduxForm<FormData -Какие данные собирает  форма, Own Props>
 //------------------------------------------------------------------------------
 
 
 // 3. Контейнер Login (LoginReduxForm (LoginForm))
 //  Login снабжает к-ту "onSubmit"-ом из  Redux-form чтобы отправить форму в Store---------------------------------
 
-const Login = (props) => {
-	const onSubmit = (formData) => {
+
+
+//Типизируем "connect(Login)" и "Login"......................................
+type MapStatePropsType = {    //Для "connect(Login)" и "Login"
+	captchaUrl: string | null
+	isAuth: boolean
+}
+type MapDispatchPropsType = {  //Для "connect(Login)" и "Login"
+	login : (email: string, password: string, rememberMe: boolean, captcha: any)=>void
+}
+type LoginFormValueType = { //Какие данные собирает  форма(FormData ). Типизируем для "const LoginForm", "const Login"
+	email : string
+	password : string
+	rememberMe : boolean
+	captcha : string
+}
+type LoginFormOwnPropsType = { //Для "const LoginForm"
+	captchaUrl : string | null
+}
+//......................................
+
+const Login : React.FC<MapStatePropsType & MapDispatchPropsType > = (props) => {
+	const onSubmit = (formData: LoginFormValueType) => {										//FormData -Какие данные собирает  форма
 		//"login" is here callback from connect(thunkCreater)------------------------------------
 		// Отправляем эти props-ы в login(здесь login - thunkCreater из auth-reducer-а)
 		//Здесть просто captcha, т.к. это просто поле для ввода captcha-и
@@ -80,8 +108,11 @@ const Login = (props) => {
 	)
 }
 
+
 //4. Контейнер connect снабжает "login"-ом - это thunkCreater------------------------------------
-const mapStateToProps = (state) => ({
+	
+
+const mapStateToProps = (state : AppStateType) : MapStatePropsType  => ({
 	captchaUrl: state.auth.captchaUrl,
 	isAuth: state.auth.isAuth
 });

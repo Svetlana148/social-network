@@ -6,11 +6,6 @@ import { ThunkAction } from 'redux-thunk'
 import { Dispatch } from 'redux'
 
 
-
-
-
-
-
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'setUsers';
