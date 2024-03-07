@@ -20,10 +20,18 @@ let rootReducer = combineReducers({
 	app : appReducer,
 });
 
-type RootReducerType = typeof rootReducer; 
-// typeof положит В RootReducerType типизированный подпункты(profilePage, ...) глобальногоState-а(AppState)
+type RootReducerType = typeof rootReducer; 				// typeof положит В RootReducerType типизированные подпункты(profilePage, ...) глобальногоState-а(AppState)
 export type AppStateType = ReturnType<RootReducerType> //ReturnType Определит что лежит в <RootReducerType> и вернет его в AppStateType
-let state : AppStateType; // В "state:" теперь лежит полностью типизированный state
+let state : AppStateType; 										// В "state:" теперь лежит полностью типизированный state
+
+
+
+// Общий ТИП  "InferActionsTypes" для всех reducer-ов ----------------------------------------------
+// "T extends(...)" - Если Т это "(...)"
+type PropertiesTypes<T> = T extends {[key:string]: infer U} ? U : never // "infer" - определяет тип "U" - AC-тора 
+export type InferActionsTypes<T extends {[key:string]: (...args: any[])=>any}> = ReturnType<PropertiesTypes<T>> //"<T extends..." - ограничение для передаваемого "Т"
+
+
 
 
 // For Redux Dev Tools----------------------------------------------
