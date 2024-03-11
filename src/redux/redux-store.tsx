@@ -9,6 +9,15 @@ import {thunk } from 'redux-thunk'; // Отличие от видео
 import { reducer as formReducer } from 'redux-form';
 
 
+// --let appStateObject = {
+// --	profilePage : profileReducer,
+// --	dialogsPage : dialogsReducer,
+// --	sidebar : sidebarReducer,
+// --	usersPage : usersReducer,
+// --	auth : authReducer,
+// --	form : formReducer,
+// --	app : appReducer,
+// --}
 
 let rootReducer = combineReducers({
 	profilePage : profileReducer,
@@ -22,6 +31,7 @@ let rootReducer = combineReducers({
 
 type RootReducerType = typeof rootReducer; 				// typeof положит В RootReducerType типизированные подпункты(profilePage, ...) глобальногоState-а(AppState)
 export type AppStateType = ReturnType<RootReducerType> //ReturnType Определит что лежит в <RootReducerType> и вернет его в AppStateType
+//--type AppStateType = typeof appStateObject;
 let state : AppStateType; 										// В "state:" теперь лежит полностью типизированный state
 
 

@@ -107,6 +107,7 @@ export const actions = {
 	setUsers : (users: Array<UserType>) =>({ type: 'SET_USERS', users } as const),
 }
 
+//--type ActionsTypes = typeof actions;
 
 
 
