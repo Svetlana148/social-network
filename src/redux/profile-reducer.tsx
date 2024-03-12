@@ -1,4 +1,5 @@
-import {usersAPI, getProfileAPI} from '../components/api/api';
+import { ProfileAPI} from '../components/api/profile-api';
+// import {usersAPI} from '../components/api/users-api';
 import { stopSubmit } from 'redux-form';
 import { PostType, ProfileType, PhotosType,  } from '../types/types';
 
@@ -128,42 +129,43 @@ export const savePhotoSuccess= (photos : PhotosType) : SavePhotoSuccessType =>{
 
 // ------------THUNK-----------------------------------------------------------------
 
+//Запрос на получение профайла какого-то User-а
 export const getUserProfile = (userId : number)=>async (dispatch : any)=>{
-	let response = await usersAPI.getProfile(userId)
-		dispatch(setUserProfile(response.data));
+	let data = await ProfileAPI.getProfile(userId)
+		dispatch(setUserProfile(data));
 }
 
 
-
+//Запрос на получение Status-а какого-то User-а
 export const getStatus = (userId : number)=>async(dispatch : any)=>{
-	let response = await getProfileAPI.getStatus(userId)
-		dispatch(setStatus(response.data));
+	let data = await ProfileAPI.getStatus(userId)
+		dispatch(setStatus(data));
 }
 
-
+//Запрос на получение обновление Status-а нас как User-а
 export const updateStatus = (status : string)=>async (dispatch : any)=>{
 	try{
-		let response = await getProfileAPI.updateStatus(status)
-			if (response.data.resultCode === 0){
+		let data = await ProfileAPI.updateStatus(status)
+			if (data.resultCode === 0){
 			dispatch(setStatus(status));
 			}
 		}catch(error){
-			
 		}
 }
 
+
 export const savePhoto = (file : any) => async (dispatch : any)=>{
-	let response = await getProfileAPI.savePhoto(file)
-		if (response.data.resultCode === 0){
-		dispatch(savePhotoSuccess(response.data.data.photos));
+	let data = await ProfileAPI.savePhoto(file)
+		if (data.resultCode === 0){
+		dispatch(savePhotoSuccess(data.data.photos));
 		}
 }
 
 
 export const saveProfile = (profile : ProfileType) => async (dispatch : any, getState : any)=>{
 	const userId = getState().auth.userId;
-	let response = await getProfileAPI.saveProfile(profile)
-		if (response.data.resultCode === 0){
+	let data = await ProfileAPI.saveProfile(profile)
+		if (data.resultCode === 0){
 		dispatch(getUserProfile(userId));
 		}
 		else{
@@ -171,11 +173,11 @@ export const saveProfile = (profile : ProfileType) => async (dispatch : any, get
 			//let message = response.data.messages.length > 0 ? response.data.messages[0] : "Some error"
 
 			// Высветится общая ошибка
-			dispatch(stopSubmit("edit-profile", {_error : response.data.messages[0]}));
+			dispatch(stopSubmit("edit-profile", {_error : data.messages[0]}));
 
 			// Подсветится конкретное поле с ошибкой
 			// dispatch(stopSubmit("edit-profile", {"contacts" : {"facebook" : response.data.messages[0]}}));
 
-			return Promise.reject (response.data.messages[0]);
+			return Promise.reject (data.messages[0]);
 		}
 }

@@ -12,7 +12,7 @@ let mapStateToPropsForRedirect = (state)=>({
 
 
 
-
+// Перенаправляет при Login-е
 export const withAuthRedirect = (Component)=>{
 	// check Login ---------------------------------
 	class RedirectComponent extends React.Component{

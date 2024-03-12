@@ -3,7 +3,7 @@ import styles from './Users.module.css';
 import userPhoto from '../../img/User.png';
 import {NavLink} from  'react-router-dom';
 import Paginator from '../common/Paginator/Paginator';
-import {usersAPI} from '../api/api';
+import {usersAPI} from '../api/users-api';
 
 
 

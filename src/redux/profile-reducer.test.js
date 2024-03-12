@@ -3,6 +3,8 @@
 // import App from '../App';
 // import React from 'react';
 import  profileReducer, {addPostActionCreator} from './profile-reducer';
+import  profileReducer, {addPostActionCreator} from './profile-reducer';
+
 
 it('new post should be added', () => {
 	//1. test data--------------------------------

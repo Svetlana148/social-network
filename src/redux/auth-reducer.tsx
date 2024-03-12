@@ -6,7 +6,10 @@
 
 
 import { stopSubmit } from 'redux-form';
-import { ResultCodesEnum, ResultCodesCaptchaEnum, authAPI, securityAPI } from '../components/api/api';
+import { ResultCodesEnum, ResultCodesCaptchaEnum } from '../components/api/api';
+import { authAPI } from '../components/api/auth-api';
+import { securityAPI } from '../components/api/security-api';
+
 
 // const-ты надо называть так: 
 // имя проекта/ имя reducer-а/ имя const-ты  
@@ -17,7 +20,7 @@ const GET_CAPTCHA_URL_SUCCESS = 'auth/GET_CAPTCHA_URL_SUCCESS';
 
 
 
-// Тип для initialState
+// Тип для initialState----------------------------
 export type InitialStateType2 = {
 	userId: number | null,
 	email: string | null,
@@ -27,9 +30,6 @@ export type InitialStateType2 = {
 	// Если captcha :null, то ее нее показываем
 	captchaUrl: string | null,
 };
-
-
-
 // Начальный State
 let initialState = {
 	userId: null as number | null,
@@ -41,7 +41,7 @@ let initialState = {
 };
 // Получаем тип из initialState
 export type InitialStateType = typeof initialState;
-
+//-------------------------------------------------------------------------------------
 
 const authReducer = (state = initialState, action: any): InitialStateType => {
 	switch (action.type) {
@@ -73,8 +73,6 @@ export default authReducer;
 
 // ActionCreator-ы  -----------------------------------------
 // Устанавливаем данные User-а при заполнении  Login-формы
-
-
 
 // Типизируем AC - setAuthUserData------------------------------------------------------------
 // Типизируем Объект payload
@@ -111,19 +109,17 @@ type getCaptchaUrlSuccessActionType = {
 export const getCaptchaUrlSuccess = (captchaUrl: string): getCaptchaUrlSuccessActionType => {
 	return { type: GET_CAPTCHA_URL_SUCCESS, payload: { captchaUrl } };
 };
-//-------------------------------------------------------------------------------------
-
 
 
 
 // ------------THUNK Creators-----------------------------------------------------------------
-// Запрос на мой профайл "me"
+// Запрос на личный профайл "me"
 export const getAuthUserData = () => async (dispatch: any) => {
-	let meDataResponce = await authAPI.me();
+	let meDataResponse = await authAPI.me();
 
 	// this.props.toggleIsFetching(false)
-	if (meDataResponce.resultCode === ResultCodesEnum.Success) {
-		let { id, email, login } = meDataResponce.data;
+	if (meDataResponse.resultCode === ResultCodesEnum.Success) {
+		let { id, email, login } = meDataResponse.data;
 		dispatch(setAuthUserData(id, email, login, true));
 	};
 };
@@ -138,7 +134,7 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
 		dispatch(getAuthUserData());
 	}
 
-	//Останавливаем Submit  усли есть ошибка---------------------------------------------
+	//Останавливаем Submit если есть ошибка---------------------------------------------
 	else {
 		if (loginData.resultCode === ResultCodesCaptchaEnum.CaptchaIsRequired) {
 			dispatch(getCaptchaUrl());
@@ -160,10 +156,12 @@ export const logout = () => async (dispatch: any) => {
 }
 
 
-// Запрос на Captcha-у у сервера и далее 
-// засылаем ответ сервера в state (dispatch-им Action Creator с полученным ответом)-------------------------------------------
+// Запрос на Captcha-у у сервера (запрос лежит в "security-api.ts")
+//и далее засылаем ответ сервера в state (dispatch-им Action Creator с полученным ответом)-------------------------------------------
 
-// это ThunkCreator export const getCaptchaUrl = ()=>
+
+
+// это ThunkCreator "export const getCaptchaUrl = ()=>"
 export const getCaptchaUrl = () =>
 
 	// ниже идет сама Thunk-а
