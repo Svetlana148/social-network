@@ -1,16 +1,21 @@
 import {getAuthUserData} from './auth-reducer';
+import { InferActionsTypes } from './redux-store';
 
-const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS';
+//const INITIALIZED_SUCCESS = 'app/INITIALIZED_SUCCESS'; 
 
 // Для каждого Объекта создаем тип
-// Тип для initialState
-export type InitialStateType = {
-	initialized: boolean,
-};
-// Типизируем initialState
-let initialState : InitialStateType = {
+
+// Типизируем initialState----------------------------------------------------
+let initialState = {
 	initialized: false,
 };
+// Тип для initialState
+export type InitialStateType = typeof initialState
+// ----------------------------------------------------
+//Автоматически выведет типы actions-ов (InferActionsTypes-общий тип из "redux-store.ts")
+type ActionsType = InferActionsTypes<typeof actions>
+
+
 
 
 
@@ -19,7 +24,7 @@ let initialState : InitialStateType = {
 const appReducer = (state = initialState, action:any) : InitialStateType =>{
 	switch(action.type){
 		
-		case INITIALIZED_SUCCESS:
+		case 'app/INITIALIZED_SUCCESS':
 
 				return {
 					...state,
@@ -37,13 +42,23 @@ export default appReducer;
 
 
 // ActionCreator  Post-----------------------------------------
+//---------------------------------------------------------------------------------------------
+//Авто ведение типизации
+//Все АС упакуем в 1 Объект "actions"
+export const actions = {
+	initializedSuccess : () =>({type : 'app/INITIALIZED_SUCCESS'} as const)   //Даем  названия const-ам в соотв-и с  Redux-Ducks "app/..."
+}
+
+
+
+//---------------------------------------------------------------------------------------------
 
 	// Типизируем AC - initializedSuccess
-	type InitializedSuccessActionType ={
-		type : typeof INITIALIZED_SUCCESS //там не может быть ничего кроме 'INITIALIZED_SUCCESS'
-	};
+	// type InitializedSuccessActionType ={
+	// 	type : typeof INITIALIZED_SUCCESS //там не может быть ничего кроме 'INITIALIZED_SUCCESS'
+	// };
 // Типизируем что ф-ция возвращает(после скобок) 
-export const initializedSuccess = () : InitializedSuccessActionType =>({type : INITIALIZED_SUCCESS});
+// export const initializedSuccess = () : InitializedSuccessActionType =>({type : INITIALIZED_SUCCESS});
 
 
 // export const toggleIsFetching = (isFetching)=>{
@@ -56,7 +71,7 @@ export const initializedSuccess = () : InitializedSuccessActionType =>({type : I
 export const  initializeApp = ()=>(dispatch:any)=>{
 	let promise = dispatch(getAuthUserData());
 	promise.then(( )=> {
-		dispatch(initializedSuccess());
+		dispatch(actions.initializedSuccess());
 	}) 
 };
 

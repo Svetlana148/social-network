@@ -1,23 +1,13 @@
-import {applyMiddleware, combineReducers, legacy_createStore as createStore, compose} from 'redux'; 
+import {applyMiddleware, combineReducers, legacy_createStore as createStore, compose, Action} from 'redux'; 
 import profileReducer from './profile-reducer';
 import dialogsReducer from './dialogs-reducer';
 import sidebarReducer from './sidebar-reducer';
 import usersReducer from './users-reducer';
 import authReducer from './auth-reducer';
 import appReducer from './app-reducer';
-import {thunk } from 'redux-thunk'; // Отличие от видео
+import {thunk, ThunkAction } from 'redux-thunk'; // Отличие от видео
 import { reducer as formReducer } from 'redux-form';
 
-
-// --let appStateObject = {
-// --	profilePage : profileReducer,
-// --	dialogsPage : dialogsReducer,
-// --	sidebar : sidebarReducer,
-// --	usersPage : usersReducer,
-// --	auth : authReducer,
-// --	form : formReducer,
-// --	app : appReducer,
-// --}
 
 let rootReducer = combineReducers({
 	profilePage : profileReducer,
@@ -41,6 +31,18 @@ let state : AppStateType; 										// В "state:" теперь лежит по�
 type PropertiesTypes<T> = T extends {[key:string]: infer U} ? U : never // "infer" - определяет тип "U" - AC-тора 
 export type InferActionsTypes<T extends {[key:string]: (...args: any[])=>any}> = ReturnType<PropertiesTypes<T>> //"<T extends..." - ограничение для передаваемого "Т"
 
+//Типизируем ThunkCreator-ы ------------------------------------------------------------------------------------------------
+//Общий тип "BaseThunkType" для всех  ThunkCreator-ов ------------------------------------------------------------------------------------------------
+
+
+//A - ActionsTypes - Action-ы, которые можно  dispatch-ить из thunk-и (A extends Action это Action-ы из Redux-а)
+//R - что ф-ция возвращает (Promise<void> - по умолчанию - ничего)
+//AppStateType - весь State
+//unknown - extra параметры
+//ThunkAction - ф-ция из "redux-thunk"
+export type BaseThunkType<A extends Action, R =Promise<void>> = ThunkAction<R, AppStateType, unknown, A>
+
+//------------------------------------------------------------------------------------------------
 
 
 

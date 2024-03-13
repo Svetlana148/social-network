@@ -23,7 +23,7 @@ export const ProfileAPI = {
 
 	
 
-	savePhoto(photoFile: any) {
+	savePhoto(photoFile: File) {   //"File" из DOM-объекта
 		const formData = new FormData();
 		formData.append("image", photoFile)
 		//Типизируем запрос "put" для "savePhot". Это стандартный тип ответа "APIResponseType"с уточнением про фото"<PhotosType>""

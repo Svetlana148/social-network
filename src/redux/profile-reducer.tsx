@@ -1,15 +1,10 @@
 import { ProfileAPI} from '../components/api/profile-api';
-// import {usersAPI} from '../components/api/users-api';
-import { stopSubmit } from 'redux-form';
+import { FormAction, stopSubmit } from 'redux-form';
 import { PostType, ProfileType, PhotosType,  } from '../types/types';
-
-const ADD_POST = 'ADD-POST';
-const SET_USER_PROFILE = 'SET-USER-PROFILE';
-const SET_STATUS = 'SET-STATUS';
-const DELETE_POST = 'DELETE_POST';
-const SAVE_PHOTOS_SUCCESS = 'SAVE_PHOTOS_SUCCESS';
+import { BaseThunkType, InferActionsTypes } from './redux-store';
 
 
+//  initialState  --------------------------------------------------------------
 let initialState = {
 	postsData: [
 		{ id: 1, message: 'Солнце', likesCount: 1 },
@@ -23,12 +18,13 @@ let initialState = {
 };
 
 export type InitialStateType = typeof initialState;
+//--------------------------------------------------------------
 
-
-
-const profileReducer = (state = initialState, action : any) : InitialStateType=>{
+// 4. Типизируем "ActionsType"-ом action-ы в "profileReducer"
+const profileReducer = (state = initialState, action : ActionsType) : InitialStateType=>{
 	switch(action.type){
-		case ADD_POST:{
+				// 5. Меняем const-ы здесь и в АС на 'ADD-POST' в ковычках 
+		case 'PROFILE/ADD-POST':{
 
 			let newPost = {
 				id: 4, 
@@ -45,20 +41,20 @@ const profileReducer = (state = initialState, action : any) : InitialStateType=>
 		}
 
 
-		case SET_USER_PROFILE:{
+		case 'PROFILE/SET-USER-PROFILE':{
 			return {...state, profile : action.profile};
 		}
 		
 
-		case SET_STATUS:{
+		case 'PROFILE/SET-STATUS':{
 			return {...state, status : action.status};
 		}
 
-		// case DELETE_POST:{
+		// case 'PROFILE/DELETE_POST':{
 		// 	return {...state, posts : state.posts.filter(p=> p.id != action.postId)};
 		// }
 
-		case SAVE_PHOTOS_SUCCESS:{
+		case 'PROFILE/SAVE_PHOTOS_SUCCESS':{
 			// Делаем копию profile и photos меняем на те, которые в action 
 			return {...state, profile : {...state.profile, photos : action.photos} as ProfileType};
 		}
@@ -67,62 +63,28 @@ const profileReducer = (state = initialState, action : any) : InitialStateType=>
 			return(state);
 	}
 }; 
-
-
 export default profileReducer;
 
 
 
 // ActionCreator  Post-----------------------------------------
 
-type AddPostActionCreatorType ={ //Типизимруем addPostActionCreator
-	type : typeof ADD_POST
-	newPostText : string
+// 1. Упаковываем все АС в Объект "actions"------------------------
+export const actions = {
+	//Ключ(название АС) : значение (сам АС)
+	addPostActionCreator : (newPostText: string)=>{return {type : 'PROFILE/ADD-POST', newPostText} as const},
+	setUserProfile : (profile: ProfileType)=>{return {type : 'PROFILE/SET-USER-PROFILE', profile}	as const},
+	setStatus : (status: string) =>{return {type : 'PROFILE/SET-STATUS', status}as const},
+	deletePost : (postId : number)=>{return {type : 'PROFILE/DELETE_POST', postId}	as const},
+	savePhotoSuccess: (photos : PhotosType) =>{return {type : 'PROFILE/SAVE_PHOTOS_SUCCESS', photos} as const}
 }
-export const addPostActionCreator = (newPostText: string) : AddPostActionCreatorType=>{
-	return {type : ADD_POST, newPostText}
-};
-
-
-// export const updateNewPostTextActionCreator = (text)=>{
-// 	return {type : UPDATE_NEW_POST, newText : text}
-// };
 //--------------------------------------------------------------------------
-type SetUserProfileType ={ //Типизимруем setUserProfile
-	type : typeof SET_USER_PROFILE
-	profile : ProfileType
-}
-export const setUserProfile = (profile: ProfileType) : SetUserProfileType=>{
-	return {type : SET_USER_PROFILE, profile}
-};
+// 2. Типизируем все "actions"
+type ActionsType = InferActionsTypes<typeof actions>	
 //--------------------------------------------------------------------------
 
-type SetStatusType ={ //Типизимруем setStatus
-	type : typeof SET_STATUS
-	status : string
-}
-
-export const setStatus = (status: string) :SetStatusType=>{
-	return {type : SET_STATUS, status}
-};
-//--------------------------------------------------------------------------
-type DeletePostType ={ //Типизимруем deletePost
-	type : typeof DELETE_POST
-	postId : number
-}
-export const deletePost = (postId : number) : DeletePostType=>{
-	return {type : DELETE_POST, postId}
-};
-
-//--------------------------------------------------------------------------
-type SavePhotoSuccessType ={ //Типизимруем savePhotoSuccess
-	type : typeof SAVE_PHOTOS_SUCCESS
-	photos : PhotosType
-}
-
-export const savePhotoSuccess= (photos : PhotosType) : SavePhotoSuccessType =>{
-	return {type : SAVE_PHOTOS_SUCCESS, photos}
-};
+// 3. Типизируем все Thunk-и
+type ThunkType = BaseThunkType<ActionsType | FormAction>  //"FormAction" из 'redux-form'-мы, чтобы добавить в dispatch "Sabmit"//"FormAction" из 'redux-form'-мы, чтобы добавить в dispatch "Sabmit"
 
 
 
@@ -130,43 +92,47 @@ export const savePhotoSuccess= (photos : PhotosType) : SavePhotoSuccessType =>{
 // ------------THUNK-----------------------------------------------------------------
 
 //Запрос на получение профайла какого-то User-а
-export const getUserProfile = (userId : number)=>async (dispatch : any)=>{
+export const getUserProfile = (userId : number) : ThunkType =>async (dispatch)=>{
 	let data = await ProfileAPI.getProfile(userId)
-		dispatch(setUserProfile(data));
+		dispatch(actions.setUserProfile(data));
 }
 
 
 //Запрос на получение Status-а какого-то User-а
-export const getStatus = (userId : number)=>async(dispatch : any)=>{
+export const getStatus = (userId : number) : ThunkType=>async(dispatch : any)=>{
 	let data = await ProfileAPI.getStatus(userId)
-		dispatch(setStatus(data));
+		dispatch(actions.setStatus(data));
 }
 
 //Запрос на получение обновление Status-а нас как User-а
-export const updateStatus = (status : string)=>async (dispatch : any)=>{
+export const updateStatus = (status : string) : ThunkType=>async (dispatch)=>{
 	try{
 		let data = await ProfileAPI.updateStatus(status)
 			if (data.resultCode === 0){
-			dispatch(setStatus(status));
+			dispatch(actions.setStatus(status));
 			}
 		}catch(error){
 		}
 }
 
 
-export const savePhoto = (file : any) => async (dispatch : any)=>{
+export const savePhoto = (file : File) : ThunkType => async (dispatch)=>{  //"File" из DOM-объекта
 	let data = await ProfileAPI.savePhoto(file)
 		if (data.resultCode === 0){
-		dispatch(savePhotoSuccess(data.data.photos));
+		dispatch(actions.savePhotoSuccess(data.data.photos));
 		}
 }
 
 
-export const saveProfile = (profile : ProfileType) => async (dispatch : any, getState : any)=>{
+export const saveProfile = (profile : ProfileType) : ThunkType => async (dispatch, getState)=>{
 	const userId = getState().auth.userId;
 	let data = await ProfileAPI.saveProfile(profile)
 		if (data.resultCode === 0){
-		dispatch(getUserProfile(userId));
+			if(userId !=null){				//Если User есть
+				dispatch(getUserProfile(userId));
+			} else {
+				throw new Error("userId can't be null");  //Вывести сообщение об ошибке, если нету User-а
+			}
 		}
 		else{
 			//messages[0] Возьмем нулевое сообщение---------------------------------------------

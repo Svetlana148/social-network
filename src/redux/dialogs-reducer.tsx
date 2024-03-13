@@ -1,18 +1,19 @@
-const ADD_MESSAGE = 'ADD-MESSAGE'
-// const UPDATE_NEW_MESSAGE = 'UPDATE-NEW-MESSAGE'
+import { InferActionsTypes } from "./redux-store"
 
 
-//-----------------------------------------------------------------------------------------
+// initialState  ----------------------------------------------------------------------------------------
 // 2 Типа для уточнения initialState
-type DialogType = {
+type DialogType = { //Для Dialog-ов
 	id : number
 	name : string
 }
-type MessageType = {
+type MessageType = {  //Для Message-ей
 	id : number
 	message : string
 }
-
+// Тип для initialState
+export type InitialStateType = typeof initialState;
+// initialState
 let initialState = {
 	dialogsData: [
 		{ id: 1, name: "Ola" },
@@ -28,17 +29,22 @@ let initialState = {
 		{ id: 3, message: 'Gut' }
 	] as Array <MessageType>,  // 2 Место уточнения initialState,
 };
-
-// Тип для initialState------------------------------------
-export type InitialStateType = typeof initialState;
 //-----------------------------------------------------------------------------------------
 
+//Упакуем все AC-ры в 1 Объект "actions" -------
+export const actions = {
+	addMessageActionCreator : (newMessageText : string)=>{return {type : 'ADD-MESSAGE', newMessageText} as const
+	}
+}
+
+type ActionsType = InferActionsTypes<typeof actions>	// Типизируем все "actions"
 
 
-const dialogsReducer = (state = initialState, action : any) : InitialStateType=>{
+
+const dialogsReducer = (state = initialState, action : ActionsType) : InitialStateType=>{
 
 	switch(action.type){
-		case ADD_MESSAGE:
+		case 'ADD-MESSAGE':
 			let newMessage = {
 				id: 4, 
 				message: action.newMessageText
@@ -64,17 +70,3 @@ const dialogsReducer = (state = initialState, action : any) : InitialStateType=>
 };
 export default dialogsReducer;
 	
-
-// Message -----------------------------------------
-
-type addMessageActionCreatorType ={ //Типизация для addMessageActionCreator
-	type : typeof ADD_MESSAGE
-	newMessageText : string
-}
-export const addMessageActionCreator = (newMessageText : string) : addMessageActionCreatorType=>{
-	return {type : ADD_MESSAGE, newMessageText}
-}
-
-// export const updateNewMessageTextActionCreator = (text)=>{
-// 	return {type : UPDATE_NEW_MESSAGE, newText : text}
-// }
