@@ -1,6 +1,5 @@
 import React from 'react'
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
-import s from '../FormsControls/FormsControls.module.css'
 // import './LoginForm .css'
 
 
@@ -19,9 +18,7 @@ function LoginForm () {
 	// {register - регистрация, handleSubmit - сбор данных в форме, formState- состояние формы(тут ошибки)}-возможности работы с формой
 	const { register, handleSubmit, formState: {errors}  } = useForm<ILoginForm>({
       defaultValues: {              //передаем дополнительные параметры
-			captchaUrl : null,
-			email : "",
-			password : "",
+			captchaUrl : null
       }
    })
 
@@ -45,32 +42,25 @@ function LoginForm () {
 		{/* На входе Удачный и НЕ удачный Submit*/}
 			<form onSubmit={handleSubmit(submit, error)}>   
 				<div>
-					<input type='text' {...register('email', {required: "Email Address is required", 
-																			pattern: {
-																				value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-																				message: 'Incorrect Email' 
-																			}})} 
-						className={errors.email? s.formSummaryError :""} aria-invalid={errors.email? true :false} placeholder="email"/>
-						{ errors.email && 
-							<span className={s.formSummaryError}>{ errors.email?.message }</span>
-						}
+					<input type='text' {...register('email', {required: "Email Address is required"})} aria-invalid={errors.email? true :false}/>
+					{ errors.email && <span>error</span>}
 				</div>
-				
+				{/* <div>
+					<Field placeholder={"Email"} name={"email"}  validate={[required]} component={Element} typeElement = {"input"}/>
+				</div> */}
+
 				<div>
-					<input type='password' {...register('password', {required: "Password is required", 
-																					maxLength:  {value: 20, message: 'Password exceeds 20 symbols'},
-																					minLength:  {value: 8, message: 'Password shorter 8 symbols'}
-																					})} placeholder="Password"/>
-					{ errors.password && 
-							<span className={s.formSummaryError}>{ errors.password?.message }</span>
-						}
+					<input type='password' {...register('password', {required: true})}/>
 				</div>
-				
+				{/* <div>
+					<Field placeholder={"Password"} name={"password"}  validate={required}  type={"password"} component={Element} typeElement="input" />
+				</div> */}
 
 				<div>
 					<input type='checkbox' {...register('rememberMe')}/>
 					remember me
 				</div>
+				{/* {createForm(null, "rememberMe", [], Element, "input", { type: "checkbox" }, "remember me")} */}
 				
 				
 				<div>
@@ -80,4 +70,7 @@ function LoginForm () {
 		</>
 	)
 }
+
+		
+
 export default LoginForm
