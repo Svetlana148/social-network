@@ -1,7 +1,7 @@
 import React, {useState}  from 'react';
 import s from './ProfileInfo.module.css';
 import Preloader from '../../common/preloader/Preloader';
-import ProfileDataReduxForm from './ProfileDataForm';
+import ProfileDataForm from './ProfileDataForm';
 import ProfileStatusWithHooks from './ProfileStatusWithHooks.jsx';
 import userPhoto from '../../../assets/img/User.png';
 
@@ -53,7 +53,7 @@ const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto, savePro
 
 				{/* Если Edit Mode, то показать форму для изменения профиля */}
 				{editMode ? 
-								<ProfileDataReduxForm initialValues={profile} profile={profile} onSubmit = {onSubmit} /> :
+								<ProfileDataForm initialValues={profile} profile={profile} onSubmit = {onSubmit} /> :
 								<ProfileData goToEditMode = {()=>{setEditMode(true)}}  profile={profile} isOwner = {isOwner}/>}
 
 
