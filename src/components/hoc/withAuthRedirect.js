@@ -1,3 +1,4 @@
+// Если не залогинены, то в этом HOC ПЕРЕНАПРАВЛЯЕМ на Login
 import React from "react";
 import { Navigate } from "react-router-dom";
 import {connect} from 'react-redux';

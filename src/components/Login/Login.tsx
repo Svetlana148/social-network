@@ -103,17 +103,7 @@ export function LoginForm (props: MapStatePropsType & MapDispatchPropsType) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-const Login : React.FC<MapStatePropsType & MapDispatchPropsType > = (props) => {
+const Login : React.FC<MapStatePropsType & MapDispatchPropsType > = (                                                                                                           props) => {
 	
 	if (props.isAuth) {
 		//Navigate вместо Redirect----------------------------------------------------

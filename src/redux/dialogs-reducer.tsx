@@ -31,13 +31,16 @@ let initialState = {
 };
 //-----------------------------------------------------------------------------------------
 
+
+
 //Упакуем все AC-ры в 1 Объект "actions" -------
 export const actions = {
 	addMessageActionCreator : (newMessageText : string)=>{return {type : 'ADD-MESSAGE', newMessageText} as const
 	}
 }
 
-type ActionsType = InferActionsTypes<typeof actions>	// Типизируем все "actions"
+type ActionsType = InferActionsTypes<typeof actions>	// InferТипизирует все "actions". Возвращает все то, что ф-ции_Из_аctions возвращают в {} с типамиЭтихВозвратов
+export type AddMessageActionCreatorType = typeof actions.addMessageActionCreator	// Типизируем все "addMessageActionCreator"
 
 
 
