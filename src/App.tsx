@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {Routes, Route, BrowserRouter} from 'react-router-dom';
-import {connect, Provider} from 'react-redux';
-import store from './redux/redux-store';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { connect, Provider } from 'react-redux';
+import store, { AppStateType } from './redux/redux-store';
 
 
 import { initializeApp } from "./redux/app-reducer";
@@ -11,96 +11,108 @@ import HeaderContainer from './components/Header/HeaderContainer';
 import Preloader from './components/common/preloader/Preloader';
 
 
+// Контейнеры : 3 JSApp (2 AppContainer (1 App))
+// 2 AppContainer снабжает (1 App)) чем: "initialize"   и "initializeApp"
+// 3 JSApp снабжает (2 AppContainer) чем: "BrowserRouter"-ом и "store"-ом 
+
+
+
 
 // lazy - Сборщик НЕ собирает эту компоненту СРАЗУ в общий bandl, а только когда эту к-ту надо будет отрисовывать
 // ее запросят снова с сервера. Т.о. загрузочный файл меньше и при лож-е загруж-ся быстрее
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
 const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
-const Login  = React.lazy(() => import('./components/Login/Login'));
+const Login = React.lazy(() => import('./components/Login/Login'));
 const Music = React.lazy(() => import('./components/Music/Music'));
 const News = React.lazy(() => import('./components/News/News'));
 const Settings = React.lazy(() => import('./components/Settings/Settings'));
 
 
 
+//Типизируем props для "App"
+type MapPropsType = ReturnType<typeof mapStateToProps>
+type DispatchPropsType = {
+  initializeApp : ()=>void
+}
 
-class App extends Component {
+
+class App extends Component<MapPropsType & DispatchPropsType>{
 
   // для отлова ошибки, см. ниже
   // reasen-причина ошибки, promise- какой из них не выполнился
-  catchAllUnhandledErrors =(reasen, promise) =>{
-
+  catchAllUnhandledErrors = (e: PromiseRejectionEvent):any => {
+    alert("Some error occurred")
   }
 
   //Запрос у сервера начальных данных-----------------------------------------
 
   // componentDidMount срабатывает только 1 раз, когда к-та вмонтируется
-  componentDidMount(){
+  componentDidMount() {
     this.props.initializeApp();
 
     // Перехватываем все непрехваченные ранее promis-ы
-    window.addEventListener("unhandledrwjection", this.catchAllUnhandledErrors);
-    };
+    window.addEventListener('unhandledrejection',this.catchAllUnhandledErrors)
+  };
 
-    //Если есто addEventListener, то где-то надо делать removeEventListener для него
-    componentDWillUnmount(){
-      window.removeEventListener("unhandledrwjection", this.catchAllUnhandledErrors);
-    };
+  //Если есть addEventListener, то где-то надо делать removeEventListener для него
+  componentWillUnmount() {
+    window.removeEventListener("unhandledrejection", this.catchAllUnhandledErrors);
+  };
 
-  render(){
-    if (!this.props.initialized){
+  render() {
+    if (!this.props.initialized) {
       return <Preloader />
     }
 
 
 
     return (
-        <div className='app-wrapper'>
-          <HeaderContainer/>
-          <Navbar/>
+      <div className='app-wrapper'>
+        <HeaderContainer />
+        <Navbar />
 
 
-          <div className='app-wrapper-content'> 
+        <div className='app-wrapper-content'>
 
 
 
           <React.Suspense fallback={<div><Preloader /></div>}>
-						<Routes >
+            <Routes >
               {/* Есть Route exact тут ищется точное совпадение и дальше не идем */}
-							<Route path='/Profile/:userId?' element={<ProfileContainer />} />
-							<Route path='/Dialogs/*' element={<DialogsContainer />} />
-              <Route path="/users" element={<UsersContainer pageTitle ={"Social network"}/>} />
+              <Route path='/Profile/:userId?' element={<ProfileContainer />} />
+              <Route path='/Dialogs/*' element={<DialogsContainer />} />
+              <Route path="/users" element={<UsersContainer pageTitle={"Social network"} />} />
               <Route path="/login" element={<Login />} />
               <Route path="/music" element={<Music />} />
               <Route path="/news" element={<News />} />
               <Route path="/settings" element={<Settings />} />
 
-						</Routes>
-					</React.Suspense>
-          </div>
+            </Routes>
+          </React.Suspense>
         </div>
+      </div>
     );
   }
 }
 
 
-const mapStateToProps = (state) => ({
-  initialized : state.app.initialized
+const mapStateToProps = (state: AppStateType) => ({
+  initialized: state.app.initialized
 });
 
 
-let AppContainer = connect(mapStateToProps, {initializeApp})(App);
+let AppContainer = connect(mapStateToProps, { initializeApp })(App);
 
-const JSApp = (props) => {
-  return(
+const JSApp: React.FC = () => {
+  return (
     // BrowserRouter обеспечивает Маршрутизацию. когда в проекте обрабатываются на сервере динамические запросы
     // HashRouter используйте когда у вас статический веб сайт
     <BrowserRouter >
-        {/* Provider кладет store в глобальный CONTEXT, чтобы все  */}
-        <Provider store = {store}>
-          <AppContainer />
-        </Provider>
+      {/* Provider кладет store в глобальный CONTEXT, чтобы все  */}
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>
     </BrowserRouter>
   )
 };
