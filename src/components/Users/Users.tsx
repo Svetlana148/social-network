@@ -31,6 +31,7 @@ let Users : FC<PropsType> = ({totalUsersCount,
 									onPageChanged, 
 									users, 
 									...props})=>{
+
 return (
 		<div>
 			{/* Вызываем компоненту с постраничным выводом объектов группой	по pageSize штук-------------------------------- */}

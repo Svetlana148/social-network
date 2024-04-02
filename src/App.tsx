@@ -8,7 +8,7 @@ import { initializeApp } from "./redux/app-reducer";
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import HeaderContainer from './components/Header/HeaderContainer';
-import Preloader from './components/common/preloader/Preloader';
+import Preloader from './components/common/Preloader/Preloader';
 
 
 // Контейнеры : 3 JSApp (2 AppContainer (1 App))
@@ -33,7 +33,7 @@ const Settings = React.lazy(() => import('./components/Settings/Settings'));
 //Типизируем props для "App"
 type MapPropsType = ReturnType<typeof mapStateToProps>
 type DispatchPropsType = {
-  initializeApp : ()=>void
+  initializeApp: () => void
 }
 
 
@@ -41,7 +41,7 @@ class App extends Component<MapPropsType & DispatchPropsType>{
 
   // для отлова ошибки, см. ниже
   // reasen-причина ошибки, promise- какой из них не выполнился
-  catchAllUnhandledErrors = (e: PromiseRejectionEvent):any => {
+  catchAllUnhandledErrors = (e: PromiseRejectionEvent): any => {
     alert("Some error occurred")
   }
 
@@ -52,7 +52,7 @@ class App extends Component<MapPropsType & DispatchPropsType>{
     this.props.initializeApp();
 
     // Перехватываем все непрехваченные ранее promis-ы
-    window.addEventListener('unhandledrejection',this.catchAllUnhandledErrors)
+    window.addEventListener('unhandledrejection', this.catchAllUnhandledErrors)
   };
 
   //Если есть addEventListener, то где-то надо делать removeEventListener для него
@@ -80,9 +80,13 @@ class App extends Component<MapPropsType & DispatchPropsType>{
           <React.Suspense fallback={<div><Preloader /></div>}>
             <Routes >
               {/* Есть Route exact тут ищется точное совпадение и дальше не идем */}
+
+              <Route path='/' element={<ProfileContainer />} />
+
               <Route path='/Profile/:userId?' element={<ProfileContainer />} />
               <Route path='/Dialogs/*' element={<DialogsContainer />} />
-              <Route path="/users" element={<UsersContainer pageTitle={"Social network"} />} />
+              <Route path="/users" element={<UsersContainer  />} />   
+              {/* pageTitle={"Social network"} */}
               <Route path="/login" element={<Login />} />
               <Route path="/music" element={<Music />} />
               <Route path="/news" element={<News />} />

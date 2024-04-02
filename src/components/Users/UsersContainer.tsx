@@ -3,8 +3,8 @@ import React from 'react';
 import { follow, unfollow, requestUsers } from '../../redux/users-reducer';
 import Users from './Users';
 import { connect } from 'react-redux';
-import Preloader from '../common/preloader/Preloader.jsx';
-import { withAuthRedirect } from '../hoc/withAuthRedirect.js';
+import Preloader from '../common/Preloader/Preloader.jsx';
+import { withAuthRedirect } from '../hoc/withAuthRedirect';
 import { compose } from 'redux';
 import { getUsers, getPageSize, getTotalUsersCount, getCurrentPage, getIsFetching, getFollowingInProgress } from '../../redux/users-selectors';
 import { UserType } from '../../types/types';
@@ -96,15 +96,15 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 // compose применяет к к-те последовательно разные HOC (High_Order_Component)
 // HOC - ф-ция, кот. принимает 1 к-ту, а возвращает контейнерную к-ту над входящей, стобы дать первой к-те какие-то данные
 //MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, PropsType
-export default compose(
+export default compose<React.ComponentType>(
 
-withAuthRedirect,
+	withAuthRedirect,
 	// типы для connect-а    TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultState-основной глоб.State 
 	connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>
 
 		(mapStateToProps, { follow, unfollow, requestUsers }))
-//
+	//
 
-(UsersAPIComponent);
+	(UsersAPIComponent);
 
 
