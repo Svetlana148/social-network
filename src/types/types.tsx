@@ -22,10 +22,13 @@ export type PhotosType = { // типизация Объекта Photos
 
 export type ProfileType = { // типизация всего Profile
 	userId: number
+
+	fullName:  string
 	lookingForAJob: boolean
 	lookingForAJobDescription: string
-	fullName:  string
+	aboutMe:  string
 	contacts: ContactsType
+	
 	photos: PhotosType
 }
 

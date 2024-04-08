@@ -11,8 +11,8 @@ import s from '../FormsControls/FormsControls.module.css'
 
 
 // Контейнеры : 3 connect (2 Login (1 LoginForm))
-// 2 Login снабжает (1 LoginForm)) чем: "captchaUrl"
-// 3 connect снабжает (2 Login) чем: ""
+// 2 Login снабжает (1 LoginForm)) чем: 	"captchaUrl"
+// 3 connect снабжает (2 Login) чем: 		"login-ом"-ф-цией  callback-ом
 
 
 
@@ -103,7 +103,7 @@ export function LoginForm (props: MapStatePropsType & MapDispatchPropsType) {
 
 
 
-const Login : React.FC<MapStatePropsType & MapDispatchPropsType > = (                                                                                                           props) => {
+const Login : React.FC<MapStatePropsType & MapDispatchPropsType > = (props) => {
 	
 	if (props.isAuth) {
 		//Navigate вместо Redirect----------------------------------------------------
@@ -140,6 +140,7 @@ export default connect(mapStateToProps, { login })(Login);
 
 //----------------------------------------------------------------------------------
 
+
 //Какие данные собирает  форма(что вводит пользователь)
 interface ILoginForm {
 	captcha : string
@@ -160,13 +161,4 @@ type MapDispatchPropsType = {  //Для "connect(Login)" и "Login"
 
 // type LoginFormOwnPropsType = { //Для "const LoginForm"
 // 	captchaUrl : string | null
-// }
-//......................................
-
-
-// type LoginFormValueType = { //Какие данные собирает  форма(FormData ). Типизируем для "const LoginForm", "const Login"
-// 	email : string
-// 	password : string
-// 	rememberMe : boolean
-// 	captcha : string
 // }

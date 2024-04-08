@@ -108,7 +108,7 @@ export const getAuthUserData = () : ThunkType => async (dispatch) => {
 };
 
 // Запрос на заЛогиниться
-export const login = (email: string, password: string, rememberMe: boolean, captcha: any)  : ThunkType => //"ThunkType" им типизируем наш ThunkCreator
+export const login = (email: string, password: string, rememberMe: boolean, captcha: string)  : ThunkType => //"ThunkType" им типизируем наш ThunkCreator
 	async (dispatch) => {
 	let loginData = await authAPI.login(email, password, rememberMe, captcha);
 

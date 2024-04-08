@@ -84,7 +84,7 @@ type ActionsType = InferActionsTypes<typeof actions>
 //--------------------------------------------------------------------------
 
 // 3. Типизируем все Thunk-и
-type ThunkType = BaseThunkType<ActionsType | FormAction>  //"FormAction" из 'redux-form'-мы, чтобы добавить в dispatch "Sabmit"//"FormAction" из 'redux-form'-мы, чтобы добавить в dispatch "Sabmit"
+export type ThunkType = BaseThunkType<ActionsType | FormAction>  //"FormAction" из 'redux-form'-мы, чтобы добавить в dispatch "Sabmit"//"FormAction" из 'redux-form'-мы, чтобы добавить в dispatch "Sabmit"
 
 
 

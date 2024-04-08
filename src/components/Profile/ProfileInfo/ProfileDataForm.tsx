@@ -1,10 +1,16 @@
+//Форма в "Моем профайле" (редактирование данных моего профиля): fullName, lookingForAJob, My professional skills, About me, Contacts[]
+
 import React from 'react';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
-import { ContactsType } from '../../../types/types';
+import { ContactsType, ProfileType } from '../../../types/types';
 import s from '../Profile.module.css';
+import { InitialStateType } from '../../../redux/profile-reducer';
 
 
-//Контейнеры :(2. profileInfo "onSubmit (ф-ция saveProfile (formData из Redux))" (1. ProfileDataForm "сама форма")))
+//Контейнеры :(2. profileInfo "onSubmit (ф-ция "saveProfile" (formData из Redux))" (1. ProfileDataForm "сама форма")))
+// 2. profileInfo снабжает (1. ProfileDataForm) чем:    	"saveProfile-ом"-ф-цией  callback-ом
+
+
 
 
 //Какие данные собирает  форма(что вводит пользователь)
@@ -20,17 +26,47 @@ interface IProfileDataEditForm {
 // 1. Осн. компонента с формой-------------------------------------------------------------------
 
 
-export default function ProfileDataForm(initialValues:any, profile:any, onSubmit: (formData: any) => void) {
+type ProfileDataFormPropsType = {
+	initialValues:ProfileType
+	saveProfile: (formData: ProfileType) => void
+}
+
+
+
+//initialValues - весь profile
+export default function ProfileDataForm({initialValues, saveProfile}:ProfileDataFormPropsType) {
 // const ProfileDataForm = ({handleSubmit, profile, error}) =>{
 
 // "useForm" Generik  Что можно делать с формой и Значения полей формы по умолчанию
 	// {register - регистрация, handleSubmit - сбор данных в форме, formState- состояние формы(тут ошибки)}-возможности работы с формой
-	const { register, handleSubmit, formState: { errors } } = useForm<IProfileDataEditForm>({	})
+
+	const { register, handleSubmit, formState: { errors } } = useForm<IProfileDataEditForm>({
+		defaultValues: {              //передаем дополнительные параметры
+			fullName : initialValues.fullName,
+			lookingForAJob : initialValues.lookingForAJob,
+			lookingForAJobDescription : initialValues.lookingForAJobDescription,
+			aboutMe : initialValues.aboutMe,
+			contacts : initialValues.contacts
+      }
+		})
 
 //  Submit----------------------------------------------------------------
 	//Удачный Submit
 	const submit : SubmitHandler<IProfileDataEditForm > = (formData) =>{
-		// props.login(formData.email, formData.password, formData.rememberMe ?? false, formData.captcha);
+		debugger
+		let updatedProfile: ProfileType = {
+			...initialValues, fullName : formData.fullName, 
+									lookingForAJob : formData.lookingForAJob   ?? false,	
+									lookingForAJobDescription : formData.lookingForAJobDescription,
+									aboutMe : formData.aboutMe,
+									contacts : formData.contacts
+		}
+		// initialValues.fullName = formData.fullName;
+		// initialValues.lookingForAJob = formData.lookingForAJob   ?? false;
+		// initialValues.lookingForAJobDescription= formData.lookingForAJobDescription;
+		// initialValues.aboutMe = formData.aboutMe;
+		// initialValues.contacts = formData.contacts;
+		saveProfile(updatedProfile);
 	}
 
 	//НЕ удачный Submit
@@ -45,7 +81,7 @@ export default function ProfileDataForm(initialValues:any, profile:any, onSubmit
 	return (
 		<form onSubmit={handleSubmit(submit, error)}> 
 
-				<div><button onClick={() => { }}>Save</button></div>
+				<div><button>Save</button></div>
 
 				{/* Покажем ошибку с указанием в каком поле она сделана */}
 				{/* {error && <div className={style.formSummaryError}>
@@ -75,7 +111,6 @@ export default function ProfileDataForm(initialValues:any, profile:any, onSubmit
 
 				<div>
 					<b>About me</b> : <input type='textarea' {...register('aboutMe')} />
-					{/* {createForm("About me", "aboutMe", [], Element, "textarea")} */}
 				</div>
 
 
@@ -111,11 +146,6 @@ export default function ProfileDataForm(initialValues:any, profile:any, onSubmit
 						</div>
 						
 				</div>
-
-
-
-
-
 
 		</form>
 	)

@@ -2,21 +2,10 @@ import React from 'react';
 import Profile from './Profile.jsx';
 import {connect} from 'react-redux';
 import {getUserProfile, getStatus, updateStatus, savePhoto, saveProfile} from '../../redux/profile-reducer';
-// import { useParams } from 'react-router-dom'; 
 import { compose } from 'redux';
 import {  useLocation, useNavigate, useParams } from "react-router-dom";
- import { useEffect } from "react";
+import { useEffect } from "react";
 
-
-
-
-// export function withRouter(Children){
-// 	return(props)=>{
-
-// 		const match  = {params: useParams()};
-// 		return <Children {...props}  match = {match}/>
-// 	}
-// }
 
 
 
@@ -34,7 +23,7 @@ class ProfileContainer extends React.Component{
 				this.props.history.push("/Login")
 			}
 		}
-		this.props.getUserProfile(userId);
+		this.props.getUserProfile(userId);	//Запрос на получение профайла какого-то User-а
 		this.props.getStatus(userId);
 	}
 
