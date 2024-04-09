@@ -20,10 +20,13 @@ type DispatchPropsType = {
 
 // Перенаправляет при Login-е
 // Оборачиваем передаваемую К-ту Redirect-ом
-//с наполнением-props-ами-"WCP"
+//с наполнением-props-ами-"WCP"(Wrapper Component Props)
 
+//Ф-ция, создающая обрачиваЮЩУЮ к-ту
 export function withAuthRedirect<WCP extends {}> (WrappedComponent: React.ComponentType<WCP>){
 	// check Login ---------------------------------
+
+	//Оборачивающая к-та
 	const RedirectComponent: React.FC<MapPropsType & DispatchPropsType> = (props) => {
 		let {isAuth, ...restProps} = props   //Забираем из props-ов "isAuth"
 

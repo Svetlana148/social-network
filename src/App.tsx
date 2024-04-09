@@ -76,8 +76,8 @@ class App extends Component<MapPropsType & DispatchPropsType>{
         <div className='app-wrapper-content'>
 
 
-
-          <React.Suspense fallback={<div><Preloader /></div>}>
+        {/* "Suspense" крутилка для ВСЕх компонент проекта */}
+          <React.Suspense fallback={<div><Preloader /></div>}>  
             <Routes >
               {/* Есть Route exact тут ищется точное совпадение и дальше не идем */}
 
