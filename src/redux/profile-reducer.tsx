@@ -14,7 +14,7 @@ let initialState = {
 
 	profile : null as ProfileType | null,
 	status : "",
-	newPostText: "",
+	// newPostText: "",
 };
 
 export type InitialStateType = typeof initialState;

@@ -9,17 +9,23 @@ import { PostType } from '../../../types/types';
 
 
 
-type PropsType = {  //Для  "MyPosts"
-	addPost: (newPostText: string) => void
+export type MapsPropsType = {  //Для  "MyPosts"
 	postsData : Array<PostType>
+}
+export type DispatchPropsType = {  //Для  "MyPosts"
+	addPost: (newPostText: string) => void
 }
 
 
 
-const MyPosts : React.FC<PropsType> = (props => {
+const MyPosts : React.FC<MapsPropsType & DispatchPropsType> = (props => {
 
-	let postsElement = props.postsData.map(p => 
-							<Post key ={p.id} message={p.message} likesCount={p.likesCount} />);
+	// let postsElement = props.postsData.map(p => 
+	// 						<Post key ={p.id} message={p.message} likesCount={p.likesCount} />);
+	let postsElement = [...props.postsData]
+							.reverse()							//Выводим новые "Post"-ы первыми
+							.map(p => <Post key ={p.id} message={p.message} likesCount={p.likesCount} />);
+
 
 
 	return (

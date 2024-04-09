@@ -11,7 +11,6 @@ let state = {
 	],
 	profile : null,
 	status : "",
-	newPostText: "",
 };
 
 
