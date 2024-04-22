@@ -3,7 +3,7 @@ import s from './ProfileInfo.module.css';
 import Preloader from '../../common/Preloader/Preloader';
 import ProfileDataForm from './ProfileDataForm';
 import ProfileStatusWithHooks from './ProfileStatusWithHooks';
-import userPhoto from '../../../assets/img/User.png';
+import userPhoto from '../../../assets/img/UserUnknown.png';
 import { ContactsType, ProfileType } from '../../../types/types';
 
 
@@ -13,7 +13,7 @@ import { ContactsType, ProfileType } from '../../../types/types';
 
 
 type PropsType = {  //Для  "ProfileInfo"
-	profile : ProfileType
+	profile : ProfileType  | null
 	status : string
 	updateStatus : (status : string)=>void
 	isOwner : boolean
@@ -25,7 +25,7 @@ type PropsType = {  //Для  "ProfileInfo"
 
 const ProfileInfo : React.FC<PropsType>= ({ profile, status, updateStatus, isOwner, savePhoto, saveProfile }) => {
 
-	let [editMode, setEditMode] = useState(false);
+	let [editMode, setEditMode] = useState(false);//Дает LockalState в "editMode"  и ф-цию, которая его меняет "setEditMode"
 
 	if (!profile) {
 		return <Preloader />
@@ -46,8 +46,8 @@ const ProfileInfo : React.FC<PropsType>= ({ profile, status, updateStatus, isOwn
 			() => { setEditMode(false); }
 		);
 	}
-
 	return (
+	
 		<div>
 			<div className={s.img1}>
 				<img src='https://img.freepik.com/free-photo/tropical-beach_74190-188.jpg' alt='' />
@@ -58,6 +58,7 @@ const ProfileInfo : React.FC<PropsType>= ({ profile, status, updateStatus, isOwn
 
 			<div className={s.discription}>
 				{/* avatar eingestellt wird*/}
+				
 				<img src={profile.photos.large || userPhoto} className={s.mainPhoto} alt='' />
 
 				{/* Если ты владелец этого профайла, то показать кнопку для выбора фотки */}

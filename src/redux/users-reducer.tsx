@@ -1,3 +1,4 @@
+import { APIResponseType } from '../components/api/api';
 import { usersAPI } from '../components/api/users-api';
 import { UserType } from '../types/types';
 import { updateObjectInArray } from '../utils/object-helpers';
@@ -16,7 +17,7 @@ let initialState = {
 	followingInProgress: [] as Array<number>, //массив userId
 };
 //Выделяем  Type из initialState
-type InitialStateType = typeof initialState;
+export type InitialStateType = typeof initialState; //export для использования в "user-reducer.test.ts"
 
 
 
@@ -137,11 +138,15 @@ export const requestUsers = (page: number, pageSize: number): ThunkType => {
 
 //Это (_followUnfollowFlow) общая чать для const-ант follow и unfollow
 //"=> FollowSuccessType | UnFollowSuccessType" - что по итогу получим, когда на вход дадим followSuccess/unfollowSuccess, см далее в "const follow" и "const unfollow"
+
 export const _followUnfollowFlow = 			
-	async (dispatch: DispatchType, userId: number, apiMethod: any, actionCreator: (userId: number) => ActionsTypes) => {
-		dispatch(actions.toggleFollowingProgress(true, userId));
+	async (dispatch: DispatchType, 
+			userId: number, 
+			apiMethod: (userId:number) => Promise<APIResponseType>, 
+			actionCreator: (userId: number) => ActionsTypes) => {
+		dispatch(actions.toggleFollowingProgress(true, userId));  //"actions.toggleFollowingProgress(true, userId)" - наш объект
 		let response = await apiMethod(userId);
-		if (response.data.resultCode === 0) {
+		if (response.resultCode === 0) {
 			dispatch(actionCreator(userId))
 		};
 		dispatch(actions.toggleFollowingProgress(false, userId));
@@ -155,7 +160,8 @@ export const follow = (userId: number): ThunkType => {
 			// let apiMethod = usersAPI.follow.bind(usersAPI);
 			// let actionCreator = followSuccess;
 
-			_followUnfollowFlow(dispatch, userId, usersAPI.follow.bind(usersAPI),actions.followSuccess);
+			await _followUnfollowFlow(dispatch, userId, usersAPI.follow.bind(usersAPI),actions.followSuccess);	
+			//нужен "await", т.к. тут асинхр.ф-ция внутри др-й асинхр-й ф-ции
 		}
 	)
 }
@@ -163,7 +169,7 @@ export const follow = (userId: number): ThunkType => {
 export const unfollow = (userId: number): ThunkType => {
 	return (
 		async (dispatch) => {
-			_followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), actions.unfollowSuccess);
+			await _followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), actions.unfollowSuccess);
 		}
 	)
 }

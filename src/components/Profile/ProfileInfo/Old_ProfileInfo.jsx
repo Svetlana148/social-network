@@ -12,7 +12,7 @@ import userPhoto from '../../../assets/img/User.png';
 
 const ProfileInfo = ({ profile, status, updateStatus, isOwner, savePhoto, saveProfile }) => {
 
-	let [editMode, setEditMode] = useState(false);
+	let [editMode, setEditMode] = useState(false); //Дает LockalState в "editMode"  и ф-цию, которая его меняет "setEditMode"
 
 	if (!profile) {
 		return <Preloader />

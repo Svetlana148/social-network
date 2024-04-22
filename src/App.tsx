@@ -11,7 +11,7 @@ import HeaderContainer from './components/Header/HeaderContainer';
 import Preloader from './components/common/Preloader/Preloader';
 
 
-// Контейнеры : 3 JSApp (2 AppContainer (1 App))
+// Контейнеры : (3 JSApp (2 AppContainer (1 App)))
 // 2 AppContainer снабжает (1 App)) чем: "initialize"   и "initializeApp"
 // 3 JSApp снабжает (2 AppContainer) чем: "BrowserRouter"-ом и "store"-ом 
 
@@ -76,7 +76,7 @@ class App extends Component<MapPropsType & DispatchPropsType>{
         <div className='app-wrapper-content'>
 
 
-        {/* "Suspense" крутилка для ВСЕх компонент проекта */}
+        {/* "Suspense" крутилка( мною написанная) для ВСЕх компонент проекта */}
           <React.Suspense fallback={<div><Preloader /></div>}>  
             <Routes >
               {/* Есть Route exact тут ищется точное совпадение и дальше не идем */}

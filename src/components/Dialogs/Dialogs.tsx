@@ -1,7 +1,7 @@
 //Отрисовывает все диалоги и Message-и
 // и вызывает форму для добавления Message-а
 
-import React, { FC } from "react";
+import React from "react";
 import s from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";

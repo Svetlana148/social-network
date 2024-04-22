@@ -1,8 +1,16 @@
+//Боковая панель на главном экране (sidebar)
+
 import React from 'react';
 import s from './Navbar.module.css';
 import { NavLink } from 'react-router-dom';
 
-const Navbar = (props) => {
+
+//Типизация для "Navbar"-а
+type PropsType = {
+	// frendsData:
+}
+
+const Navbar:React.FC<PropsType> = (props) => {
 	return (
 		<div className={s.sidebar}>
 
@@ -37,7 +45,7 @@ const Navbar = (props) => {
 			<div>
 				Frends
 				<div>
-					{props.frendsData}
+					{/* {props.frendsData} */}
 				</div>
 			</div>
 		</div>

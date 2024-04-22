@@ -1,4 +1,4 @@
-import { AxiosPromise } from 'axios';
+// Ответ от сервера для странички "User"-ы
 import { GetItemsType, APIResponseType, instance } from './api';
 
 

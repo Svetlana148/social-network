@@ -3,11 +3,13 @@ import s from "./DialogItem.module.css";
 import { NavLink } from "react-router-dom";
 
 
+//Типизация для "DialogItem"-а
+export type PropsType = {
+	id: number
+	name: string
+}
 
-
-
-
-const DialogItem = (props) => {
+const DialogItem: React.FC<PropsType> = (props) => {
 	let path = '/Dialogs/' + props.id;
 	return (
 		<div>
@@ -23,10 +25,4 @@ const DialogItem = (props) => {
 		</div>
 	)
 }
-
-// ---------------------------------------------------------------
-
-
-
-
 export default DialogItem;

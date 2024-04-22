@@ -1,3 +1,7 @@
+//Считает сколько  и каких User-ов надо отображать в зависимости от: 
+//portionNumber -текущая порция и какие страницы показывать между стрелками"вперед" "назад"
+
+
 import React, {useState} from 'react';
 import s from './Paginator.module.css';
 import cn from "classnames";
@@ -8,16 +12,16 @@ type PropsType ={
 	totalItemsCount : number
 	pageSize : number
 	currentPage : number
-	onPageChanged : (pageNumber : number)=>void //Ф-ция, кот. не принимает ничего и ничего не возвращает. Это callback
-	portionSize? : number                       //"? " - Не обязательный параметр, т.е либо number; либо undefaind и присвоится 10
+	onPageChanged? : (pageNumber : number)=>void //Ф-ция, кот. не принимает ничего и ничего не возвращает. Это callback
+	portionSize? : number                        //"? " - Не обязательный параметр, т.е либо number; либо undefaind и присвоится 10
 }
 
 //Отрисовывает страничку с User-ами------------------------------------------
 //Типизируем к-ту Paginator
-let Paginator : React.FC<PropsType>= ({totalItemsCount,  //React.FC<PropsType> или    FC<PropsType> и import {FC} from 'react';
+let Paginator : React.FC<PropsType>= ({totalItemsCount,  
 												pageSize, 
-												currentPage, 
-												onPageChanged, 
+												currentPage = 1, 
+												onPageChanged = x=>x, 
 												portionSize = 10 }) => {
 	let pagesCount = Math.ceil(totalItemsCount / pageSize);
 	let pages : Array<number> = [];
@@ -29,6 +33,7 @@ let Paginator : React.FC<PropsType>= ({totalItemsCount,  //React.FC<PropsType> �
 
 	//local state для portionNumber------------------------------------------
 	let [portionNumber, setPortionNumber] = useState(1);  // useState(1) - hok, обеспечивающий локальный State
+	//Дает LockalState в "portionNumber"  и ф-цию, которая его меняет "setPortionNumber"
 
 	let leftPortionPageNumber = (portionNumber -1)* portionSize + 1;
 	let rightPortionPageNumber = portionNumber * portionSize;

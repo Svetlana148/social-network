@@ -21,7 +21,7 @@ import { ProfileType } from '../../types/types';
 
 //Типизируем "ProfileContainer". Для этого типизируем составляющие:-----------------------------------------------------------
 //Типизируем "mapStateToProps"
-type MapPropsType = ReturnType<typeof mapStateToProps>
+type MapPropsType = ReturnType<typeof mapStateToProps> //Говорит, сто так делать не надо для "MapPropsType"
 
 //Типизируем "mapDispatchToProps"
 type DispatchPropsType = {
@@ -29,7 +29,7 @@ type DispatchPropsType = {
 	getStatus: (userId: number)=>void
 	updateStatus: (status: string)=>void
 	savePhoto: (file : File)=>void
-	saveProfile: (profile : ProfileType)=>void
+	saveProfile: (profile : ProfileType)=>Promise<any>
 }
 
 
@@ -118,7 +118,7 @@ let mapStateToProps = (state: AppStateType)=>({
 //Ф-ция, создающая обрачиваЮЩУЮ к-ту
 function withRouter<WCP extends MapPropsType&DispatchPropsType> (WrappedComponent: React.ComponentType<WCP>) { //"WrappedComponent" - обораЧИВАЕМАЯ к-та
 	
-	//Оборачивающая к-та
+	//ОборачиваЮЩАЯ к-та, дает оборачивАЕМОЙ к-те: "location", "navigate", "params"  + "userId ", "navigate"
 	function ComponentWithRouterProp(props: MapPropsType & DispatchPropsType) {
 		let location = useLocation();
 		let navigate = useNavigate();
