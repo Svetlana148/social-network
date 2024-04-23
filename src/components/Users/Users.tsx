@@ -6,6 +6,8 @@ import { UserType } from '../../types/types';
 // import userPhoto from '../../img/User.png';
 // import {NavLink} from  'react-router-dom';
 // import {usersAPI} from '../api/api';
+import UserSearchForm from './SearchForm';
+
 
 
 
@@ -34,6 +36,7 @@ let Users : FC<PropsType> = ({totalUsersCount,
 
 return (
 		<div>
+			<UserSearchForm />
 			{/* Вызываем компоненту с постраничным выводом объектов группой	по pageSize штук-------------------------------- */}
 			<Paginator totalItemsCount={totalUsersCount} 
 							pageSize={pageSize} currentPage={currentPage}
