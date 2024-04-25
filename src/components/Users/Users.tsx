@@ -6,7 +6,8 @@ import { UserType } from '../../types/types';
 // import userPhoto from '../../img/User.png';
 // import {NavLink} from  'react-router-dom';
 // import {usersAPI} from '../api/api';
-import UserSearchForm from './SearchForm';
+import UserSearchForm from './UserSearchForm';
+import { FilterType } from '../../redux/users-reducer';
 
 
 
@@ -18,6 +19,7 @@ type PropsType ={
 	currentPage : number
 	//Ф-ция, кот. не принимает ничего и возвращает  void. Это callback
 	onPageChanged : (pageNumber : number)=>void 
+	onFilterChanged : (filter : FilterType)=>void 
 	users : Array<UserType> 
 	followingInProgress : Array<number>
 	follow : (userId : number)=>void 
@@ -30,13 +32,14 @@ type PropsType ={
 let Users : FC<PropsType> = ({totalUsersCount, 
 									pageSize, 
 									currentPage, 
-									onPageChanged, 
+									onPageChanged,
+									onFilterChanged,
 									users, 
 									...props})=>{
 
 return (
 		<div>
-			<UserSearchForm />
+			<UserSearchForm onFilterChanged = {onFilterChanged}/>
 			{/* Вызываем компоненту с постраничным выводом объектов группой	по pageSize штук-------------------------------- */}
 			<Paginator totalItemsCount={totalUsersCount} 
 							pageSize={pageSize} currentPage={currentPage}

@@ -1,4 +1,4 @@
-// Ответ от сервера для странички "User"-ы
+// Ответ от сервера для странички "Users"-ы
 import { GetItemsType, APIResponseType, instance } from './api';
 
 
@@ -7,10 +7,10 @@ import { GetItemsType, APIResponseType, instance } from './api';
 export const usersAPI = {
 
 	//Получить массив User-ов.......................
-	requestUsers(currentPage = 1, pageSize = 10) {
+	requestUsers(currentPage = 1, pageSize = 10, term: string = "") {
 		return (
 			//Типизируем все запросы get, post, delete общим типом "GetItemsType"(смотрим какой О возвращает server и типизируем его)
-			instance.get<GetItemsType>(`users?page=${currentPage}&count=${pageSize}`)
+			instance.get<GetItemsType>(`users?page=${currentPage}&count=${pageSize}&term=${term }`)
 				.then(Response => {
 					return Response.data
 				})

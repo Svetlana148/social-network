@@ -16,7 +16,9 @@ const maxLength50 =  50;
 interface IAddMessageForm {
 	newMessageText: string
 }
-interface IPropsAddMessageForm {
+
+
+interface IPropsAddMessageForm {		//Что передаем в ф-ию с формой(ф-цию-обработчик)
 	addMessageActionCreator: AddMessageActionCreatorType
 }
 

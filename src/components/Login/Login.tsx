@@ -99,7 +99,7 @@ export function LoginForm (props: MapStatePropsType & MapDispatchPropsType) {
 
 //-----------------------------------------------------------------------------------------
 // 2. Контейнер Login (LoginForm))
-//  Login снабжает к-ту 
+//  Login снабжает к-ту  чем: 	"captchaUrl"
 
 
 

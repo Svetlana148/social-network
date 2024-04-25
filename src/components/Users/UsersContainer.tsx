@@ -1,6 +1,6 @@
 import React from 'react';
 // import s from './Users.module.css';
-import { follow, unfollow, requestUsers } from '../../redux/users-reducer';
+import { follow, unfollow, requestUsers, FilterType } from '../../redux/users-reducer';
 import Users from './Users';
 import { connect } from 'react-redux';
 import Preloader from '../common/Preloader/Preloader';
@@ -29,7 +29,8 @@ type MapStatePropsType = {
 type MapDispatchPropsType = {
 	follow: (userId: number) => void
 	unfollow: (userId: number) => void
-	requestUsers: (currentPage: number, pageSize: number) => void // Ф-ция принимает параметры и ничего не возвращает
+	requestUsers: (currentPage: number, pageSize: number, term : string) => void // Ф-ция принимает параметры и ничего не возвращает
+																										//"term"-значение в строке поиска "User"-ов
 }
 // Общий тип для для к-ты UsersAPIComponent, состоит из всех 3 видов Props-сов
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
@@ -39,25 +40,17 @@ class UsersAPIComponent extends React.Component<PropsType> {
 
 	componentDidMount() {
 
-		this.props.requestUsers(this.props.currentPage, this.props.pageSize);
-		// this.props.toggleIsFetching(true);
+		this.props.requestUsers(this.props.currentPage, this.props.pageSize, "");
 	}
 
 
 	onPageChanged = (numberPage: number) => {
-
-		this.props.requestUsers(numberPage, this.props.pageSize);
-
-		// this.props.setCurrentPage(numberPage);
-
-		// this.props.toggleIsFetching(true);
-		// usersAPI.requestUsers(numberPage, this.props.pageSize).then (data =>{
-		// 	this.props.toggleIsFetching(false);
-		// 	this.props.setUsers(data.items);
-		// });
+		this.props.requestUsers(numberPage, this.props.pageSize, "");
 	}
 
-
+	onFilterChanged = (filter: FilterType) => { //Вызывает ф-цию запроса"User"-ов и изменения "filter"-а
+		this.props.requestUsers(this.props.currentPage, this.props.pageSize, filter.term);
+	}
 
 	render() {
 
@@ -69,6 +62,7 @@ class UsersAPIComponent extends React.Component<PropsType> {
 				pageSize={this.props.pageSize}
 				currentPage={this.props.currentPage}
 				onPageChanged={this.onPageChanged}
+				onFilterChanged={this.onFilterChanged}
 				users={this.props.users}
 				follow={this.props.follow}
 				unfollow={this.props.unfollow}
@@ -96,6 +90,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 // compose применяет к к-те последовательно разные HOC (High_Order_Component)
 // HOC - ф-ция, кот. принимает 1 к-ту, а возвращает контейнерную к-ту над входящей, стобы дать первой к-те какие-то данные
 //MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, PropsType
+
 export default compose<React.ComponentType>(
 
 	withAuthRedirect,

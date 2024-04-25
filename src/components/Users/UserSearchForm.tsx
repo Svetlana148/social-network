@@ -2,28 +2,24 @@
 
 import React from 'react';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
+import { FilterType } from '../../redux/users-reducer';
 
 
-//Контейнеры :(2. profileInfo "onSubmit (ф-ция saveProfile (formData из Redux))" (1. UserSearchForm "сама форма")))
+//Контейнеры :(2. UserSearchForm "onSubmit (ф-ция requestUsers (formData из Redux))" (1. UserSearchForm "сама форма")))
 
 
 
 
 //-----------------------------------------------------------------------------------------
-//Какие данные собирает  форма(что вводит пользователь)
-export type UserSearchFormType = {
-	userSearch: string
-}
+
+//FilterType - Какие данные собирает  форма(что вводит пользователь)
 
 
-
-type MapDispatchPropsType = {  
-		// addPost: (newPostText: string) => void
+//Что передаем в ф-ию с формой(а передаем ф-цию-обработчик)
+type UserSearchFormPropsType = {  
+	onFilterChanged : (filter: FilterType) => void
 }
 //-----------------------------------------------------------------------------------------
-
-
-
 
 
 
@@ -31,27 +27,27 @@ type MapDispatchPropsType = {
 
 // 1. Осн. компонента с формой-------------------------------------------------------------------
 
-//(initialValues:any, profile:any, onSubmit: (formData: any) => void)
-
-
-export default function UserSearchForm (props: MapDispatchPropsType){
-// const AddPostForm = ({handleSubmit, profile, error}) =>{
+const UserSearchForm: React.FC <UserSearchFormPropsType> = (props) => {
 
 // "useForm" Generik  Что можно делать с формой и Значения полей формы по умолчанию
 	// {register - регистрация, handleSubmit - сбор данных в форме, formState- состояние формы(тут ошибки)}-возможности работы с формой
-	const { register, handleSubmit, formState: { errors } } = useForm<UserSearchFormType>({	})
+	const { register, handleSubmit, formState: { errors } } = useForm<FilterType>({
+		defaultValues: {              //передаем дополнительные параметры
+			term: ""
+		}
+	})
 
 
 
 
 //  Submit----------------------------------------------------------------
 	//Удачный Submit
-	const submit : SubmitHandler<UserSearchFormType > = (formData) =>{ //Ф-ция обработки поиска User-а
-		// props.addPost(formData.newPostText);
+	const submit : SubmitHandler<FilterType > = (formData) =>{ //Ф-ция обработки поиска User-а
+		props.onFilterChanged(formData);
 	}
 
 	//НЕ удачный Submit
-	const error : SubmitErrorHandler<UserSearchFormType> = data =>{
+	const error : SubmitErrorHandler<FilterType> = data =>{
 	}
 //----------------------------------------------------------------
 
@@ -72,7 +68,7 @@ export default function UserSearchForm (props: MapDispatchPropsType){
 
 				{/* Поля формы */}
 				<div>
-					<b>User Search</b> : <input type='input' {...register('userSearch', 
+					<b>User Search</b> : <input type='input' {...register('term', 
 																							{maxLength:  {value: 20, message: ' exceeds 20 symbols'}})} />
 					
 					<button>Search</button>																		
@@ -80,3 +76,5 @@ export default function UserSearchForm (props: MapDispatchPropsType){
 		</form>
 	)
 }
+
+export default UserSearchForm
