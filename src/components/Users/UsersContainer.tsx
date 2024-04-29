@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Preloader from '../common/Preloader/Preloader';
 import { withAuthRedirect } from '../hoc/withAuthRedirect';
 import { compose } from 'redux';
-import { getUsers, getPageSize, getTotalUsersCount, getCurrentPage, getIsFetching, getFollowingInProgress } from '../../redux/users-selectors';
+import { getUsers, getPageSize, getTotalUsersCount, getCurrentPage, getIsFetching, getFollowingInProgress, getUsersFilter } from '../../redux/users-selectors';
 import { UserType } from '../../types/types';
 import { AppStateType } from '../../redux/redux-store';
 
@@ -24,32 +24,36 @@ type MapStatePropsType = {
 	totalUsersCount: number
 	users: Array<UserType>
 	followingInProgress: Array<number>
+	filter: FilterType
 }
 
 type MapDispatchPropsType = {
 	follow: (userId: number) => void
 	unfollow: (userId: number) => void
-	requestUsers: (currentPage: number, pageSize: number, term : string) => void // Ф-ция принимает параметры и ничего не возвращает
+	requestUsers: (currentPage: number, pageSize: number, filter : FilterType) => void // Ф-ция принимает параметры и ничего не возвращает
 																										//"term"-значение в строке поиска "User"-ов
 }
 // Общий тип для для к-ты UsersAPIComponent, состоит из всех 3 видов Props-сов
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 //------------------------------------------------------------------------------------
 
+
+
+
 class UsersAPIComponent extends React.Component<PropsType> {
 
 	componentDidMount() {
 
-		this.props.requestUsers(this.props.currentPage, this.props.pageSize, "");
+		this.props.requestUsers(this.props.currentPage, this.props.pageSize, this.props.filter);
 	}
 
 
 	onPageChanged = (numberPage: number) => {
-		this.props.requestUsers(numberPage, this.props.pageSize, "");
+		this.props.requestUsers(numberPage, this.props.pageSize, this.props.filter); //"this.props.filter.term" -нужно чтобы при наличии "filter"-а можно было переключать странички найденного
 	}
 
-	onFilterChanged = (filter: FilterType) => { //Вызывает ф-цию запроса"User"-ов и изменения "filter"-а
-		this.props.requestUsers(this.props.currentPage, this.props.pageSize, filter.term);
+	onFilterChanged = (filter: FilterType) => {								//Вызывает ф-цию запроса"User"-ов и изменения "filter"-а
+		this.props.requestUsers(1, this.props.pageSize, filter); 	//"currentPage" =1 если фильтр поменялся
 	}
 
 	render() {
@@ -77,13 +81,14 @@ class UsersAPIComponent extends React.Component<PropsType> {
 // Типизируем mapStateToProps через state: AppStateType
 let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 	return {
-		//Здесь используются селекторы (getUsers(state))
+		//Здесь используются СЕЛЕКТОРЫ (getUsers(state))
 		users: getUsers(state),
 		pageSize: getPageSize(state),
 		totalUsersCount: getTotalUsersCount(state),
 		currentPage: getCurrentPage(state),
 		isFetching: getIsFetching(state),
 		followingInProgress: getFollowingInProgress(state),
+		filter: getUsersFilter(state),
 	}
 }
 

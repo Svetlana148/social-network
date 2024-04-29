@@ -1,3 +1,5 @@
+// Селекторы принимают "State" целиком и оттуда достают нужное им
+
 import {createSelector} from 'reselect'; 
 import { AppStateType } from '../redux/redux-store';
 
@@ -28,4 +30,7 @@ export const getIsFetching = (state : AppStateType) => {
 }
 export const getFollowingInProgress = (state : AppStateType) => {
 	return state.usersPage.followingInProgress;
+}
+export const getUsersFilter = (state : AppStateType) => {
+	return state.usersPage.filter;
 }

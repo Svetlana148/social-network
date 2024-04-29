@@ -19,6 +19,17 @@ import { FilterType } from '../../redux/users-reducer';
 type UserSearchFormPropsType = {  
 	onFilterChanged : (filter: FilterType) => void
 }
+
+//Какие типы будут в "Submit"-е (не FilterType)
+type FormType = {  
+	term : string,
+	friend: "true" | "false" | "null"
+}
+
+
+
+
+
 //-----------------------------------------------------------------------------------------
 
 
@@ -31,9 +42,10 @@ const UserSearchForm: React.FC <UserSearchFormPropsType> = (props) => {
 
 // "useForm" Generik  Что можно делать с формой и Значения полей формы по умолчанию
 	// {register - регистрация, handleSubmit - сбор данных в форме, formState- состояние формы(тут ошибки)}-возможности работы с формой
-	const { register, handleSubmit, formState: { errors } } = useForm<FilterType>({
+	const { register, handleSubmit, formState: { errors } } = useForm<FormType>({
 		defaultValues: {              //передаем дополнительные параметры
-			term: ""
+			term: "",
+			friend: 'null'
 		}
 	})
 
@@ -42,8 +54,13 @@ const UserSearchForm: React.FC <UserSearchFormPropsType> = (props) => {
 
 //  Submit----------------------------------------------------------------
 	//Удачный Submit
-	const submit : SubmitHandler<FilterType > = (formData) =>{ //Ф-ция обработки поиска User-а
-		props.onFilterChanged(formData);
+	const submit : SubmitHandler<FormType > = (formData) =>{ //Ф-ция обработки поиска User-а
+		const filter:FilterType = {
+			term: formData.term,
+			friend: formData.friend === 'null' ? null    :     formData.friend === 'true' ? true     :    false
+		}
+
+		props.onFilterChanged(filter);
 	}
 
 	//НЕ удачный Submit
@@ -63,13 +80,23 @@ const UserSearchForm: React.FC <UserSearchFormPropsType> = (props) => {
 				{/* {error && <div className={style.formSummaryError}>
 					{error}
 				</div>} */}
-
+				<div>
+					
+				</div>
 
 
 				{/* Поля формы */}
 				<div>
 					<b>User Search</b> : <input type='input' {...register('term', 
 																							{maxLength:  {value: 20, message: ' exceeds 20 symbols'}})} />
+					
+					{/* select - поле выбора----------------------------------------------*/}
+					<select {...register("friend")}>
+					<option value="null">All</option>
+					<option value="true">Only followed</option>
+					<option value="false">Only unfollowed</option>
+					</select>
+
 					
 					<button>Search</button>																		
 				</div>

@@ -7,10 +7,10 @@ import { GetItemsType, APIResponseType, instance } from './api';
 export const usersAPI = {
 
 	//Получить массив User-ов.......................
-	requestUsers(currentPage = 1, pageSize = 10, term: string = "") {
+	requestUsers(currentPage = 1, pageSize = 10, term: string = "", friend: null | boolean = null) {
 		return (
 			//Типизируем все запросы get, post, delete общим типом "GetItemsType"(смотрим какой О возвращает server и типизируем его)
-			instance.get<GetItemsType>(`users?page=${currentPage}&count=${pageSize}&term=${term }`)
+			instance.get<GetItemsType>(`users?page=${currentPage}&count=${pageSize}&term=${term }`+ (friend === null ? '' : `&friend=${friend}`))
 				.then(Response => {
 					return Response.data
 				})
