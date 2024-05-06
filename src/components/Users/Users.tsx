@@ -8,15 +8,17 @@ import { UserType } from '../../types/types';
 // import {usersAPI} from '../api/api';
 import UserSearchForm from './UserSearchForm';
 import { FilterType } from '../../redux/users-reducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentPage, getPageSize, getTotalUsersCount } from '../../redux/users-selectors';
 
 
 
 
 //Типизируем Props-сы к-ты Users
-type PropsType ={
-	totalUsersCount : number
-	pageSize : number
-	currentPage : number
+type UsersPropsType ={
+	// totalUsersCount : number
+	// pageSize : number
+	// currentPage : number
 	//Ф-ция, кот. не принимает ничего и возвращает  void. Это callback
 	onPageChanged : (pageNumber : number)=>void 
 	onFilterChanged : (filter : FilterType)=>void 
@@ -29,13 +31,26 @@ type PropsType ={
 }
 
 // Users  : React.FC<PropsType>  or     Users  : FC<PropsType> & import React, {FC} from 'react';
-let Users : FC<PropsType> = ({totalUsersCount, 
-									pageSize, 
-									currentPage, 
+let Users : FC<UsersPropsType> = ({
+									// totalUsersCount, 
+									// pageSize, 
+									// currentPage, 
 									onPageChanged,
 									onFilterChanged,
 									users, 
 									...props})=>{
+
+
+//Используем "useSelector( наш селектор)" для получения данных из "state"-а не через "props"-ы										
+const totalUsersCount = useSelector(getTotalUsersCount)
+const pageSize = useSelector(getPageSize)
+const currentPage = useSelector(getCurrentPage)
+
+//Используем "useDispatch( наша thunk/action)" для Dispatch-а в "state" не через "props"-ы										
+const dispatch = useDispatch()
+
+
+
 
 return (
 		<div>

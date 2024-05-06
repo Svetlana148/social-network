@@ -62,9 +62,9 @@ class UsersAPIComponent extends React.Component<PropsType> {
 			<h2>{this.props.pageTitle}</h2>
 			{this.props.isFetching ? <Preloader /> : null}
 			<Users
-				totalUsersCount={this.props.totalUsersCount}
-				pageSize={this.props.pageSize}
-				currentPage={this.props.currentPage}
+				// totalUsersCount={this.props.totalUsersCount}
+				// pageSize={this.props.pageSize}
+				// currentPage={this.props.currentPage}
 				onPageChanged={this.onPageChanged}
 				onFilterChanged={this.onFilterChanged}
 				users={this.props.users}
