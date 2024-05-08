@@ -22,7 +22,7 @@ import Preloader from './components/common/Preloader/Preloader';
 // ее запросят снова с сервера. Т.о. загрузочный файл меньше и при лож-е загруж-ся быстрее
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
-const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
+const UsersPage = React.lazy(() => import('./components/Users/UsersContainer'));
 const Login = React.lazy(() => import('./components/Login/Login'));
 const Music = React.lazy(() => import('./components/Music/Music'));
 const News = React.lazy(() => import('./components/News/News'));
@@ -85,7 +85,7 @@ class App extends Component<MapPropsType & DispatchPropsType>{
 
               <Route path='/Profile/:userId?' element={<ProfileContainer />} />
               <Route path='/Dialogs/*' element={<DialogsContainer />} />
-              <Route path="/users" element={<UsersContainer  />} />   
+              <Route path="/users" element={<UsersPage pageTitle='user page title'  />} />   
               {/* pageTitle={"Social network"} */}
               <Route path="/login" element={<Login />} />
               <Route path="/music" element={<Music />} />

@@ -1,11 +1,11 @@
-import {applyMiddleware, combineReducers, legacy_createStore as createStore, compose, Action} from 'redux'; 
+import {applyMiddleware, combineReducers, legacy_createStore as createStore, compose, Action, AnyAction} from 'redux'; 
 import profileReducer from './profile-reducer';
 import dialogsReducer from './dialogs-reducer';
 import sidebarReducer from './sidebar-reducer';
 import usersReducer from './users-reducer';
 import authReducer from './auth-reducer';
 import appReducer from './app-reducer';
-import {thunk, ThunkAction } from 'redux-thunk'; // Отличие от видео
+import {thunk, ThunkAction, ThunkDispatch } from 'redux-thunk'; // Отличие от видео
 import { reducer as formReducer } from 'redux-form';
 
 
@@ -53,6 +53,8 @@ export type InferActionsTypes<T extends {[key:string]: (...args: any[])=>any}> =
 //ThunkAction - ф-ция из "redux-thunk"
 export type BaseThunkType<A extends Action, R =Promise<void>> = ThunkAction<R, AppStateType, unknown, A>
 
+
+export type AppDispatch = ThunkDispatch<AppStateType, unknown, Action>
 //------------------------------------------------------------------------------------------------
 
 

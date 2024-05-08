@@ -131,7 +131,7 @@ type ThunkType = BaseThunkType<ActionsTypes>  //Локальный "ThunkType" �
 
 
 
-
+//"requestUsers" - это Thunk-Creator( подвид  ActionCreator-а). Его нельзяя просто вызывать, только "dispatch"-ить
 export const requestUsers = (page: number, pageSize: number, filter : FilterType): ThunkType => {
 
 	return (
@@ -169,7 +169,7 @@ export const _followUnfollowFlow =
 	}
 
 
-// Типизируем ": ThunkType"-этим  follow 
+// Типизируем " follow": ThunkType"-этим   
 export const follow = (userId: number): ThunkType => {
 	return (
 		async (dispatch) => {
