@@ -2,17 +2,16 @@ import React from 'react'
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 import { login } from "../../redux/auth-reducer";
 import { Navigate } from "react-router-dom";
-import { connect } from "react-redux";
-import { AppStateType } from '../../redux/redux-store';
+import { connect, useDispatch, useSelector } from "react-redux";
+import { AppDispatch, AppStateType } from '../../redux/redux-store';
 
 import s from '../FormsControls/FormsControls.module.css'
 // import './LoginForm .css'
 
 
 
-// Контейнеры : 3 connect (2 Login (1 LoginForm))
+// Контейнеры : (2 Login (1 LoginForm))
 // 2 Login снабжает (1 LoginForm)) чем: 	"captchaUrl"
-// 3 connect снабжает (2 Login) чем: 		"login-ом"-ф-цией  callback-ом
 
 
 
@@ -21,9 +20,21 @@ import s from '../FormsControls/FormsControls.module.css'
 
 
 // 1. LoginForm ----------------------------------------------------------------------------------
+//Какие данные собирает  форма(что вводит пользователь)
+interface ILoginForm {
+	captcha : string
+	email : string
+	password : string
+	rememberMe : boolean | null
+}
 
+//Что получает к-та "LoginForm"
+type LoginFormPropsType = {
+	captchaUrl : string | null,
+	loginSubmit: (formData: ILoginForm) =>void
+}
 
-export function LoginForm (props: MapStatePropsType & MapDispatchPropsType) {
+export function LoginForm (props: LoginFormPropsType) {
 
   // "useForm" Generik  Что можно делать с формой и Значения полей формы по умолчанию
 	// {register - регистрация, handleSubmit - сбор данных в форме, formState- состояние формы(тут ошибки)}-возможности работы с формой
@@ -38,7 +49,7 @@ export function LoginForm (props: MapStatePropsType & MapDispatchPropsType) {
 //  Submit----------------------------------------------------------------
 	//Удачный Submit
 	const submit : SubmitHandler<ILoginForm > = (formData) =>{
-		props.login(formData.email, formData.password, formData.rememberMe ?? false, formData.captcha);
+		props.loginSubmit(formData);
 	}
 
 	//НЕ удачный Submit
@@ -103,9 +114,20 @@ export function LoginForm (props: MapStatePropsType & MapDispatchPropsType) {
 
 
 
-const Login : React.FC<MapStatePropsType & MapDispatchPropsType > = (props) => {
+export const LoginPage : React.FC = () => {
 	
-	if (props.isAuth) {
+	//Используем "useSelector( наш селектор)" для получения данных из "state"-а не через "props"-ы	
+	const captchaUrl = useSelector((state: AppStateType)=>state.auth.captchaUrl)
+	const isAuth = useSelector((state: AppStateType)=>state.auth.isAuth)
+
+	//const dispatch = useDispatch()
+	const dispatch: AppDispatch  =  useDispatch()
+	const loginSubmit = (formData: ILoginForm) =>{
+		dispatch(login(formData.email, formData.password, formData.rememberMe ?? false, formData.captcha));
+	}
+
+
+	if (isAuth) {
 		//Navigate вместо Redirect----------------------------------------------------
 		return <Navigate to={("/Profile")} />
 	}
@@ -113,52 +135,16 @@ const Login : React.FC<MapStatePropsType & MapDispatchPropsType > = (props) => {
 	return (
 		<div>
 			<h1>Login </h1>
-			<LoginForm {...props}/>
+			<LoginForm captchaUrl={captchaUrl}  loginSubmit = {loginSubmit}/>
 		</div>
 	)
 }
 
-
-
-
-
-//3. Контейнер connect снабжает "login"-ом - это thunkCreater------------------------------------
-	
-
-const mapStateToProps = (state : AppStateType) : MapStatePropsType  => ({
-	captchaUrl: state.auth.captchaUrl,
-	isAuth: state.auth.isAuth
-});
-// const mapDispatchToProps = ():MapDispatchPropsType=>({  
-// 	login : login
-// });
-
-
-
-export default connect(mapStateToProps, { login })(Login);
-
-
 //----------------------------------------------------------------------------------
 
-
-//Какие данные собирает  форма(что вводит пользователь)
-interface ILoginForm {
-	captcha : string
-	email : string
-	password : string
-	rememberMe : boolean | null
-}
+export default LoginPage
 
 
-//Типизируем "connect(Login)" и "Login"......................................
-type MapStatePropsType = {    //Для "connect(Login)" и "Login"
-	captchaUrl: string | null
-	isAuth: boolean
-}
-type MapDispatchPropsType = {  //Для "connect(Login)" и "Login"
-	login : (email: string, password: string, rememberMe: boolean, captcha: string) => void
-}
 
-// type LoginFormOwnPropsType = { //Для "const LoginForm"
-// 	captchaUrl : string | null
-// }
+
+

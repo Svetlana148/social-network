@@ -23,7 +23,7 @@ import Preloader from './components/common/Preloader/Preloader';
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
 const UsersPage = React.lazy(() => import('./components/Users/UsersContainer'));
-const Login = React.lazy(() => import('./components/Login/Login'));
+const LoginPage = React.lazy(() => import('./components/Login/Login'));
 const Music = React.lazy(() => import('./components/Music/Music'));
 const News = React.lazy(() => import('./components/News/News'));
 const Settings = React.lazy(() => import('./components/Settings/Settings'));
@@ -87,7 +87,7 @@ class App extends Component<MapPropsType & DispatchPropsType>{
               <Route path='/Dialogs/*' element={<DialogsContainer />} />
               <Route path="/users" element={<UsersPage pageTitle='user page title'  />} />   
               {/* pageTitle={"Social network"} */}
-              <Route path="/login" element={<Login />} />
+              <Route path="/login" element={<LoginPage />} />
               <Route path="/music" element={<Music />} />
               <Route path="/news" element={<News />} />
               <Route path="/settings" element={<Settings />} />
