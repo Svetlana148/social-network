@@ -11,6 +11,7 @@ import { AppStateType } from '../../redux/redux-store.js';
 import { ProfileType } from '../../types/types';
 
 
+
 // Контейнеры : (2 compose (1 ProfileContainer))
 // 2 compose снабжает (1 ProfileContainer)) чем: 	
 //			из "State"-а : 			profile, status, authorizedUserId, isAuth
@@ -122,7 +123,8 @@ function withRouter<WCP extends MapPropsType&DispatchPropsType> (WrappedComponen
 	function ComponentWithRouterProp(props: MapPropsType & DispatchPropsType) {
 		let location = useLocation();
 		let navigate = useNavigate();
-		let params = useParams();
+		let params = useParams(); //Создает Объект из "URL"-а
+
 
 		useEffect(() => {
 		if (!props.isAuth) {
@@ -130,8 +132,8 @@ function withRouter<WCP extends MapPropsType&DispatchPropsType> (WrappedComponen
 		}
 		}, [props.isAuth, navigate]);
 
-		const match  = {params: useParams()};
-		let userId = match.params.userId;
+		//Достает "userId" из "URL"-а
+		let userId = params.userId;
 
 		return (
 			<WrappedComponent

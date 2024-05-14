@@ -3,6 +3,8 @@
 import React from 'react';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 import { FilterType } from '../../redux/users-reducer';
+import { useSelector } from 'react-redux';
+import { getUsersFilter } from '../../redux/users-selectors';
 
 
 //Контейнеры :(2. UserSearchForm "onSubmit (ф-ция requestUsers (formData из Redux))" (1. UserSearchForm "сама форма")))
@@ -20,10 +22,15 @@ type UserSearchFormPropsType = {
 	onFilterChanged : (filter: FilterType) => void
 }
 
+
+type FriendFormType =   
+	"true" | "false" | "null"
+
+
 //Какие типы будут в "Submit"-е (не FilterType)
 type FormType = {  
 	term : string,
-	friend: "true" | "false" | "null"
+	friend: FriendFormType
 }
 
 
@@ -40,12 +47,16 @@ type FormType = {
 
 const UserSearchForm: React.FC <UserSearchFormPropsType> = (props) => {
 
+//Получаем ранее введенное значение "filter"-а  и далее это в "initialState"	
+const filter = useSelector(getUsersFilter)
+
+
 // "useForm" Generik  Что можно делать с формой и Значения полей формы по умолчанию
 	// {register - регистрация, handleSubmit - сбор данных в форме, formState- состояние формы(тут ошибки)}-возможности работы с формой
-	const { register, handleSubmit, formState: { errors } } = useForm<FormType>({
+	const { register, handleSubmit, reset, formState: { errors } } = useForm<FormType>({
 		defaultValues: {              //передаем дополнительные параметры
-			term: "",
-			friend: 'null'
+			term: filter.term,
+			friend: String(filter.friend) as FriendFormType
 		}
 	})
 
