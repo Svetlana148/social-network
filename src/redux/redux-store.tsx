@@ -53,7 +53,7 @@ export type InferActionsTypes<T extends {[key:string]: (...args: any[])=>any}> =
 //ThunkAction - ф-ция из "redux-thunk"
 export type BaseThunkType<A extends Action, R =Promise<void>> = ThunkAction<R, AppStateType, unknown, A>
 
-
+//------ПРИВЕДЕНИЕ ТИПОВ для "UseDispatch"-а из-за изменений в Redux-е--------------------
 export type AppDispatch = ThunkDispatch<AppStateType, unknown, Action>
 //------------------------------------------------------------------------------------------------
 

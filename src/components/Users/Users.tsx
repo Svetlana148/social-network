@@ -38,13 +38,9 @@ export const Users: FC<UsersPropsType> = (props) => {
 
 	//Используем "useDispatch( наша thunk/action)" для Dispatch-а в "state" не через "props"-ы----------------------------------------										
 
-	//------ПРИВЕДЕНИЕ ТИПОВ-----------
-	//const dispatch = useDispatch()
+	//------ПРИВЕДЕНИЕ ТИПОВ для "UseDispatch"-а из-за изменений в Redux-е--------------------
+	//const dispatch = useDispatch() так было
 	const dispatch: AppDispatch = useDispatch()
-
-
-
-
 
 
 
@@ -100,8 +96,6 @@ export const Users: FC<UsersPropsType> = (props) => {
 	const [searchParams] = useSearchParams(location.search);
 
 	
-
-
 
 	const onPageChanged = (numberPage: number) => {
 		//"requestUsers" - это Thunk-Creator( подвид  ActionCreator-а). Его нельзяя просто вызывать, только "dispatch"-ить

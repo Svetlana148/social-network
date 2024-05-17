@@ -1,9 +1,10 @@
 
 import React from 'react';
-import Header, { PropsType } from './Header';
+import Header, { PropsType } from './AppHeader';
 import { logout } from '../../redux/auth-reducer';
 import { connect } from 'react-redux';
 import { AppStateType } from '../../redux/redux-store';
+import AppHeader from './AppHeader';
 
 // Контейнеры : (2  connect (1 HeaderContainer))
 // 2 connect снабжает (1 HeaderContainer)) чем: 	
@@ -18,12 +19,12 @@ class HeaderContainer extends React.Component<PropsType> {
 
 		return <>
 			{/* {this.props.isFetching ? <Preloader /> : null} */}
-			<Header {...this.props} />
+			<AppHeader {...this.props} />
 		</>
 	}
 }
 
-let mapStateToProps = (state:AppStateType) => {
+let mapStateToProps = (state: AppStateType) => {
 	return {
 		isAuth: state.auth.isAuth,
 		login: state.auth.login,
