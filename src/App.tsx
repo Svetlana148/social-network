@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { connect, Provider } from 'react-redux';
 import store, { AppStateType } from './redux/redux-store';
 
 
 import { initializeApp } from "./redux/app-reducer";
 import './App.css';
-import Navbar from './components/Navbar/Navbar';
+// import Navbar from './components/Navbar/Navbar';
 // import HeaderContainer from './components/Header/HeaderContainer';
 import Preloader from './components/common/Preloader/Preloader';
 import AppAntD from './AppLayout';
@@ -30,6 +30,7 @@ const LoginPage = React.lazy(() => import('./components/Login/Login'));
 const Music = React.lazy(() => import('./components/Music/Music'));
 const News = React.lazy(() => import('./components/News/News'));
 const Settings = React.lazy(() => import('./components/Settings/Settings'));
+const ChatPage = React.lazy(() => import('./pages/Chat/ChatPage'));
 
 
 

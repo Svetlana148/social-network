@@ -1,9 +1,9 @@
-//Рисуем самую первую верхнюю картинку и провнряем залогинены ли 
+//Рисуем самую первую верхнюю картинку и провнеряем залогинены ли 
 import React from 'react';
-import s from './Header.module.css';
+// import s from './Header.module.css';
 import { NavLink } from 'react-router-dom';
 import { Avatar, Button, Col, Layout, Menu, MenuProps, Row } from 'antd';
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUserLogin, selectIsAuth } from '../../redux/auth-selectors';
 import { logout } from '../../redux/auth-reducer';
@@ -12,11 +12,7 @@ import { AppDispatch } from '../../redux/redux-store';
 
 
 //Типизация для "Header"-а
-export type PropsType = {
-	// isAuth: boolean
-	// login: string | null
-	// logout: ()=>void
-}
+export type PropsType = {}
 
 
 const { Header } = Layout;
@@ -28,18 +24,19 @@ const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
 
 const AppHeader:React.FC<PropsType> = (props) => {
 
-	// То, что раньше пробрасывали сверху из "State", получаем тут через "useSelector"
+	// То, что раньше пробрасывали сверху из "State", получаем тут через "useSelector"------------------
 	const isAuth = useSelector(selectIsAuth);
 	const login = useSelector(selectCurrentUserLogin);
 
 
-	//------ПРИВЕДЕНИЕ ТИПОВ для "UseDispatch"-а из-за изменений в Redux-е--------------------
+	//		ПРИВЕДЕНИЕ ТИПОВ для "UseDispatch"-а из-за изменений в Redux-е
 	//const dispatch = useDispatch()
 	const dispatch: AppDispatch = useDispatch()
-	const logputCallback = ()=> {
+	//Разлогиниться
+	const logoutCallback = ()=> {
 		dispatch(logout())
 	}
-
+//-----------------------------------------------------------------------------------------------------
 
 
 
@@ -68,13 +65,15 @@ const AppHeader:React.FC<PropsType> = (props) => {
 							</Col>
 
 							<Col span={5}>
-								{login} <Button onClick={logputCallback}>Log out</Button>
+								{login} <Button onClick={logoutCallback}>Log out</Button>
 							</Col>
 							</>
 
 							
 						: 	<Col span={6}>
-								<NavLink to={'/login'}>Login</NavLink>
+								<Button>
+									<NavLink to={'/login'}>Login</NavLink>
+								</Button>
 							</Col>
 				}
 			</Row>

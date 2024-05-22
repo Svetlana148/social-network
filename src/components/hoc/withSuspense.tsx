@@ -1,6 +1,8 @@
-//Контейнер для загружаемой компоненты (пока к-та загружаетсяя, крутится запись "Loading")
+//HOC - Контейнер для загружаемой компоненты (пока к-та загружается, крутится запись "Loading")
+//Теперь не нужет, т.к. есть стандартный "React.Suspense"
+
 import React from "react";
-import Preloader from "../common/Preloader/Preloader";
+// import Preloader from "../common/Preloader/Preloader";
 
 // В "WCP extends {}" теперь там только ТипОБЪЕКТ с наполнением-props-ами-"WCP"
 export function withSuspense<WCP extends {}>(WrappedComponent: React.ComponentType<WCP>){
