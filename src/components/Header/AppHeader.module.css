@@ -1,0 +1,35 @@
+.header {
+	grid-area: header;
+	background-color: rgba(26, 138, 207, 0.856);
+}
+	
+.header img {
+	width: 64px;
+	height: 64px;
+}
+.logoText {
+	display: flex;
+	justify-content: start;
+	text-transform: uppercase;
+	font-size:xx-large;
+	color: #fff;
+}
+
+
+
+
+
+.loginAvatar{
+	display: flex;
+}
+.loginBlock {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	color: aliceblue;
+}
+
+.loginButton{
+	display: flex;
+	align-items: end;
+}

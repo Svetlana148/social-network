@@ -14,7 +14,7 @@ import AppAntD from './AppLayout';
 
 
 
-// Контейнеры : (3 JSApp (2 AppContainer (1 App)))
+// Контейнеры : (4 JSApp (3 AppContainer (2 App(1 AppAntD))))
 // 2 AppContainer снабжает (1 App)) чем: "initialize"   и "initializeApp"
 // 3 JSApp снабжает (2 AppContainer) чем: "BrowserRouter"-ом и "store"-ом 
 
@@ -41,6 +41,11 @@ type DispatchPropsType = {
 }
 
 
+
+
+
+
+//--------2-----------------------------------------
 class App extends Component<MapPropsType & DispatchPropsType>{
 
   // для отлова ошибки, см. ниже
@@ -69,8 +74,6 @@ class App extends Component<MapPropsType & DispatchPropsType>{
       return <Preloader />
     }
 
-
-
     return (
       <AppAntD />
     );
@@ -78,19 +81,26 @@ class App extends Component<MapPropsType & DispatchPropsType>{
 }
 
 
+
 const mapStateToProps = (state: AppStateType) => ({
   initialized: state.app.initialized
 });
 
 
+
+
+//--------3-----------------------------------------
 let AppContainer = connect(mapStateToProps, { initializeApp })(App);
 
+
+
+//--------4-----------------------------------------
 const JSApp: React.FC = () => {
   return (
     // BrowserRouter обеспечивает Маршрутизацию. когда в проекте обрабатываются на сервере динамические запросы
     // HashRouter используйте когда у вас статический веб сайт
-    <BrowserRouter >
-      {/* Provider кладет store в глобальный CONTEXT, чтобы все  */}
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
+      {/* Provider кладет store в глобальный CONTEXT, чтобы все имели к нему доступ */}
       <Provider store={store}>
         <AppContainer />
       </Provider>

@@ -77,7 +77,7 @@ export function LoginForm (props: LoginFormPropsType) {
 				<div>
 					<input type='password' {...register('password', {required: "Password is required", 
 																					maxLength:  {value: 20, message: 'Password exceeds 20 symbols'},
-																					minLength:  {value: 5, message: 'Password shorter 5 symbols'}
+																					minLength:  {value: 4, message: 'Password shorter 4 symbols'}
 																					})} placeholder="Password"/>
 					{ errors.password && 
 							<span className={s.formSummaryError}>{ errors.password?.message }</span>

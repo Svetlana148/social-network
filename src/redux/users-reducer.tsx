@@ -155,7 +155,7 @@ export const requestUsers = (page: number, pageSize: number, filter : FilterType
 //Это (_followUnfollowFlow) общая чать для const-ант follow и unfollow
 //"=> FollowSuccessType | UnFollowSuccessType" - что по итогу получим, когда на вход дадим followSuccess/unfollowSuccess, см далее в "const follow" и "const unfollow"
 
-export const _followUnfollowFlow = 			
+const _followUnfollowFlow = 			
 	async (dispatch: DispatchType, 
 			userId: number, 
 			apiMethod: (userId:number) => Promise<APIResponseType>, 

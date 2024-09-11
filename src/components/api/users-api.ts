@@ -17,12 +17,12 @@ export const usersAPI = {
 		)
 	},
 
-	//Получить состояние follow.......................
+	//Обработать состояние follow.......................
 	follow(userId: number) {
 		return instance.post<APIResponseType>(`follow/${userId}`).then(res => res.data)
 	},
 
-	//Получить состояние unfollow.......................
+	//Обработать состояние unfollow.......................
 	unfollow(userId: number) {
 		return instance.delete(`follow/${userId}`).then(res => res.data) as Promise<APIResponseType>
 	},

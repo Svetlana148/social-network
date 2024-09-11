@@ -94,7 +94,7 @@ export default function ProfileDataForm({initialValues, saveProfile}:ProfileData
 				<div>
 				<b>Full name</b> : <input type='input' {...register('fullName', {
 																					maxLength:  {value: 20, message: 'Password exceeds 20 symbols'},
-																					minLength:  {value: 5, message: 'Password shorter 5 symbols'}
+																					minLength:  {value: 4, message: 'Password shorter 4 symbols'}
 																					})} />
 				</div>
 

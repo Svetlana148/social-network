@@ -1,6 +1,5 @@
 import React from 'react';
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
 import { Avatar, Breadcrumb, Layout, Menu, theme } from 'antd';
 import Preloader from './components/common/Preloader/Preloader';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
@@ -23,51 +22,6 @@ const { Content, Sider } = Layout;
 
 
 
-//Боковое меню-----SideBar------------------------------------------------------
-// const items2: MenuProps['items'] = [
-//   {
-//     key: 'MyProfile',
-//     icon: React.createElement(UserOutlined),
-//     label: 'My Profile',
-//     children: [
-//       {
-//         key: 'Profile',
-//         label: 'Profile',
-//       },
-//       {
-//         key: 'Message',
-//         label: 'Message',
-//       },
-//     ]
-//   },
-//   {
-//     key: 'Users',
-//     icon: React.createElement(UserOutlined),
-//     label: 'Users',
-//     children: [
-//       {
-//         key: 'Message',
-//         label: 'Message',
-//       }
-//     ]
-//   },
-//   {
-//     key: 'Music',
-//     icon: React.createElement(UserOutlined),
-//     label: 'Music',
-//   },
-//   {
-//     key: 'Settings',
-//     icon: React.createElement(UserOutlined),
-//     label: 'Settings',
-//   },
-// ];
-//------------------------------------------------------
-
-
-
-
-
 const AppAntD: React.FC = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -84,7 +38,7 @@ const AppAntD: React.FC = () => {
             mode="inline"
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
-            style={{ height: '100%', borderRight: 0 }}
+            style={{ height: '100%', borderRight: 0, padding: '30px 0 0 0' }}
             // items={items2}
           >
 
@@ -124,27 +78,13 @@ const AppAntD: React.FC = () => {
         </Sider>
 
 
-
-
-
-
-
-
-        {/* Над  "content"-ом    Home List App*/}
-        <Layout style={{ padding: '0 24px 24px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb>
-
-
+        <Layout style={{  }}>
           <Content
             style={{
               padding: 24,
               margin: 0,
               minHeight: 280,
-              background: colorBgContainer,
+              background: "f8f9fa",
               borderRadius: borderRadiusLG,
             }}
           >
