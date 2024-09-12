@@ -18,6 +18,7 @@ type MeResponseDataType = {  // Тип для "me()" в "authAPI"
 //Конкретизируем общий тип "APIResponseType"  для "LoginResponse"
 type LoginResponseDataType = {   // Тип для "login()" в "authAPI"
 	userId: number   // Тип для объекта data: {id : number, email: string, login : string}
+	token: string
 }
 // ................................
 
@@ -31,7 +32,11 @@ export const authAPI = {
 	},
 	login(email: string, password: string, rememberMe: boolean = false, captcha: null | string = null) {
 		return instance.post<APIResponseType<LoginResponseDataType, ResultCodesEnum | ResultCodesCaptchaEnum>>(`auth/login`, { email, password, rememberMe, captcha })
-			.then(res => res.data);
+			.then(res => {
+				// authorization using a Bearer token
+				instance.defaults.headers.Authorization = "Bearer " + res.data.data.token;
+				return res.data
+			});
 	},
 	// logout(email : string, password : string, rememberMe : boolean = false) {
 	logout() {
