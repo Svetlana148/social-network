@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkreact_4_lesson=self.webpackChunkreact_4_lesson||[]).push([[578],{2578:(e,s,n)=>{n.r(s),n.d(s,{default:()=>l});n(5043);var c=n(579);const l=e=>(0,c.jsx)("div",{children:(0,c.jsx)("h2",{children:"This page is in development"})})}}]);
+//# sourceMappingURL=578.ce47238a.chunk.js.map
